@@ -97,8 +97,8 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         #region Input
-        _moveInput.x = Input.GetAxisRaw("Horizontal");
-        _moveInput.y = Input.GetAxisRaw("Vertical");
+        _moveInput.x = (Input.GetKey(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKey(KeyCode.LeftArrow) ? 1 : 0);
+        _moveInput.y = (Input.GetKey(KeyCode.UpArrow) ? 1 : 0) - (Input.GetKey(KeyCode.DownArrow) ? 1 : 0);
 
         if (_moveInput.x != 0)
             CheckDirectionToFace(_moveInput.x > 0);
