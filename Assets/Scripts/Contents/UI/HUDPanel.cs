@@ -111,4 +111,27 @@ public class HUDPanel : MonoBehaviour
     }
     #endregion
 
+    private void OnDisable()
+    {
+        // stop the DotTween animation in progress
+        _currntCoinText.DOKill();
+        _countText.DOKill();
+
+        // Stop Coroutine
+        if (_coTimeout != null)
+        {
+            StopCoroutine(_coTimeout);
+            _coTimeout = null;
+        }
+        
+        // Alpha 값 조절
+        Color currentColor = _countText.color;
+        currentColor.a = 0f;
+        _countText.color = currentColor;
+
+        _countCoin = 0;
+        _currntCoinText.text = InventoryManager.Instance.Coin.ToString();
+
+    }
+
 }
