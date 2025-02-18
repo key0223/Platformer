@@ -21,6 +21,8 @@ public class UIManager : SingletonMonobehaviour<UIManager>
 
     void ToggleInventory()
     {
+        _inventoryPanel.gameObject.GetComponent<InventoryPanel>().SetCoinText(InventoryManager.Instance.Coin);
+        _hudUIParent.SetActive(!_hudUIParent.gameObject.activeSelf);
         _popupUIParent.SetActive(!_popupUIParent.activeSelf);
         _inventoryPanel.SetActive(!_inventoryPanel.activeSelf);
         NotifyUIState();
