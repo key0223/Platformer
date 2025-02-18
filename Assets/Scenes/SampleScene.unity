@@ -7042,6 +7042,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 890754709}
+  - component: {fileID: 890754710}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -7066,6 +7067,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &890754710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890754708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032824a78e069c247b1d2bd16a12f21f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hudUIParent: {fileID: 1349796096}
+  _popupUIParent: {fileID: 544173313}
+  _inventoryPanel: {fileID: 1038419953}
 --- !u!1 &935096449
 GameObject:
   m_ObjectHideFlags: 0
@@ -8694,6 +8710,7 @@ GameObject:
   - component: {fileID: 1317310501}
   - component: {fileID: 1317310503}
   - component: {fileID: 1317310504}
+  - component: {fileID: 1317310505}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -8775,6 +8792,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9beec597cc3bd44bbb29be01b9aa825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1317310505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317310498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5637a8382d604343a4b9f7fba7e3f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1332686074
