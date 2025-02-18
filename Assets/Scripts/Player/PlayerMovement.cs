@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsAttacking { get; private set; }
     public bool IsDead { get; private set; }
 
+    bool _canMove = true;
 
     // Timers
     public float LastOnGroundTime { get; private set; } // 0 ¿Ã∏È ∂•ø° ¥Í¿∫ ªÛ≈¬
@@ -78,12 +79,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        InputManager.Instance.OnUIStateChanged += SetMovementEnabled;
+
         SetGravityScale(_data._gravityScale);
         IsFacingRight = true;
+
     }
     void Update()
     {
         if(IsDead) return;
+        if(!_canMove) return;
 
         #region Timers
         LastOnGroundTime -= Time.deltaTime;
@@ -115,7 +120,6 @@ public class PlayerMovement : MonoBehaviour
         {
             OnDashInput();
         }
-
         if (Input.GetKeyDown(KeyCode.X))
         {
             _anim.StartedAttacking = true;
@@ -316,6 +320,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #region Input
+    void SetMovementEnabled(bool isUIOn)
+    {
+        _canMove = !isUIOn;
+    }
     public void OnJumpInput()
     {
         LastPressedJumpTime = _data._jumpInputBufferTime;
