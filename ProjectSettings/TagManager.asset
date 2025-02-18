@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Ground
+  - PoolRoot
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Ground
+  - Water
+  - UI
+  - Player
+  - Monster
+  - Monster Projectile
+  - Breakable
+  - Item
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background1
+    uniqueID: 3809066837
+    locked: 0
+  - name: Background2
+    uniqueID: 3027693675
+    locked: 0
+  - name: Ground1
+    uniqueID: 1451669635
+    locked: 0
+  - name: Ground2
+    uniqueID: 1750817423
+    locked: 0
+  - name: GroundDeco1
+    uniqueID: 2008704949
+    locked: 0
+  - name: Instances
+    uniqueID: 2546893865
+    locked: 0
+  - name: GroundDeco2
+    uniqueID: 2762100807
+    locked: 0
+  - name: Front1
+    uniqueID: 2017944607
+    locked: 0
+  - name: Front2
+    uniqueID: 2367227247
+    locked: 0
+  - name: Collision
+    uniqueID: 1406242151
+    locked: 0
