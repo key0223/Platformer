@@ -8,5 +8,9 @@ public class PlayerStat : Stat
 
     public float CurrentExp { get { return _currentExp; } set {  _currentExp = value; } }
 
+    public void HealHp(float amount)
+    {
+        CurrentHp = Mathf.Min(CurrentHp + amount, MaxHp);
+    }
 
 }

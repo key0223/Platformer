@@ -12,6 +12,8 @@ public class HUDPanel : MonoBehaviour
     [SerializeField] Transform _startPos;
     [SerializeField] Transform _targetPos;
 
+    PlayerMovement _playerMovement;
+    #region Coin UI
     [Header("Coin Panel Parameters")]
     [SerializeField] Image _coinImage;
     [SerializeField] TextMeshProUGUI _currntCoinText;
@@ -26,8 +28,11 @@ public class HUDPanel : MonoBehaviour
     float _maxAlpha = 0.2f;
 
     Coroutine _coTimeout;
+    #endregion
 
-
+    #region Hp UI 
+    [SerializeField] Image _hpFilledImage;
+    #endregion
     void Awake()
     {
         Color currentColor = _countText.color;
@@ -38,7 +43,10 @@ public class HUDPanel : MonoBehaviour
 
     void Start()
     {
+        _playerMovement = FindObjectOfType<PlayerMovement>();
         InventoryManager.Instance.OnCoinChanged += AddCoin;
+        _playerMovement.OnPlayerDamged += DecreaseHp;
+        _playerMovement.OnPlayerHealed += InceaseHp;
     }
 
     private void Update()
@@ -56,11 +64,11 @@ public class HUDPanel : MonoBehaviour
 
         }
     }
-    #region Add Coin
+    #region Coin Methods
 
     void SetCoinVisible(bool visible)
     {
-        if(visible)
+        if (visible)
         {
             _coinImage.enabled = true;
             _currntCoinText.DOFade(1, _fadeDuration);
@@ -70,9 +78,9 @@ public class HUDPanel : MonoBehaviour
             _coinImage.enabled = false;
             _currntCoinText.DOFade(0, _fadeDuration);
         }
-        
+
     }
-    
+
     public void AddCoin(int amount)
     {
         if (!_isCoinUIVisible)
@@ -81,7 +89,7 @@ public class HUDPanel : MonoBehaviour
             _isCoinUIVisible = true;
         }
         _countCoin += amount;
-        _countText.text = "+ " +_countCoin.ToString(); // update UI
+        _countText.text = "+ " + _countCoin.ToString(); // update UI
 
         if (_countText.color.a < _maxAlpha)
         {
@@ -107,7 +115,6 @@ public class HUDPanel : MonoBehaviour
         _countText.DOFade(0, _fadeDuration);
         _countCoin = 0;
     }
-    #endregion
 
     #region Animation Methods
     void CurrentCoinCounting(int start, int end)
@@ -119,13 +126,28 @@ public class HUDPanel : MonoBehaviour
         }, end, _countingDuration).SetEase(Ease.Linear);
     }
 
-     void CountCoinCounting(int start, int end)
+    void CountCoinCounting(int start, int end)
     {
         DOTween.To(() => start, x =>
         {
             start = x;
             _countText.text = "+ " + x.ToString(); // update UI text
         }, end, _countingDuration).SetEase(Ease.Linear);
+    }
+    #endregion
+    #endregion
+
+    #region Hp Methods
+
+    void InceaseHp(float amount)
+    {
+        float targetFillAmount = Mathf.Clamp(_playerMovement.Stat.CurrentHp, 0, _playerMovement.Stat.MaxHp) / _playerMovement.Stat.MaxHp;
+        _hpFilledImage.DOFillAmount(targetFillAmount, 0.5f).SetEase(Ease.Linear);
+    }
+    void DecreaseHp(float amount)
+    {
+        float targetFillAmount = Mathf.Clamp(_playerMovement.Stat.CurrentHp, 0, _playerMovement.Stat.MaxHp) / _playerMovement.Stat.MaxHp;
+        _hpFilledImage.DOFillAmount(targetFillAmount, 0.3f).SetEase(Ease.Linear);
     }
     #endregion
 
@@ -141,7 +163,7 @@ public class HUDPanel : MonoBehaviour
             StopCoroutine(_coTimeout);
             _coTimeout = null;
         }
-        
+
         // Alpha 값 조절
         Color currentColor = _countText.color;
         currentColor.a = 0f;

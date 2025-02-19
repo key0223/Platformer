@@ -1,15 +1,20 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using Unity.VisualScripting;
 using UnityEngine;
 using static Define;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region Event
+    public event Action<float> OnPlayerDamged;
+    public event Action<float> OnPlayerHealed;
+
+    #endregion
     PlayerMovementData _data;
     PlayerAnimation _anim;
     PlayerStat _stat;
+
+    public PlayerStat Stat { get { return _stat; } }
     public Rigidbody2D RB { get; private set; }
 
     #region State Parameters
@@ -570,11 +575,18 @@ public class PlayerMovement : MonoBehaviour
         _stat.OnDamaged(damage);
         //Debug.Log($"Player current HP : {_stat.CurrentHp}");
 
+        OnPlayerDamged?.Invoke(damage);
+
         if(_stat.CurrentHp<=0)
         {
             OnDead();
         }
 
+    }
+    public void OnHpHeal(float amount)
+    {
+        _stat.HealHp(amount);
+        OnPlayerHealed?.Invoke(amount);
     }
     #endregion
 
