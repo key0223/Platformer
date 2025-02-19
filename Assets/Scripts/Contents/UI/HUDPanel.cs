@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 public class HUDPanel : MonoBehaviour
 {
+    [Header("TEST")]
+    [SerializeField] GameObject _effectPrefab;
+    [SerializeField] Transform _startPos;
+    [SerializeField] Transform _targetPos;
 
     [Header("Coin Panel Parameters")]
     [SerializeField] Image _coinImage;
@@ -29,14 +33,28 @@ public class HUDPanel : MonoBehaviour
         Color currentColor = _countText.color;
         currentColor.a = 0f;
         _countText.color = currentColor;
-
         _coinImage.enabled = false;
     }
 
     void Start()
     {
         InventoryManager.Instance.OnCoinChanged += AddCoin;
-        
+    }
+
+    private void Update()
+    {
+        // TEST CODE
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            int randCount = Random.Range(1, 6);
+
+            for (int i = 0; i < randCount; i++)
+            {
+                CollectionEffect effect = Instantiate(_effectPrefab).GetComponent<CollectionEffect>();
+                effect.EffectStart(_startPos.position, _targetPos.position, 1f);
+            }
+
+        }
     }
     #region Add Coin
 

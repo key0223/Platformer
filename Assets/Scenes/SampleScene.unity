@@ -6506,7 +6506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &544173314
 Transform:
   m_ObjectHideFlags: 0
@@ -9226,6 +9226,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf24d104fc3d84346b56ec05b23f83e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _effectPrefab: {fileID: 2144826340755122410, guid: ce09f8212a81c7e42a2b693a44fe4e0e, type: 3}
+  _startPos: {fileID: 936533476}
+  _targetPos: {fileID: 1214949642}
   _coinImage: {fileID: 1214949643}
   _currntCoinText: {fileID: 2035262460}
   _countText: {fileID: 2126316702}
