@@ -5546,7 +5546,7 @@ GameObject:
   - component: {fileID: 147505750}
   - component: {fileID: 147505749}
   m_Layer: 0
-  m_Name: Fill Image
+  m_Name: Soul Fill Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8826,13 +8826,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e52e8524c1ca7bf4492747c5b6a9e299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _owner: 0
   _level: 1
   _maxHp: 100
   _attack: 10
   _defense: 0
-  _needExpToNextLevel: 100
   _currentHp: 0
   _currentExp: 0
+  _maxSoul: 0
+  _currentSoul: 0
 --- !u!114 &1051467357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8891,6 +8893,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1366686692650054274, guid: dafd6ae248a4e284fb40a1b6d44d4267, type: 3}
+      propertyPath: _dropSoulAmount
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8445368448035778053, guid: dafd6ae248a4e284fb40a1b6d44d4267, type: 3}
       propertyPath: m_Name
       value: Red Slime
@@ -8939,7 +8945,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8445368448035778051, guid: dafd6ae248a4e284fb40a1b6d44d4267, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dafd6ae248a4e284fb40a1b6d44d4267, type: 3}
 --- !u!1 &1131663521
 GameObject:
@@ -9666,13 +9673,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf24d104fc3d84346b56ec05b23f83e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPrefab: {fileID: 2144826340755122410, guid: ce09f8212a81c7e42a2b693a44fe4e0e, type: 3}
-  _startPos: {fileID: 936533476}
-  _targetPos: {fileID: 525314742}
   _coinImage: {fileID: 1214949643}
   _currntCoinText: {fileID: 2035262460}
   _countText: {fileID: 2126316702}
+  _effectPrefab: {fileID: 2144826340755122410, guid: ce09f8212a81c7e42a2b693a44fe4e0e, type: 3}
+  _startPos: {fileID: 936533476}
+  _targetPos: {fileID: 525314742}
   _hpSlider: {fileID: 1147064229}
+  _soulImage: {fileID: 147505749}
 --- !u!1 &1350819388
 GameObject:
   m_ObjectHideFlags: 0
@@ -10493,7 +10501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2971698, g: 0.49371392, b: 1, a: 1}
+  m_Color: {r: 0.7216981, g: 0.873893, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -67643,63 +67651,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1001 &2387298080992023285
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7571779016579964470, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_Name
-      value: Collection DestroyFX
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230653586380684178, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230653586380684178, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230653586380684178, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230653586380684178, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230653586380684178, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230653586380684178, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230653586380684178, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230653586380684178, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230653586380684178, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230653586380684178, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230653586380684178, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 88f38b363355ff14ab25f8cfba3eed8d, type: 3}
 --- !u!483693784 &2402749224361621977
 TilemapRenderer:
   m_ObjectHideFlags: 0

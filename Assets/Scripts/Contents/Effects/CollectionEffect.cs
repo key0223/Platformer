@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CollectionEffect : MonoBehaviour
 {
-    [SerializeField] float _moveSpeed = 2f;
+    float _moveSpeed = 5f;
     [SerializeField] float _carryValue;
     public float CarryValue {  get { return _carryValue; } set {  _carryValue = value; } }
 

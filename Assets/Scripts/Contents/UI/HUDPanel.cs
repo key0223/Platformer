@@ -7,12 +7,8 @@ using UnityEngine.UI;
 
 public class HUDPanel : MonoBehaviour
 {
-    [Header("TEST")]
-    [SerializeField] GameObject _effectPrefab;
-    [SerializeField] Transform _startPos;
-    [SerializeField] RectTransform _targetPos;
-
     PlayerMovement _playerMovement;
+
     #region Coin UI
     [Header("Coin Panel Parameters")]
     [SerializeField] Image _coinImage;
@@ -30,9 +26,17 @@ public class HUDPanel : MonoBehaviour
     Coroutine _coTimeout;
     #endregion
 
-    #region Hp UI 
+    #region HP UI
+    [Header("HP UI Parameters")]
+    [SerializeField] GameObject _effectPrefab;
+    [SerializeField] Transform _startPos;
+    [SerializeField] RectTransform _targetPos;
     [SerializeField] Slider _hpSlider;
+
+    [Space(5f)]
+    [SerializeField] Image _soulImage;
     #endregion
+
     void Awake()
     {
         Color currentColor = _countText.color;
@@ -47,11 +51,15 @@ public class HUDPanel : MonoBehaviour
         InventoryManager.Instance.OnCoinChanged += AddCoin;
         _playerMovement.OnPlayerDamged += DecreaseHp;
         _playerMovement.OnPlayerHealed += InceaseHp;
+        _playerMovement.OnModifySoul += ModifySoul;
 
         // Slider Settings
         _hpSlider.minValue = 0f;
         _hpSlider.maxValue = _playerMovement.Stat.MaxHp;
         _hpSlider.value = _playerMovement.Stat.CurrentHp;
+
+        // Soul Settings
+        _soulImage.fillAmount = 0f;
     }
 
     private void Update()
@@ -59,23 +67,7 @@ public class HUDPanel : MonoBehaviour
         // TEST CODE
         if (Input.GetKeyUp(KeyCode.A))
         {
-            int randCount = Random.Range(1, 6);
-            int randValue = Random.Range(5, 10);
-
-            int amount = randValue/ randCount;
-            float last = randValue % randCount;
-
-            Debug.Log($"Count:{randCount}, Value:{randValue}");
-
-            for (int i = 0; i < randCount; i++)
-            {
-                CollectionEffect effect = Instantiate(_effectPrefab).GetComponent<CollectionEffect>();
-
-                effect.CarryValue = (i== randCount-1)? amount+last: amount;
-
-                effect.EffectStart(_startPos.position, _targetPos, 1f);
-            }
-
+           StartCoroutine(CoCreateEffect());
         }
     }
 
@@ -153,12 +145,31 @@ public class HUDPanel : MonoBehaviour
     #endregion
 
     #region Hp Methods
+    IEnumerator CoCreateEffect()
+    {
+        int randCount = Random.Range(1, 6);
+        int randValue = Random.Range(5, 10);
 
+        int amount = randValue / randCount;
+        float last = randValue % randCount;
+
+        Debug.Log($"Count:{randCount}, Value:{randValue}");
+
+        for (int i = 0; i < randCount; i++)
+        {
+            float randTime = Random.Range(0, 0.5f);
+            yield return new WaitForSeconds(randTime);
+
+            CollectionEffect effect = Instantiate(_effectPrefab).GetComponent<CollectionEffect>();
+
+            effect.CarryValue = (i == randCount - 1) ? amount + last : amount;
+
+            effect.EffectStart(_startPos.position, _targetPos, 1f);
+        }
+
+    }
     void InceaseHp(float amount)
     {
-        //float targetValue = Mathf.Clamp(_playerMovement.Stat.CurrentHp, 0, _playerMovement.Stat.MaxHp) / _playerMovement.Stat.MaxHp;
-        //_hpSlider.DOValue(targetValue, 0.5f).SetEase(Ease.Linear);
-
         float endValue = _playerMovement.Stat.CurrentHp + amount;
         _hpSlider.DOValue(endValue, 0.5f);
     }
@@ -166,6 +177,11 @@ public class HUDPanel : MonoBehaviour
     {
         float endValue = _playerMovement.Stat.CurrentHp - amount;
         _hpSlider.DOValue(endValue, 0.5f);
+    }
+    void ModifySoul(float amount)
+    {
+        float targetFillAmount = Mathf.Clamp(_playerMovement.Stat.CurrentSoul, 0, _playerMovement.Stat.MaxSoul) / _playerMovement.Stat.MaxSoul;
+        _soulImage.DOFillAmount(targetFillAmount, 0.3f).SetEase(Ease.Linear);
     }
     #endregion
 

@@ -6,7 +6,7 @@ using static Define;
 public class MonsterMovement : MonoBehaviour
 {
     protected MonsterAnimation _monsterAnimation;
-    protected Stat _stat;
+    protected MonsterStat _stat;
 
     #region State Parameters
 
@@ -54,7 +54,7 @@ public class MonsterMovement : MonoBehaviour
     protected virtual void Awake()
     {
         _monsterAnimation = GetComponent<MonsterAnimation>();
-        _stat = GetComponent<Stat>();
+        _stat = GetComponent<MonsterStat>();
     }
 
     protected virtual void Update()
@@ -111,19 +111,23 @@ public class MonsterMovement : MonoBehaviour
             }
         }
     }
-    public virtual void OnDamaged(float damage)
+    public virtual void OnDamaged(float damage, PlayerMovement player = null)
     {
         State = CreatureState.Damaged;
         StartCoroutine(CoDamaged());
 
         _stat.OnDamaged(damage);
 
+        if (player != null)
+        {
+            player.ModifySoul(_stat.DropSoulAmount);
+        }
         // FX
         GameObject fxGO = ResourceManager.Instance.Instantiate(_hitFXPath);
         fxGO.transform.position = gameObject.transform.position;
         fxGO.SetActive(true);
 
-        Debug.Log($"Monster Current Hp : {_stat.CurrentHp}");
+        //Debug.Log($"Monster Current Hp : {_stat.CurrentHp}");
         if (_stat.CurrentHp <= 0)
         {
             OnDead();

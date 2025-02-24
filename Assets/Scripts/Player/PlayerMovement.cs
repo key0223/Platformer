@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     public event Action<float> OnPlayerDamged;
     public event Action<float> OnPlayerHealed;
 
+    public event Action<float> OnModifySoul;
+
     #endregion
     PlayerMovementData _data;
     PlayerAnimation _anim;
@@ -368,6 +370,8 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSecondsRealtime(duration);
         Time.timeScale = 1;
     }
+
+
     #endregion
 
     // Movement
@@ -544,7 +548,7 @@ public class PlayerMovement : MonoBehaviour
                 MonsterMovement monster = hit[i].GetComponent<MonsterMovement>();
                 if(monster != null)
                 {
-                    monster.OnDamaged(_stat.CurrentAttack);
+                    monster.OnDamaged(_stat.CurrentAttack,this);
                 }
 
                 IBreakable breakable = hit[i].GetComponent<IBreakable>();
@@ -557,7 +561,7 @@ public class PlayerMovement : MonoBehaviour
             CameraController.Instance.ShakeCamera();
         }
 
-        Debug.Log($"Player Attack: {_stat.CurrentAttack}");
+        //Debug.Log($"Player Attack: {_stat.CurrentAttack}");
 
         float remainingTime = Helper.GetRemainingAnimationTime(_anim.Anim);
         yield return new WaitForSeconds(remainingTime);
@@ -565,6 +569,13 @@ public class PlayerMovement : MonoBehaviour
         IsAttacking = false;
         LastPressedAttackTime = 0;
     }
+
+    public void ModifySoul(float amount)
+    {
+        _stat.OnModifySoul(amount);
+        OnModifySoul?.Invoke(amount);
+    }
+    
     #endregion
 
     #region Damage
@@ -585,7 +596,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnHpHeal(float amount)
     {
-        _stat.HealHp(amount);
+        _stat.OnHealHp(amount);
         OnPlayerHealed?.Invoke(amount);
     }
     #endregion
