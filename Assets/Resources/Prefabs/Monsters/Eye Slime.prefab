@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 15347713211242432}
   - component: {fileID: 15347713211242438}
   - component: {fileID: 15347713211242437}
-  - component: {fileID: 15347713211242439}
+  - component: {fileID: 3200948619638452244}
   m_Layer: 7
   m_Name: Eye Slime
   m_TagString: Untagged
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8244c26944d41804592cdada11088c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &15347713211242439
+--- !u!114 &3200948619638452244
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -415,14 +415,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 15347713211242433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 958e6d239946d2e4eb0384c6a98b021b, type: 3}
+  m_Script: {fileID: 11500000, guid: d743cf5678409754c81c28727d3d4a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _level: 1
-  _maxHp: 20
+  _maxHp: 100
   _attack: 10
   _defense: 0
   _needExpToNextLevel: 100
+  _currentHp: 0
+  _dropSoul: 0
 --- !u!1 &8941883875884138864
 GameObject:
   m_ObjectHideFlags: 0
