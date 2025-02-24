@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2
-  _damage: 1
+  _damage: 10
   _bounceForce: 6
   _maxBounceCount: 8
 --- !u!114 &-709501260298199121

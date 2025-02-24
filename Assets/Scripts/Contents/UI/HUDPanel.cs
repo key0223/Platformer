@@ -10,7 +10,7 @@ public class HUDPanel : MonoBehaviour
     [Header("TEST")]
     [SerializeField] GameObject _effectPrefab;
     [SerializeField] Transform _startPos;
-    [SerializeField] Transform _targetPos;
+    [SerializeField] RectTransform _targetPos;
 
     PlayerMovement _playerMovement;
     #region Coin UI
@@ -31,7 +31,7 @@ public class HUDPanel : MonoBehaviour
     #endregion
 
     #region Hp UI 
-    [SerializeField] Image _hpFilledImage;
+    [SerializeField] Slider _hpSlider;
     #endregion
     void Awake()
     {
@@ -47,6 +47,11 @@ public class HUDPanel : MonoBehaviour
         InventoryManager.Instance.OnCoinChanged += AddCoin;
         _playerMovement.OnPlayerDamged += DecreaseHp;
         _playerMovement.OnPlayerHealed += InceaseHp;
+
+        // Slider Settings
+        _hpSlider.minValue = 0f;
+        _hpSlider.maxValue = _playerMovement.Stat.MaxHp;
+        _hpSlider.value = _playerMovement.Stat.CurrentHp;
     }
 
     private void Update()
@@ -55,15 +60,25 @@ public class HUDPanel : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.A))
         {
             int randCount = Random.Range(1, 6);
+            int randValue = Random.Range(5, 10);
+
+            int amount = randValue/ randCount;
+            float last = randValue % randCount;
+
+            Debug.Log($"Count:{randCount}, Value:{randValue}");
 
             for (int i = 0; i < randCount; i++)
             {
                 CollectionEffect effect = Instantiate(_effectPrefab).GetComponent<CollectionEffect>();
-                effect.EffectStart(_startPos.position, _targetPos.position, 1f);
+
+                effect.CarryValue = (i== randCount-1)? amount+last: amount;
+
+                effect.EffectStart(_startPos.position, _targetPos, 1f);
             }
 
         }
     }
+
     #region Coin Methods
 
     void SetCoinVisible(bool visible)
@@ -141,13 +156,16 @@ public class HUDPanel : MonoBehaviour
 
     void InceaseHp(float amount)
     {
-        float targetFillAmount = Mathf.Clamp(_playerMovement.Stat.CurrentHp, 0, _playerMovement.Stat.MaxHp) / _playerMovement.Stat.MaxHp;
-        _hpFilledImage.DOFillAmount(targetFillAmount, 0.5f).SetEase(Ease.Linear);
+        //float targetValue = Mathf.Clamp(_playerMovement.Stat.CurrentHp, 0, _playerMovement.Stat.MaxHp) / _playerMovement.Stat.MaxHp;
+        //_hpSlider.DOValue(targetValue, 0.5f).SetEase(Ease.Linear);
+
+        float endValue = _playerMovement.Stat.CurrentHp + amount;
+        _hpSlider.DOValue(endValue, 0.5f);
     }
     void DecreaseHp(float amount)
     {
-        float targetFillAmount = Mathf.Clamp(_playerMovement.Stat.CurrentHp, 0, _playerMovement.Stat.MaxHp) / _playerMovement.Stat.MaxHp;
-        _hpFilledImage.DOFillAmount(targetFillAmount, 0.3f).SetEase(Ease.Linear);
+        float endValue = _playerMovement.Stat.CurrentHp - amount;
+        _hpSlider.DOValue(endValue, 0.5f);
     }
     #endregion
 

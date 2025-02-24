@@ -11,7 +11,7 @@ public class Stat : MonoBehaviour
     [SerializeField] protected float _attack = 10;
     [SerializeField] protected float _defense = 0;
     [SerializeField] protected float _needExpToNextLevel = 100;
-    protected float _currentHp;
+    [SerializeField] protected float _currentHp;
     protected float _currentAttack;
 
     public float MaxHp { get { return _maxHp; } }
