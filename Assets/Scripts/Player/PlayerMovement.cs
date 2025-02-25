@@ -62,7 +62,6 @@ public class PlayerMovement : MonoBehaviour
     private bool _isDashAttacking;
 
     // Heal
-    bool _isHolding = false;
     Coroutine _coHold;
     #endregion
 
@@ -376,6 +375,7 @@ public class PlayerMovement : MonoBehaviour
     public void OnHealUpInput()
     {
         StopCoroutine(_coHold);
+        CameraController.Instance.ZoomCamera();
         _energyFX.Stop();
         _coHold = null;
     }
@@ -383,6 +383,7 @@ public class PlayerMovement : MonoBehaviour
     {
 
         _energyFX.Play();
+        CameraController.Instance.ZoomCamera(true);
         _coHold = StartCoroutine(CoHeal());
     }
     #endregion
@@ -608,7 +609,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _stat.OnModifySoul(amount);
         OnModifySoul?.Invoke(amount);
-        Debug.Log($"Current Soul:{_stat.CurrentSoul}");
+        //Debug.Log($"Current Soul:{_stat.CurrentSoul}");
     }
     
     #endregion
@@ -631,6 +632,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnHpHeal(float amount)
     {
+        Debug.Log($"Heal amount : {amount}");
         _stat.OnHealHp(amount);
         OnPlayerHealed?.Invoke(amount);
     }
@@ -660,13 +662,13 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator CoCreateEffect()
     {
-        int randCount = Random.Range(1, 6);
+        int randCount = Random.Range(2, 6);
         int randValue = Random.Range(5, 10);
 
         int amount = randValue / randCount;
         float last = randValue % randCount;
 
-        //Debug.Log($"Count:{randCount}, Value:{randValue}");
+        Debug.Log($"Count:{randCount}, Value:{randValue}");
 
         for (int i = 0; i < randCount; i++)
         {
@@ -674,10 +676,8 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(randTime);
 
             CollectionEffect effect = ResourceManager.Instance.Instantiate("FX/Collection Effect").GetComponent<CollectionEffect>();
-            //CollectionEffect effect = Instantiate(_effectPrefab).GetComponent<CollectionEffect>();
 
             effect.CarryValue = (i == randCount - 1) ? amount + last : amount;
-
             effect.EffectStart(_startPos.position, _targetPos, 1f);
         }
 
