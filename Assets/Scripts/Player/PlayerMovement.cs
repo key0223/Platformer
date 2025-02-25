@@ -84,6 +84,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform _startPos;
     [SerializeField] RectTransform _targetPos; // Should be the handle in Hpbar slider
 
+    [Tooltip("Particle effect when the player uses a heal skill")]
+    [SerializeField] ParticleSystem _energyFX;
     #endregion
 
     void Awake()
@@ -374,10 +376,13 @@ public class PlayerMovement : MonoBehaviour
     public void OnHealUpInput()
     {
         StopCoroutine(_coHold);
+        _energyFX.Stop();
         _coHold = null;
     }
     public void OnHealInput()
     {
+
+        _energyFX.Play();
         _coHold = StartCoroutine(CoHeal());
     }
     #endregion
