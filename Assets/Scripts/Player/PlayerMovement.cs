@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using static Define;
+using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,12 +13,19 @@ public class PlayerMovement : MonoBehaviour
     public event Action<float> OnModifySoul;
 
     #endregion
+
+    [Header("Layers & Tags")]
+    int _groundLayer = (1 << (int)Layer.Ground);
+    int _attackableLayer = (1 << (int)Layer.Monster) | (1 << (int)Layer.Breakable);
+
     PlayerMovementData _data;
     PlayerAnimation _anim;
     PlayerStat _stat;
 
     public PlayerStat Stat { get { return _stat; } }
     public Rigidbody2D RB { get; private set; }
+
+    Vector2 _moveInput;
 
     #region State Parameters
     public bool IsFacingRight { get; private set; }
@@ -53,10 +61,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _lastDashDir;
     private bool _isDashAttacking;
 
-
+    // Heal
+    bool _isHolding = false;
+    Coroutine _coHold;
     #endregion
-
-    Vector2 _moveInput;
 
     #region Check Parameters
     [Header("Checks")]
@@ -71,9 +79,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Vector2 _attackCheckSize = new Vector2(1f, 1f);
     #endregion
 
-    [Header("Layers & Tags")]
-    int _groundLayer = (1<<(int)Layer.Ground);
-    int _attackableLayer = (1<<(int)Layer.Monster) | (1<<(int)Layer.Breakable);
+    #region HP
+    [Header("Heal Settings")]
+    [SerializeField] Transform _startPos;
+    [SerializeField] RectTransform _targetPos; // Should be the handle in Hpbar slider
+
+    #endregion
 
     void Awake()
     {
@@ -131,6 +142,14 @@ public class PlayerMovement : MonoBehaviour
         {
             _anim.StartedAttacking = true;
             OnAttackInput();
+        }
+        if(Input.GetKey(KeyCode.A) &&_coHold == null)
+        {
+            OnHealInput();
+        }
+        if(Input.GetKeyUp(KeyCode.A))
+        {
+            OnHealUpInput();
         }
         #endregion
 
@@ -350,6 +369,16 @@ public class PlayerMovement : MonoBehaviour
     public void OnAttackInput()
     {
         LastPressedAttackTime = _data._attackInputBufferTime;
+    }
+
+    public void OnHealUpInput()
+    {
+        StopCoroutine(_coHold);
+        _coHold = null;
+    }
+    public void OnHealInput()
+    {
+        _coHold = StartCoroutine(CoHeal());
     }
     #endregion
 
@@ -574,6 +603,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _stat.OnModifySoul(amount);
         OnModifySoul?.Invoke(amount);
+        Debug.Log($"Current Soul:{_stat.CurrentSoul}");
     }
     
     #endregion
@@ -607,6 +637,46 @@ public class PlayerMovement : MonoBehaviour
     {
         IsDead = true;
         _anim.OnDead();
+    }
+    #endregion
+
+    #region Heal
+
+    IEnumerator CoHeal()
+    {
+        yield return new WaitForSeconds(_data._healHoldTime);
+
+        if (Input.GetKey(KeyCode.A)&& _stat.CurrentSoul>=30)
+        {
+            ModifySoul(-30f);
+            StartCoroutine(CoCreateEffect());
+        }
+    }
+
+    IEnumerator CoCreateEffect()
+    {
+        int randCount = Random.Range(1, 6);
+        int randValue = Random.Range(5, 10);
+
+        int amount = randValue / randCount;
+        float last = randValue % randCount;
+
+        //Debug.Log($"Count:{randCount}, Value:{randValue}");
+
+        for (int i = 0; i < randCount; i++)
+        {
+            float randTime = Random.Range(0, 0.5f);
+            yield return new WaitForSeconds(randTime);
+
+            CollectionEffect effect = ResourceManager.Instance.Instantiate("FX/Collection Effect").GetComponent<CollectionEffect>();
+            //CollectionEffect effect = Instantiate(_effectPrefab).GetComponent<CollectionEffect>();
+
+            effect.CarryValue = (i == randCount - 1) ? amount + last : amount;
+
+            effect.EffectStart(_startPos.position, _targetPos, 1f);
+        }
+
+        _coHold = null;
     }
     #endregion
     #region Check

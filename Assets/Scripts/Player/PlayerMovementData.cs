@@ -80,7 +80,10 @@ public class PlayerMovementData : MonoBehaviour
     [Space(5)]
     [Range(0.01f, 0.5f)] public float _attackInputBufferTime;
 
+    [Space(20)]
 
+    [Header("HP Heal Time")]
+    public float _healHoldTime; // heal을 위해 인풋 받는 시간
     //Unity Callback, called when the inspector updates
     private void OnValidate()
     {

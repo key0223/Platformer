@@ -6702,7 +6702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &544173314
 Transform:
   m_ObjectHideFlags: 0
@@ -8882,6 +8882,8 @@ MonoBehaviour:
   _wallCheckSize: {x: 0.17, y: 0.7}
   _frontAttackCheckPoint: {fileID: 843748762}
   _attackCheckSize: {x: 1.5, y: 1}
+  _startPos: {fileID: 936533476}
+  _targetPos: {fileID: 525314742}
 --- !u!114 &1051467354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8934,6 +8936,7 @@ MonoBehaviour:
   _dashRefillTime: 0.1
   _dashInputBufferTime: 0.1
   _attackInputBufferTime: 0.1
+  _healHoldTime: 1
 --- !u!114 &1051467355
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -28,9 +28,6 @@ public class HUDPanel : MonoBehaviour
 
     #region HP UI
     [Header("HP UI Parameters")]
-    [SerializeField] GameObject _effectPrefab;
-    [SerializeField] Transform _startPos;
-    [SerializeField] RectTransform _targetPos;
     [SerializeField] Slider _hpSlider;
 
     [Space(5f)]
@@ -64,11 +61,11 @@ public class HUDPanel : MonoBehaviour
 
     private void Update()
     {
-        // TEST CODE
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-           StartCoroutine(CoCreateEffect());
-        }
+        //// TEST CODE
+        //if (Input.GetKeyUp(KeyCode.A))
+        //{
+        //   StartCoroutine(CoCreateEffect());
+        //}
     }
 
     #region Coin Methods
@@ -145,29 +142,7 @@ public class HUDPanel : MonoBehaviour
     #endregion
 
     #region Hp Methods
-    IEnumerator CoCreateEffect()
-    {
-        int randCount = Random.Range(1, 6);
-        int randValue = Random.Range(5, 10);
-
-        int amount = randValue / randCount;
-        float last = randValue % randCount;
-
-        Debug.Log($"Count:{randCount}, Value:{randValue}");
-
-        for (int i = 0; i < randCount; i++)
-        {
-            float randTime = Random.Range(0, 0.5f);
-            yield return new WaitForSeconds(randTime);
-
-            CollectionEffect effect = Instantiate(_effectPrefab).GetComponent<CollectionEffect>();
-
-            effect.CarryValue = (i == randCount - 1) ? amount + last : amount;
-
-            effect.EffectStart(_startPos.position, _targetPos, 1f);
-        }
-
-    }
+   
     void InceaseHp(float amount)
     {
         float endValue = _playerMovement.Stat.CurrentHp + amount;
