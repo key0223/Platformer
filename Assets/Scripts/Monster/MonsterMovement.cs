@@ -24,6 +24,7 @@ public class MonsterMovement : MonoBehaviour
 
     // FX Settings
     protected string _hitFXPath = "FX/Monster HitFX";
+    protected string _deathFXPath = "FX/Monster DeathFX";
 
     // Movement
     protected Coroutine _coPatrol;
@@ -168,9 +169,14 @@ public class MonsterMovement : MonoBehaviour
     }
     protected IEnumerator CoDead()
     {
+        GameObject deathFX = ResourceManager.Instance.Instantiate(_deathFXPath);
+        deathFX.transform.position = transform.position;
+        deathFX.gameObject.SetActive(true);
+
         float remainingTime = Helper.GetRemainingAnimationTime(_monsterAnimation.Anim);
         yield return Helper.GetWait(remainingTime);
 
+       
         Destroy(this.gameObject);
     }
     #endregion
