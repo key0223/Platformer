@@ -9,6 +9,7 @@ public class BreakableItem : MonoBehaviour, IBreakable
 
     [Header("FX Settings")]
     [SerializeField] bool _hasHitFX = false;
+    [SerializeField] bool _hitDrop = false; // Whether it drops everytime it gets hit or not
     [SerializeField] string _hitFxPrefab;
     [SerializeField] string _destroyFxPrefab;
 
@@ -29,6 +30,10 @@ public class BreakableItem : MonoBehaviour, IBreakable
         if(_hasHitFX)
         {
             CreateFX(_hitFxPrefab);
+            //DropItem();
+        }
+        if(_hitDrop)
+        {
             DropItem();
         }
         if (_currentHp <= 0)
