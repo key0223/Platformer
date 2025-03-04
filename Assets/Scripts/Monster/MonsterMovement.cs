@@ -23,8 +23,8 @@ public class MonsterMovement : MonoBehaviour
     [SerializeField] protected LayerMask _playerLayer;
 
     // FX Settings
-    protected string _hitFXPath = "FX/Monster HitFX";
-    protected string _deathFXPath = "FX/Monster DeathFX";
+    protected string _hitFXPath = "FX/MonsterFX/Monster HitFX";
+    protected string _deathFXPath = "FX/MonsterFX/Monster DeathFX";
 
     // Movement
     protected Coroutine _coPatrol;

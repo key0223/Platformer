@@ -7,11 +7,12 @@ public class PlayerStat : Stat
     [SerializeField] float _currentExp;
     [SerializeField] float _maxSoul;
     [SerializeField] float _currentSoul;
-
+    [SerializeField] float _currentShield;
 
     public float CurrentExp { get { return _currentExp; } set {  _currentExp = value; } }
     public float MaxSoul { get { return _maxSoul; }}
     public float CurrentSoul { get { return _currentSoul; }set { _currentSoul = value; } }
+    public float CurrentShield { get { return _currentShield; } set { _currentShield = value; } }
 
     protected override void Start()
     {

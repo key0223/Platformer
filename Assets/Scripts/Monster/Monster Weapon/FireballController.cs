@@ -55,7 +55,7 @@ public class FireballController : Projectile
 
     void CreateFX()
     {
-        GameObject fxGO = ResourceManager.Instance.Instantiate("FX/Red Slime ExplosionFX");
+        GameObject fxGO = ResourceManager.Instance.Instantiate("FX/MonsterFX/Red Slime ExplosionFX");
         fxGO.transform.SetParent(PoolManager.Instance.HierachyRoot.transform);
         fxGO.transform.position = gameObject.transform.position;
         fxGO.SetActive(true);

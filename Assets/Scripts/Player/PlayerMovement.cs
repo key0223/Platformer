@@ -619,10 +619,18 @@ public class PlayerMovement : MonoBehaviour
     public void OnDamaged(float damage)
     {
         _anim.Damaged = true;
+
+        if(_stat.CurrentShield>0)
+        {
+            _stat.CurrentShield--;
+
+            return;
+        }
+
+        
         _stat.OnDamaged(damage);
         //Debug.Log($"Player current HP : {_stat.CurrentHp}");
-
-        OnPlayerDamged?.Invoke(damage);
+        OnPlayerDamged?.Invoke(damage); // UI update
 
         if(_stat.CurrentHp<=0)
         {
