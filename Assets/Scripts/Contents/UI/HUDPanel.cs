@@ -34,6 +34,9 @@ public class HUDPanel : MonoBehaviour
     [SerializeField] Image _soulImage;
     #endregion
 
+    #region Shield UI
+    [SerializeField] GameObject[] _shieldIcons;
+    #endregion
     void Awake()
     {
         Color currentColor = _countText.color;
@@ -49,6 +52,8 @@ public class HUDPanel : MonoBehaviour
         _playerMovement.OnPlayerDamged += DecreaseHp;
         _playerMovement.OnPlayerHealed += InceaseHp;
         _playerMovement.OnModifySoul += ModifySoul;
+        _playerMovement.OnPlayerAddShield += AddShield;
+        _playerMovement.OnPlayerRemoveShield += RemoveShield;
 
         // Slider Settings
         _hpSlider.minValue = 0f;
@@ -160,6 +165,52 @@ public class HUDPanel : MonoBehaviour
     }
     #endregion
 
+    #region Shield Methods
+
+    public void AddShield()
+    {
+        GameObject shield = GetAvailableShield();
+        if (shield != null)
+        {
+            shield.SetActive(true);
+        }
+
+    }
+
+    public void RemoveShield()
+    {
+        GameObject shield = GetUsingShield();
+        if(shield != null)
+        {
+            shield.SetActive(false);
+        }
+    }
+    GameObject GetAvailableShield()
+    {
+        for (int i = 0; i < _shieldIcons.Length; i++)
+        {
+            if (!_shieldIcons[i].activeSelf)
+            {
+                return _shieldIcons[i];
+            }
+        }
+
+        return null;
+    }
+
+    GameObject GetUsingShield()
+    {
+        for (int i = 0; i < _shieldIcons.Length; i++)
+        {
+            if (_shieldIcons[i].activeSelf)
+            {
+                return _shieldIcons[i];
+            }
+        }
+
+        return null;
+    }
+    #endregion
     private void OnDisable()
     {
         // stop the DotTween animation in progress

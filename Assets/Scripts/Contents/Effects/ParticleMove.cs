@@ -1,9 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ParticleMove : MonoBehaviour
 {
+    #region Event
+    public event Action OnPariticleDeath;
+    #endregion
+
     ParticleSystem _particleSystem;
     ParticleSystem.Particle[] _particles;
 
@@ -56,7 +61,8 @@ public class ParticleMove : MonoBehaviour
 
         if(!_particleSystem.IsAlive())
         {
-            Destroy(gameObject);
+            OnPariticleDeath?.Invoke();
+            ResourceManager.Instance.Destroy(gameObject);
         }
     }
 }

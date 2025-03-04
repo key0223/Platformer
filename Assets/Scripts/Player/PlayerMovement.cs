@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
 
     public event Action<float> OnModifySoul;
 
+    public event Action OnPlayerAddShield;
+    public event Action OnPlayerRemoveShield;
     #endregion
 
     [Header("Layers & Tags")]
@@ -622,7 +624,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(_stat.CurrentShield>0)
         {
-            _stat.CurrentShield--;
+            OnRemoveShield();
 
             return;
         }
@@ -690,6 +692,22 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _coHold = null;
+    }
+    #endregion
+
+    #region Shield
+
+    public void OnAddShield()
+    {
+        _stat.CurrentShield++;
+
+        OnPlayerAddShield?.Invoke();
+        Debug.Log("Called Add Shield");
+    }
+    public void OnRemoveShield()
+    {
+        _stat.CurrentShield--;
+        OnPlayerRemoveShield?.Invoke();
     }
     #endregion
     #region Check

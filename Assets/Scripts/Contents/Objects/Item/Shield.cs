@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
+    PlayerMovement _playerMovement;
     Transform _target;
+
+    ParticleMove _particleMove;
 
     void Awake()
     {
-        _target = FindObjectOfType<PlayerMovement>().transform;
+        _playerMovement = FindObjectOfType<PlayerMovement>();
+        _target = _playerMovement.transform;
     }
 
     void OnEnable()
@@ -20,12 +24,22 @@ public class Shield : MonoBehaviour
     {
         yield return new WaitForSeconds(0.025f);
 
-        ParticleMove effect = ResourceManager.Instance.Instantiate("FX/ShieldFX").gameObject.GetComponent<ParticleMove>();
-        effect.gameObject.transform.position = transform.position;
-        effect.gameObject.SetActive(true);
+        _particleMove = ResourceManager.Instance.Instantiate("FX/ShieldFX").gameObject.GetComponent<ParticleMove>();
+        _particleMove.OnPariticleDeath += AddShieldToPlayer;
+        _particleMove.gameObject.transform.position = transform.position;
+        _particleMove.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(0.3f);
 
-        effect.Init(_target);
+        _particleMove.Init(_target);
+    }
+
+    void AddShieldToPlayer()
+    {
+        _playerMovement.OnAddShield();
+        _particleMove.OnPariticleDeath -= AddShieldToPlayer;
+        _particleMove = null;
+
+        ResourceManager.Instance.Destroy(gameObject);
     }
 }
