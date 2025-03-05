@@ -24,5 +24,6 @@ public class Highlighter : MonoBehaviour
         moveSequence.Append(_rectTransform.DOMove(transform.position, _moveDuration))
                     .Join(DOTween.To(() => _rectTransform.offsetMin, x => _rectTransform.offsetMin = x, targetOffsetMin, _moveDuration))
                     .Join(DOTween.To(() => _rectTransform.offsetMax, x => _rectTransform.offsetMax = x, targetOffsetMax, _moveDuration));
+
     }
 }

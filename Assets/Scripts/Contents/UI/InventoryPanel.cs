@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class InventoryPanel : PopupPanelBase
 {
+    [SerializeField] TextMeshProUGUI _coinText;
+
+    [Space(10f)]
     // Highlighter 
     [SerializeField] Transform _initPos;
 
-    [Space(10f)]
-    [SerializeField] TextMeshProUGUI _coinText;
-    protected override void InitSlotList()
+   
+    protected override void Init()
     {
-        base.InitSlotList();
         _highlighter.MoveToSlot(_initPos);
     }
 
