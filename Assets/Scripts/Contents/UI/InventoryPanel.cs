@@ -1,7 +1,10 @@
+using Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class InventoryPanel : PopupPanelBase
 {
@@ -11,14 +14,52 @@ public class InventoryPanel : PopupPanelBase
     // Highlighter 
     [SerializeField] Transform _initPos;
 
-   
+    [Space(10f)]
+    [Header("Item Description")]
+    [SerializeField] TextMeshProUGUI _itemNameText;
+    [SerializeField] TextMeshProUGUI _keyDescText;
+    [SerializeField] TextMeshProUGUI _itemDescText;
+
+
     protected override void Init()
     {
         _highlighter.MoveToSlot(_initPos);
-    }
 
+        InitItemDescUI();
+    }
+    protected override void MoveSelection(int horizontal, int vertical, bool sectionMove)
+    {
+        base.MoveSelection(horizontal, vertical, sectionMove);
+        UpdateItemDescUI();
+    }
     public void SetCoinText(int amount)
     {
         _coinText.text = amount.ToString();
     }
+
+    #region Item Description UI
+    void UpdateItemDescUI()
+    {
+        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn];
+
+        ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
+        if (data != null)
+        {
+            _itemNameText.text = data.itemName;
+            _itemDescText.text = data.itemDescription;
+        }
+        else
+        {
+            InitItemDescUI();
+        }
+    }
+
+    void InitItemDescUI()
+    {
+        _itemNameText.text = "";
+        _keyDescText.text = "";
+        _itemDescText.text = "";
+    }
+    #endregion
+
 }

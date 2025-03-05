@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
-    [SerializeField] protected int _slotIndex = 0;
-    public int SlotIndex { get { return _slotIndex; } set { _slotIndex = value; } }
+    [SerializeField] int _itemId = 0;
+    public int ItemId { get { return _itemId; } set { _itemId = value; } }
 }

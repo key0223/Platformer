@@ -1,11 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 [Serializable]
 public class Section
@@ -24,13 +20,10 @@ public class PopupPanelBase : MonoBehaviour
 
     [Space(10f)]
     [SerializeField]
-    Section[] _sections;
+    protected Section[] _sections;
 
-    [SerializeField]
     protected int _currentSection = 0;
-    [SerializeField]
     protected int _currentRow;
-    [SerializeField]
     protected int _currentColumn;
 
     protected Highlighter _highlighter;
@@ -63,7 +56,7 @@ public class PopupPanelBase : MonoBehaviour
             MoveSelection(1, 0, isSectionMove);
     }
 
-    protected void MoveSelection(int horizontal, int vertical, bool sectionMove)
+    protected virtual void MoveSelection(int horizontal, int vertical, bool sectionMove)
     {
         if(sectionMove)
         {
@@ -74,12 +67,11 @@ public class PopupPanelBase : MonoBehaviour
             MoveHighlighter(horizontal, vertical);
         }
     }
-    public void MoveHighlighter(int horizontal, int vertical)
+    protected void MoveHighlighter(int horizontal, int vertical)
     {
         Section currecntSection = _sections[_currentSection];
         int newRow = Mathf.Clamp(_currentRow + horizontal, 0, currecntSection._rows.Count - 1);
         int newColumn = _currentColumn;
-        //Mathf.Clamp(_currentColumn + vertical, 0, _columnSize - 1);
 
         if(vertical != 0)
         {
@@ -104,7 +96,6 @@ public class PopupPanelBase : MonoBehaviour
 
         if(newSection != _currentSection)
         {
-
             _currentSection = newSection;
             _currentRow = 0;
             _currentColumn = 0;
