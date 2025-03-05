@@ -1,4 +1,6 @@
 using System;
+using UnityEngine;
+using UnityEngine.UI;
 using static Define;
 
 
@@ -19,6 +21,14 @@ namespace Data
     {
         public int coinValue;
     }
+
+    [Serializable]
+    public class WeaponData : ItemData
+    {
+        public float damage;
+        public Sprite weaponSprite;
+    }
+
     #endregion
 
 }
