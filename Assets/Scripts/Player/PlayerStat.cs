@@ -19,6 +19,7 @@ public class PlayerStat : Stat
     public float MaxSoul { get { return _maxSoul; }}
     public float CurrentSoul { get { return _currentSoul; }set { _currentSoul = value; } }
     public float CurrentShield { get { return _currentShield; } set { _currentShield = value; } }
+    public float TotalAttack { get { return _currentAttack + _weaponDamage; } }
 
     protected override void Start()
     {

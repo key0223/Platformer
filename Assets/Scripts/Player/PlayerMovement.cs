@@ -585,7 +585,8 @@ public class PlayerMovement : MonoBehaviour
                 MonsterMovement monster = hit[i].GetComponent<MonsterMovement>();
                 if(monster != null)
                 {
-                    monster.OnDamaged(_stat.CurrentAttack,this);
+                    Debug.Log($"Total Attack : {_stat.TotalAttack}");
+                    monster.OnDamaged(_stat.TotalAttack,this);
                 }
 
                 IBreakable breakable = hit[i].GetComponent<IBreakable>();
