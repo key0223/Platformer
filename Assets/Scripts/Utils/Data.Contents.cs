@@ -29,6 +29,14 @@ namespace Data
         public Sprite weaponSprite;
     }
 
+    [Serializable]
+    public class CharmData:ItemData
+    {
+        public int SlotNumber;
+        public CharmType CharmEffect;
+        public float EffectValue;
+    }
+
     #endregion
 
 }

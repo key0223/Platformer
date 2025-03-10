@@ -33,5 +33,14 @@ public class Define
     {
         Coin,
         Weapon,
+        Charm,
+    }
+
+    public enum CharmType
+    {
+        Attack,
+        Hp,
+        Soul,
+        Orbs,
     }
 }
