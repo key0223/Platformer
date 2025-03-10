@@ -39,4 +39,11 @@ namespace Data
 
     #endregion
 
+    [Serializable]
+    public class StringData
+    {
+        public int stringId;
+        [TextArea(2,5)]
+        public string ko;
+    }
 }

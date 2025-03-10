@@ -11,20 +11,18 @@ public interface ILoader<key,Value>
 public class DataManager : SingletonMonobehaviour<DataManager>
 {
     Dictionary<int, ItemData> _itemDict;
+    Dictionary<int, StringData> _stringDict;
+
     protected override void Awake()
     {
         base.Awake();
         Init();
     }
 
-    void Start()
-    {
-      
-    }
-
     void Init()
     {
         _itemDict =  LoadScriptableObject<SO_ItemList,int,ItemData>("SO_ItemList").MakeDict();
+        _stringDict = LoadScriptableObject<SO_StringList, int, StringData>("SO_StringList").MakeDict();
     }
    
     public ItemData GetItemData(int itemId)
