@@ -13,6 +13,7 @@ namespace Data
         public int itemId;
         public string itemName;
         public ItemType itemType;
+        [TextArea(2, 5)]
         public string itemDescription;
     }
 
@@ -32,9 +33,16 @@ namespace Data
     [Serializable]
     public class CharmData:ItemData
     {
-        public int SlotNumber;
-        public CharmType CharmEffect;
-        public float EffectValue;
+        public int slotNumber;
+        public CharmType charmEffect;
+        public float effectValue;
+    }
+    [Serializable]
+    public class SpellData: ItemData
+    {
+        public string inputKey;
+        public int damage;
+        public Sprite spellSprite;
     }
 
     #endregion

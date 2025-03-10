@@ -34,6 +34,7 @@ public class Define
         Coin,
         Weapon,
         Charm,
+        Spell,
     }
 
     public enum CharmType

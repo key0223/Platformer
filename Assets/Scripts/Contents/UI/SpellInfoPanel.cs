@@ -12,7 +12,7 @@ public class SpellInfoPanel : InformationPanelBase
     [SerializeField] TextMeshProUGUI _descriptopnText;
     [SerializeField] TextMeshProUGUI _keyDescriptionText;
     [SerializeField] TextMeshProUGUI _keyText;
-    [SerializeField] TextMeshProUGUI __descriptopnText2;
+    [SerializeField] TextMeshProUGUI _descriptopnText2;
     protected override void Init()
     {
 

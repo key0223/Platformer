@@ -13,6 +13,9 @@ public class SO_ItemList : ScriptableObject, ILoader<int,ItemData>
     public List<WeaponData> weaponDatas;
     [SerializeField]
     public List<CharmData> charmDatas;
+    [SerializeField]
+    public List<SpellData> spellDatas;
+
 
     public Dictionary<int,ItemData> MakeDict()
     {
@@ -32,6 +35,11 @@ public class SO_ItemList : ScriptableObject, ILoader<int,ItemData>
         foreach (ItemData item in charmDatas)
         {
             item.itemType = ItemType.Charm;
+            dict.Add(item.itemId, item);
+        }
+        foreach (ItemData item in spellDatas)
+        {
+            item.itemType = ItemType.Spell;
             dict.Add(item.itemId, item);
         }
         return dict;
