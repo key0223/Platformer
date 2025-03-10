@@ -8875,7 +8875,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hudUIParent: {fileID: 1349796096}
   _popupUIParent: {fileID: 544173313}
-  _inventoryPanel: {fileID: 1038419953}
+  _inventoryPanel: {fileID: 1038419958}
 --- !u!1 &910616071
 GameObject:
   m_ObjectHideFlags: 0
@@ -10021,6 +10021,7 @@ MonoBehaviour:
   _itemNameText: {fileID: 1132602240}
   _keyDescText: {fileID: 1627866014}
   _itemDescText: {fileID: 1696483551}
+  _weaponSlot: {fileID: 48946271}
 --- !u!1 &1039542744
 GameObject:
   m_ObjectHideFlags: 0
@@ -10293,6 +10294,7 @@ MonoBehaviour:
   _maxSoul: 0
   _currentSoul: 0
   _currentShield: 0
+  _weaponDamage: 0
 --- !u!114 &1051467357
 MonoBehaviour:
   m_ObjectHideFlags: 0

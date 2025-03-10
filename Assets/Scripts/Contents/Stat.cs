@@ -5,11 +5,15 @@ using static Define;
 
 public class Stat : MonoBehaviour
 {
+
+    #region Default Stat
     protected List<Buff> _activeBuffs = new List<Buff>();
     [SerializeField] protected int _level = 1;
     [SerializeField] protected float _maxHp = 100;
     [SerializeField] protected float _attack = 10;
     [SerializeField] protected float _defense = 0;
+    #endregion
+
     [SerializeField] protected float _currentHp;
     protected float _currentAttack;
 

@@ -14,12 +14,15 @@ public class InventoryPanel : PopupPanelBase
     // Highlighter 
     [SerializeField] Transform _initPos;
 
+    #region Item Description UI
     [Space(10f)]
     [Header("Item Description")]
     [SerializeField] TextMeshProUGUI _itemNameText;
     [SerializeField] TextMeshProUGUI _keyDescText;
     [SerializeField] TextMeshProUGUI _itemDescText;
+    #endregion
 
+    [SerializeField] Slot _weaponSlot;
 
     protected override void Init()
     {
@@ -62,4 +65,18 @@ public class InventoryPanel : PopupPanelBase
     }
     #endregion
 
+    #region Equip Item
+    public int GetEquippedWeaponDamage()
+    {
+        ItemData itemData = DataManager.Instance.GetItemData(_weaponSlot.ItemId);
+        WeaponData weaponData = itemData as WeaponData;
+
+        if (weaponData !=null)
+        {
+            return (int)weaponData.damage;
+        }
+
+        return 0;
+    }
+    #endregion
 }

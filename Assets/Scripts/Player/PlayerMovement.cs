@@ -710,6 +710,13 @@ public class PlayerMovement : MonoBehaviour
         OnPlayerRemoveShield?.Invoke();
     }
     #endregion
+
+    #region Equip Item
+    public void OnEquipItem(int itemId)
+    {
+        _stat.OnModifyEquipItem(itemId);
+    }
+    #endregion
     #region Check
     public void CheckDirectionToFace(bool isMovingRight)
     {

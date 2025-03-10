@@ -14,11 +14,12 @@ public class DataManager : SingletonMonobehaviour<DataManager>
     protected override void Awake()
     {
         base.Awake();
+        Init();
     }
 
     void Start()
     {
-        Init();
+      
     }
 
     void Init()

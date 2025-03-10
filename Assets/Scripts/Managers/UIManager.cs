@@ -8,8 +8,9 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     [Header("Popup UI")]
     [SerializeField] GameObject _popupUIParent;
     [Space(10f)]
-    [SerializeField] GameObject _inventoryPanel;
+    [SerializeField] InventoryPanel _inventoryPanel;
 
+    public InventoryPanel InvenPanel { get { return _inventoryPanel; } }
     protected override void Awake()
     {
         base.Awake();
@@ -24,7 +25,7 @@ public class UIManager : SingletonMonobehaviour<UIManager>
         _inventoryPanel.gameObject.GetComponent<InventoryPanel>().SetCoinText(InventoryManager.Instance.Coin);
         _hudUIParent.SetActive(!_hudUIParent.gameObject.activeSelf);
         _popupUIParent.SetActive(!_popupUIParent.activeSelf);
-        _inventoryPanel.SetActive(!_inventoryPanel.activeSelf);
+        _inventoryPanel.gameObject.SetActive(!_inventoryPanel.gameObject.activeSelf);
         NotifyUIState();
     }
 
