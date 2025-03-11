@@ -41,8 +41,10 @@ namespace Data
     public class SpellData: ItemData
     {
         public string inputKey;
+        public string keyDescription;
         public int damage;
         public Sprite spellSprite;
+        public Sprite DecscrtiptionSprite;
     }
 
     #endregion

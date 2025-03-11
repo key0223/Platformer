@@ -34,6 +34,16 @@ public class DataManager : SingletonMonobehaviour<DataManager>
         }
         else return null;
     }
+
+    public StringData GetStringData(int id) 
+    {
+        StringData stringData = null;
+        if (_stringDict.TryGetValue(id, out stringData))
+        {
+            return stringData;
+        }
+        else return null;
+    }
     /*
      * Loader = Generic parameter
      * Loader must implement ILoader<key,Value>

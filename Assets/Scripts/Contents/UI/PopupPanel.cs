@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class PopupPanel : MonoBehaviour
 {
-    HUDPanel _hud;
+    [SerializeField] GameObject _backgroundPanel;
+    [SerializeField] InventoryPanel _inventoryPanel;
+    [SerializeField] InformationPanel _informationPanel;
+
     // Inventory
     List<PopupPanelBase> _panels = new List<PopupPanelBase>();
 
-    //int _currentPanelIndex = 0;
-
-    [SerializeField] InventoryPanel _inventoryPanel;
+    HUDPanel _hud;
 
     public InventoryPanel InvenPanel { get { return _inventoryPanel; } }
-
+    public InformationPanel InfoPanel { get { return _informationPanel; } }
 
 
     void Start()
@@ -28,6 +29,7 @@ public class PopupPanel : MonoBehaviour
 
         _hud = UIManager.Instance.HUDPanel;
 
+        _backgroundPanel.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
     void InitPanelList()
@@ -47,11 +49,20 @@ public class PopupPanel : MonoBehaviour
         _inventoryPanel.gameObject.GetComponent<InventoryPanel>().SetCoinText(InventoryManager.Instance.Coin);
         _hud.gameObject.SetActive(!_hud.gameObject.activeSelf);
         this.gameObject.SetActive(!this.gameObject.activeSelf);
+        _backgroundPanel.gameObject.SetActive(!_backgroundPanel.gameObject.activeSelf);
         _inventoryPanel.gameObject.SetActive(!_inventoryPanel.gameObject.activeSelf);
 
         NotifyUIState();
     }
 
+    public void PopupInfoPanel()
+    {
+        this.gameObject.SetActive(!this.gameObject.activeSelf);
+        _backgroundPanel.gameObject.SetActive(false);
+        _inventoryPanel.gameObject.SetActive(false);
+
+        NotifyUIState();
+    }
     void NotifyUIState()
     {
         bool isUIOn = this.gameObject.activeSelf;

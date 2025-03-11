@@ -44,9 +44,8 @@ public class LoreObject : MonoBehaviour, IInteractable
     }
     public void Interact()
     {
-        // TODO : Information Panel Popup
-
-        _popup.InfoPanel.PopupUI();
+        _popup.PopupInfoPanel();
+        _popup.InfoPanel.PopupUI(_infoPanelType, _loreStrId,_spellId);
     }
 
    
