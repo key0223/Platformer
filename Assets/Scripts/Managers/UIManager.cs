@@ -4,34 +4,15 @@ using UnityEngine;
 
 public class UIManager : SingletonMonobehaviour<UIManager>
 {
-    [SerializeField] GameObject _hudUIParent;
-    [Header("Popup UI")]
-    [SerializeField] GameObject _popupUIParent;
-    [Space(10f)]
-    [SerializeField] InventoryPanel _inventoryPanel;
+    [SerializeField] HUDPanel _hudUIPanel;
+    [SerializeField] PopupPanel _popupUIPanel;
 
-    public InventoryPanel InvenPanel { get { return _inventoryPanel; } }
+    public HUDPanel HUDPanel { get { return _hudUIPanel; } }
+    public PopupPanel PopupPanel { get { return _popupUIPanel; } }
+    
+
     protected override void Awake()
     {
         base.Awake();
-    }
-    void Start()
-    {
-        InputManager.Instance.OnToggleInventory += ToggleInventory;
-    }
-
-    void ToggleInventory()
-    {
-        _inventoryPanel.gameObject.GetComponent<InventoryPanel>().SetCoinText(InventoryManager.Instance.Coin);
-        _hudUIParent.SetActive(!_hudUIParent.gameObject.activeSelf);
-        _popupUIParent.SetActive(!_popupUIParent.activeSelf);
-        _inventoryPanel.gameObject.SetActive(!_inventoryPanel.gameObject.activeSelf);
-        NotifyUIState();
-    }
-
-    void NotifyUIState()
-    {
-        bool isUIOn = _popupUIParent.activeSelf;
-        InputManager.Instance.UIStateChanged(isUIOn);
     }
 }

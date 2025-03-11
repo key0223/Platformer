@@ -29,7 +29,7 @@ public class PlayerStat : Stat
 
 
         // Initial Player stat settings
-        _weaponDamage = UIManager.Instance.InvenPanel.GetEquippedWeaponDamage();
+        _weaponDamage = UIManager.Instance.PopupPanel.InvenPanel.GetEquippedWeaponDamage();
     }
     public void OnHealHp(float amount)
     {
