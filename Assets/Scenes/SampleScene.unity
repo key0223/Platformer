@@ -8785,7 +8785,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &708364386
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8826,6 +8826,7 @@ MonoBehaviour:
   _descriptopnImage: {fileID: 1914509712}
   _descriptopnText: {fileID: 1647022833}
   _keyDescriptionText: {fileID: 1970932416}
+  _keyButtonImage: {fileID: 978903385}
   _keyText: {fileID: 1089083799}
 --- !u!1 &716562211
 GameObject:

@@ -26,7 +26,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 
     public void UIStateChanged(bool state)
     {
-        OnUIStateChanged?.Invoke(_isUIOn);
+        OnUIStateChanged?.Invoke(state);
     }
     public void ToggleInventory()
     {
