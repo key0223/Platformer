@@ -4,35 +4,35 @@ using UnityEngine;
 
 public class BreakableItem : MonoBehaviour, IBreakable
 {
-    [SerializeField] int _maxHp;
-    int _currentHp;
+    [SerializeField] protected int _maxHp;
+    protected int _currentHp;
 
     [Header("FX Settings")]
-    [SerializeField] bool _hasHitFX = false;
-    [SerializeField] bool _hitDrop = false; // Whether it drops everytime it gets hit or not
-    [SerializeField] string _hitFxPrefab;
-    [SerializeField] string _destroyFxPrefab;
+    [SerializeField] protected bool _hasHitFX = false;
+    [SerializeField] protected bool _hitDrop = false; // Whether it drops everytime it gets hit or not
+    [SerializeField] protected string _hitFxPrefab;
+    [SerializeField] protected string _destroyFxPrefab;
 
     [Header("DropItem Settings")]
-    [SerializeField] int _maxItemCount = 15;
-    [SerializeField] string _dropItemPrefab;
+    [SerializeField] protected int _maxItemCount = 15;
+    [SerializeField] protected string _dropItemPrefab;
 
-    int _remainingDropItemCount;
+    protected int _remainingDropItemCount;
 
     void Awake()
     {
         _remainingDropItemCount = _maxItemCount;
         _currentHp = _maxHp;
     }
-    public void OnDamaged(int damage)
+    public virtual void OnDamaged(int damage)
     {
         _currentHp -= damage;
-        if(_hasHitFX)
+        if (_hasHitFX)
         {
             CreateFX(_hitFxPrefab);
             //DropItem();
         }
-        if(_hitDrop)
+        if (_hitDrop)
         {
             DropItem();
         }
@@ -44,16 +44,16 @@ public class BreakableItem : MonoBehaviour, IBreakable
         }
     }
 
-    void DropItem()
+    protected void DropItem()
     {
         int dropMaxCount = _maxItemCount / _maxHp;
-        int dropCount = Random.Range(1, dropMaxCount+1);
+        int dropCount = Random.Range(1, dropMaxCount + 1);
 
-        if(dropCount>_remainingDropItemCount || _currentHp <= 0)
+        if (dropCount > _remainingDropItemCount || _currentHp <= 0)
         {
             dropCount = _remainingDropItemCount;
         }
-        
+
         _remainingDropItemCount -= dropCount;
 
         for (int i = 0; i < dropCount; i++)
@@ -64,7 +64,7 @@ public class BreakableItem : MonoBehaviour, IBreakable
         }
     }
 
-    void CreateFX(string prefabPath)
+    protected void CreateFX(string prefabPath)
     {
         GameObject fxGO = ResourceManager.Instance.Instantiate(prefabPath);
         fxGO.transform.position = gameObject.transform.position;

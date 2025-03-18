@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IBreakable 
 {
-   void OnDamaged(int damage);
+    void OnDamaged(int damage);
 }
