@@ -324,6 +324,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if(IsDead) return;
 
+        if(!_canMove)
+        {
+            RB.velocity = new Vector2(0, RB.velocity.y);
+            return;
+        }
         if (IsAttacking)
         {
             RB.velocity = Vector2.zero; 
@@ -352,6 +357,11 @@ public class PlayerMovement : MonoBehaviour
     void SetMovementEnabled(bool isUIOn)
     {
         _canMove = !isUIOn;
+
+        if (!_canMove)
+        {
+            RB.velocity = new Vector2(0, RB.velocity.y);
+        }
     }
     public void OnJumpInput()
     {
