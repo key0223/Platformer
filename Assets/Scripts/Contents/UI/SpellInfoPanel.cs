@@ -2,6 +2,7 @@ using Data;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,8 +16,16 @@ public class SpellInfoPanel : MonoBehaviour
     [SerializeField] Image _keyButtonImage;
     [SerializeField] TextMeshProUGUI _keyText;
 
+    Coroutine _coTextSequence;
     public void SetUI(int loreStrId,int spellId)
     {
+        if (_coTextSequence != null)
+        {
+            StopCoroutine(_coTextSequence);
+            _coTextSequence = null;
+            return;
+        }
+
         StringData strData = DataManager.Instance.GetStringData(loreStrId);
         ItemData itemData = DataManager.Instance.GetItemData(spellId);
 
@@ -30,8 +39,8 @@ public class SpellInfoPanel : MonoBehaviour
             _keyText.text = spellData.inputKey;
 
             SetUIAlpha(0);
-            StartCoroutine(CoTextSequence(strData,spellData));
-
+          
+            _coTextSequence = StartCoroutine(CoTextSequence(strData, spellData));
         }
     }
 
