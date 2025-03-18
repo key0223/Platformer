@@ -21,6 +21,7 @@ public class PopupPanel : MonoBehaviour
     {
         Init();
         InputManager.Instance.OnToggleInventory += ToggleInventory;
+        InputManager.Instance.OnTogglePopupInfo += PopupInfoPanel;
     }
 
     void Init()

@@ -39,12 +39,12 @@ public class LoreObject : MonoBehaviour, IInteractable
         if (collision.CompareTag(TAG_PLAYER))
         {
             _isPlayerNear = false;
-
         }
     }
     public void Interact()
     {
-        _popup.PopupInfoPanel();
+        //_popup.PopupInfoPanel();
+        InputManager.Instance.TogglePopupInfo();
         _popup.InfoPanel.PopupUI(_infoPanelType, _loreStrId,_spellId);
     }
 

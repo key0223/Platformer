@@ -7,6 +7,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 {
     public event Action<bool> OnUIStateChanged;
     public event Action OnToggleInventory;
+    public event Action OnTogglePopupInfo;
 
     bool _isUIOn = false;
     protected override void Awake()
@@ -16,7 +17,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             _isUIOn = !_isUIOn;
             UIStateChanged(_isUIOn);
@@ -32,4 +33,9 @@ public class InputManager : SingletonMonobehaviour<InputManager>
     {
         OnToggleInventory?.Invoke();
     }
+    public void TogglePopupInfo()
+    {
+        OnTogglePopupInfo?.Invoke();
+    }
 }
+
