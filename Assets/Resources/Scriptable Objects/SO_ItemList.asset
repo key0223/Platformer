@@ -184,4 +184,4 @@ MonoBehaviour:
     keyDescription: "\uAE38\uAC8C \uB204\uB974\uAE30"
     damage: 0
     spellSprite: {fileID: 21300000, guid: 4b76a3107d1d5bc408905d508ba7bead, type: 3}
-    decscrtiptionSprite: {fileID: 0}
+    decscrtiptionSprite: {fileID: 21300000, guid: 28ef7189b6360634e831e4d32570d1dd, type: 3}

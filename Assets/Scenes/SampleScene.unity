@@ -11742,8 +11742,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ba80e58d89a3a745a551e111c890e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _titleText: {fileID: 1092481565}
+  _bottomLineImage: {fileID: 816326049}
   _charmImage: {fileID: 16986146}
   _charmNameText: {fileID: 418579310}
+  _descText: {fileID: 351057158}
+  _descImage: {fileID: 568463122}
+  _desc2Text: {fileID: 1872605199}
 --- !u!1 &1104204334
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//The information panel and all of its child objects should be inactive.
 public class InformationPanel : MonoBehaviour
 {
     [SerializeField] GameObject _backgroundPanel;
