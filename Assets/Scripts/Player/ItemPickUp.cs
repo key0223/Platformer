@@ -11,11 +11,11 @@ public class ItemPickUp : MonoBehaviour
     {
         Item item = collision.gameObject.GetComponent<Item>();
 
-        if(item != null )
+        if (item != null)
         {
             ItemData data = DataManager.Instance.GetItemData(item.ItemId);
-            
-            switch(data.itemType)
+
+            switch (data.itemType)
             {
                 case ItemType.Coin:
                     CoinData coinData = data as CoinData;
@@ -23,14 +23,8 @@ public class ItemPickUp : MonoBehaviour
                     InventoryManager.Instance.AddCoin(coinData.coinValue);
                     ResourceManager.Instance.Destroy(collision.gameObject);
                     break;
-
-                case ItemType.Charm:
-
-                    ResourceManager.Instance.Destroy(collision.gameObject);
-                    break;
-
             }
-           
+
         }
     }
 }

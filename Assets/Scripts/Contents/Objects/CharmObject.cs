@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Define;
 
-public class LoreObject : MonoBehaviour, IInteractable
+public class CharmObject : MonoBehaviour,IInteractable
 {
     PopupPanel _popup;
-
-    [SerializeField] int _loreStrId;
-    [SerializeField] int _spellId;
 
     [SerializeField] bool _isPlayerNear = false;
 
@@ -17,6 +14,7 @@ public class LoreObject : MonoBehaviour, IInteractable
     {
         _popup = UIManager.Instance.PopupPanel;
     }
+
     void Update()
     {
         if (_isPlayerNear && Input.GetKeyDown(KeyCode.UpArrow))
@@ -24,15 +22,15 @@ public class LoreObject : MonoBehaviour, IInteractable
             Interact();
         }
     }
+
+
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag(TAG_PLAYER))
+        if (collision.CompareTag(TAG_PLAYER))
         {
             _isPlayerNear = true;
-
         }
     }
-
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag(TAG_PLAYER))
@@ -42,10 +40,9 @@ public class LoreObject : MonoBehaviour, IInteractable
     }
     public void Interact()
     {
-        //_popup.PopupInfoPanel();
-        InputManager.Instance.TogglePopupInfo();
-        _popup.InfoPanel.PopupUI(_loreStrId,_spellId);
-    }
+        int itemId = GetComponent<Item>().ItemId;
 
-   
+        InputManager.Instance.TogglePopupInfo();
+        _popup.InfoPanel.PopupUI(itemId);
+    }
 }

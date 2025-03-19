@@ -5,6 +5,7 @@ using UnityEngine;
 public class BouncingEffect : MonoBehaviour
 {
     Rigidbody2D _rigid;
+
     int _bounceCount = 0;
 
     [Header("Bounce Settings")]
@@ -20,6 +21,8 @@ public class BouncingEffect : MonoBehaviour
 
     void OnEnable()
     {
+        _rigid.drag = 1f;
+
         Vector2 randomDir = new Vector2(Random.Range(-1f, 1f), 1f).normalized;
         _rigid.AddForce(randomDir * _startForce, ForceMode2D.Impulse);
     }
@@ -36,6 +39,7 @@ public class BouncingEffect : MonoBehaviour
             else
             {
                 _rigid.velocity = Vector2.zero;
+                _rigid.drag = 20f;
             }
         }
     }
