@@ -38,6 +38,8 @@ namespace Data
         public int slotNumber;
         public CharmType charmEffect;
         public float effectValue;
+        [Space(10f)]
+        public Sprite _charmSprite;
     }
     [Serializable]
     public class SpellData: ItemData
