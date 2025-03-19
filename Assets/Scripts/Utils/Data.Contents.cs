@@ -21,6 +21,8 @@ namespace Data
     public class CoinData:ItemData
     {
         public int coinValue;
+        [Space(10f)]
+        public Sprite _coinSprite;
     }
 
     [Serializable]

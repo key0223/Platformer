@@ -20,6 +20,7 @@ MonoBehaviour:
       \uAC00\uC9C0\uC758 \uC624\uB798\uB41C \uC7A5\uCE58\uC5D0\uC11C \uD1B5\uD589\uB8CC\uB85C
       \uC0AC\uC6A9\uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
     coinValue: 1
+    _coinSprite: {fileID: 21300000, guid: cea9e0d023ea2224fb3a9d97b6fc4de8, type: 3}
   - itemId: 10002
     itemName: "\uC635\uC2A4"
     itemType: 0
@@ -27,6 +28,7 @@ MonoBehaviour:
       \uAC00\uC9C0\uC758 \uC624\uB798\uB41C \uC7A5\uCE58\uC5D0\uC11C \uD1B5\uD589\uB8CC\uB85C
       \uC0AC\uC6A9\uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
     coinValue: 5
+    _coinSprite: {fileID: 21300000, guid: 23113181f64aa0248b9b300ace1fd322, type: 3}
   - itemId: 10003
     itemName: "\uC635\uC2A4"
     itemType: 0
@@ -34,6 +36,7 @@ MonoBehaviour:
       \uAC00\uC9C0\uC758 \uC624\uB798\uB41C \uC7A5\uCE58\uC5D0\uC11C \uD1B5\uD589\uB8CC\uB85C
       \uC0AC\uC6A9\uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
     coinValue: 25
+    _coinSprite: {fileID: 21300000, guid: f5e71cbcf304cd342883fdc5da44a18c, type: 3}
   weaponDatas:
   - itemId: 10101
     itemName: "\uC624\uB798\uB41C \uB300\uBABB"
