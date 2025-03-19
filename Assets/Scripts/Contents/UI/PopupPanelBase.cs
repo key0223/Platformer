@@ -26,6 +26,7 @@ public class PopupPanelBase : MonoBehaviour
     protected int _currentRow;
     protected int _currentColumn;
 
+
     protected Highlighter _highlighter;
 
     // Panel index should be populated before runtime
@@ -92,7 +93,7 @@ public class PopupPanelBase : MonoBehaviour
 
     protected void MoveSection(int vertical)
     {
-        int newSection = Mathf.Clamp(_currentSection + vertical, 0, _sections.Length - 1);
+        int newSection = (_currentSection + vertical + _sections.Length)% _sections.Length;
 
         if(newSection != _currentSection)
         {

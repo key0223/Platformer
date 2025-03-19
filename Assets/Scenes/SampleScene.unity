@@ -10981,13 +10981,9 @@ MonoBehaviour:
   - _rows:
     - _cloumns:
       - {fileID: 716562215}
-    - _cloumns:
-      - {fileID: 1667923409}
-    - _cloumns:
       - {fileID: 48946271}
-    - _cloumns:
+      - {fileID: 1667923409}
       - {fileID: 301588822}
-    - _cloumns:
       - {fileID: 415138317}
   - _rows:
     - _cloumns:
@@ -11010,6 +11006,10 @@ MonoBehaviour:
       - {fileID: 1169211620}
       - {fileID: 1911387834}
       - {fileID: 1104204336}
+  - _rows:
+    - _cloumns:
+      - {fileID: 135601143}
+      - {fileID: 1397518315}
   _coinText: {fileID: 559927611}
   _initPos: {fileID: 48946270}
   _itemNameText: {fileID: 1132602240}
@@ -72726,6 +72726,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1038419954}
     m_Modifications:
+    - target: {fileID: 1308938949952791612, guid: d968f18d4348f164d850a36b6105f0bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1308938950313578716, guid: d968f18d4348f164d850a36b6105f0bb, type: 3}
       propertyPath: m_Name
       value: Highlighter
