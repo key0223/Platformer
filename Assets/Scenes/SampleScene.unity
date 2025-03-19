@@ -15782,6 +15782,7 @@ MonoBehaviour:
   _hitDrop: 0
   _hitFxPrefab: 
   _destroyFxPrefab: 
+  _dropItemId: 0
   _maxItemCount: 1
   _dropItemPrefab: Items/Shield
   _closedSprite: {fileID: 647366247}
@@ -80979,6 +80980,14 @@ PrefabInstance:
     - target: {fileID: 7935460125928421451, guid: 20282b9210c90c84c86d5fd55ad7c214, type: 3}
       propertyPath: m_Name
       value: Coin Plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935460125928421452, guid: 20282b9210c90c84c86d5fd55ad7c214, type: 3}
+      propertyPath: _dropItemId
+      value: 10001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935460125928421452, guid: 20282b9210c90c84c86d5fd55ad7c214, type: 3}
+      propertyPath: _dropItemPrefab
+      value: Items/Item
       objectReference: {fileID: 0}
     - target: {fileID: 7935460125928421453, guid: 20282b9210c90c84c86d5fd55ad7c214, type: 3}
       propertyPath: m_RootOrder

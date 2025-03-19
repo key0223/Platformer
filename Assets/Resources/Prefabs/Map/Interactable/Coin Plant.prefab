@@ -77,8 +77,9 @@ MonoBehaviour:
   _hitDrop: 1
   _hitFxPrefab: FX/Breakable Item HitFX
   _destroyFxPrefab: FX/Breakable Item DestroyFX
+  _dropItemId: 0
   _maxItemCount: 15
-  _dropItemPrefab: Items/1Coin
+  _dropItemPrefab: Items/Item
 --- !u!1001 &7935460125902426310
 PrefabInstance:
   m_ObjectHideFlags: 0

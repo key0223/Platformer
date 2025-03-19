@@ -1,21 +1,13 @@
 using UnityEngine;
 using Data;
+using static Define;
 
 public class Item : MonoBehaviour
 {
     [SerializeField] int _itemId;
-
+    [SerializeField] SpriteRenderer _spriteRenderer;
 
     public int ItemId { get { return _itemId; } set { _itemId = value; } }
-
-    void Start()
-    {
-        if (ItemId != 0)
-        {
-            Init(ItemId);
-        }
-        
-    }
 
     public void Init(int itemId)
     {
@@ -24,6 +16,13 @@ public class Item : MonoBehaviour
             ItemId = itemId;
             ItemData data = DataManager.Instance.GetItemData(itemId);
 
+            switch(data.itemType)
+            {
+                case ItemType.Coin:
+                    CoinData coinData = data as CoinData;
+                    _spriteRenderer.sprite = coinData._coinSprite;
+                    break;
+            }
         }
     }
 }

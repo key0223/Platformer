@@ -14,6 +14,7 @@ public class BreakableItem : MonoBehaviour, IBreakable
     [SerializeField] protected string _destroyFxPrefab;
 
     [Header("DropItem Settings")]
+    [SerializeField] protected int _dropItemId;
     [SerializeField] protected int _maxItemCount = 15;
     [SerializeField] protected string _dropItemPrefab;
 
@@ -58,9 +59,11 @@ public class BreakableItem : MonoBehaviour, IBreakable
 
         for (int i = 0; i < dropCount; i++)
         {
-            GameObject dropItem = ResourceManager.Instance.Instantiate(_dropItemPrefab);
+            Item dropItem = ResourceManager.Instance.Instantiate(_dropItemPrefab).GetComponent<Item>();
+            dropItem.Init(_dropItemId);
+            //GameObject dropItem = ResourceManager.Instance.Instantiate(_dropItemPrefab);
             dropItem.transform.position = transform.position;
-            dropItem.SetActive(true);
+            dropItem.gameObject.SetActive(true);
         }
     }
 
