@@ -14,15 +14,23 @@ public class ItemPickUp : MonoBehaviour
         if(item != null )
         {
             ItemData data = DataManager.Instance.GetItemData(item.ItemId);
-
-            if(data.itemType == ItemType.Coin)
+            
+            switch(data.itemType)
             {
-                CoinData coinData = (CoinData)data;
+                case ItemType.Coin:
+                    CoinData coinData = data as CoinData;
 
-                InventoryManager.Instance.AddCoin(coinData.coinValue);
+                    InventoryManager.Instance.AddCoin(coinData.coinValue);
+                    ResourceManager.Instance.Destroy(collision.gameObject);
+                    break;
 
-                ResourceManager.Instance.Destroy(collision.gameObject);
+                case ItemType.Charm:
+
+                    ResourceManager.Instance.Destroy(collision.gameObject);
+                    break;
+
             }
+           
         }
     }
 }
