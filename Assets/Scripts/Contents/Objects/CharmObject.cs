@@ -44,5 +44,7 @@ public class CharmObject : MonoBehaviour,IInteractable
 
         InputManager.Instance.TogglePopupInfo();
         _popup.InfoPanel.PopupUI(itemId);
+
+        ResourceManager.Instance.Destroy(gameObject);
     }
 }

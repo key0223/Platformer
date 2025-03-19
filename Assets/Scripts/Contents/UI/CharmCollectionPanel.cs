@@ -17,8 +17,30 @@ public class CharmCollectionPanel : MonoBehaviour
     [SerializeField] Image _descImage;
     [SerializeField] TextMeshProUGUI _desc2Text;
 
+    InformationPanel _infoPanel;
     Coroutine _coTextSequence;
+    private void Awake()
+    {
+        _infoPanel = GetComponentInParent<InformationPanel>();
+    }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (_coTextSequence != null)
+            {
+                StopCoroutine(_coTextSequence);
+                _coTextSequence = null;
+
+            }
+
+            gameObject.SetActive(false);
+            _infoPanel.gameObject.SetActive(false);
+
+            InputManager.Instance.TogglePopupInfo();
+        }
+    }
     public void SetUI(int charmId)
     {
         if (_coTextSequence != null)

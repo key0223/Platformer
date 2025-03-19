@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class SpellInfoPanel : MonoBehaviour
@@ -16,7 +17,29 @@ public class SpellInfoPanel : MonoBehaviour
     [SerializeField] Image _keyButtonImage;
     [SerializeField] TextMeshProUGUI _keyText;
 
+    InformationPanel _infoPanel;
     Coroutine _coTextSequence;
+
+    private void Awake()
+    {
+        _infoPanel = GetComponentInParent<InformationPanel>();
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (_coTextSequence != null)
+            {
+                StopCoroutine(_coTextSequence);
+                _coTextSequence = null;
+                
+            }
+
+            gameObject.SetActive(false);
+            _infoPanel.gameObject.SetActive(false);
+        }
+    }
     public void SetUI(int loreStrId,int spellId)
     {
         if (_coTextSequence != null)
