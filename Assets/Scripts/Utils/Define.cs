@@ -44,10 +44,4 @@ public class Define
         Soul,
         Orbs,
     }
-    public enum InfoPanelType
-    {
-        SpellInfo,
-        SimpleLore,
-        CharmCollection,
-    }
 }

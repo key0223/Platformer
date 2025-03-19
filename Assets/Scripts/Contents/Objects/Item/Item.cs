@@ -20,7 +20,7 @@ public class Item : MonoBehaviour
             {
                 case ItemType.Coin:
                     CoinData coinData = data as CoinData;
-                    _spriteRenderer.sprite = coinData._coinSprite;
+                    _spriteRenderer.sprite = coinData.coinSprite;
                     break;
             }
         }

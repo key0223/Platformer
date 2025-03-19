@@ -33,7 +33,7 @@ public class SpellInfoPanel : MonoBehaviour
         {
             SpellData spellData = itemData as SpellData;
 
-            _descriptopnImage.sprite = spellData.DecscrtiptionSprite;
+            _descriptopnImage.sprite = spellData.decscrtiptionSprite;
             _descriptopnText.text = spellData.itemDescription;
             _keyDescriptionText.text = spellData.keyDescription;
             _keyText.text = spellData.inputKey;

@@ -22,7 +22,7 @@ namespace Data
     {
         public int coinValue;
         [Space(10f)]
-        public Sprite _coinSprite;
+        public Sprite coinSprite;
     }
 
     [Serializable]
@@ -39,7 +39,7 @@ namespace Data
         public CharmType charmEffect;
         public float effectValue;
         [Space(10f)]
-        public Sprite _charmSprite;
+        public Sprite charmSprite;
     }
     [Serializable]
     public class SpellData: ItemData
@@ -48,7 +48,7 @@ namespace Data
         public string keyDescription;
         public int damage;
         public Sprite spellSprite;
-        public Sprite DecscrtiptionSprite;
+        public Sprite decscrtiptionSprite;
     }
 
     #endregion

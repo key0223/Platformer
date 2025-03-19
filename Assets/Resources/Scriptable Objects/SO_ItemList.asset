@@ -20,7 +20,7 @@ MonoBehaviour:
       \uAC00\uC9C0\uC758 \uC624\uB798\uB41C \uC7A5\uCE58\uC5D0\uC11C \uD1B5\uD589\uB8CC\uB85C
       \uC0AC\uC6A9\uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
     coinValue: 1
-    _coinSprite: {fileID: 21300000, guid: cea9e0d023ea2224fb3a9d97b6fc4de8, type: 3}
+    coinSprite: {fileID: 21300000, guid: cea9e0d023ea2224fb3a9d97b6fc4de8, type: 3}
   - itemId: 10002
     itemName: "\uC635\uC2A4"
     itemType: 0
@@ -28,7 +28,7 @@ MonoBehaviour:
       \uAC00\uC9C0\uC758 \uC624\uB798\uB41C \uC7A5\uCE58\uC5D0\uC11C \uD1B5\uD589\uB8CC\uB85C
       \uC0AC\uC6A9\uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
     coinValue: 5
-    _coinSprite: {fileID: 21300000, guid: 23113181f64aa0248b9b300ace1fd322, type: 3}
+    coinSprite: {fileID: 21300000, guid: 23113181f64aa0248b9b300ace1fd322, type: 3}
   - itemId: 10003
     itemName: "\uC635\uC2A4"
     itemType: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
       \uAC00\uC9C0\uC758 \uC624\uB798\uB41C \uC7A5\uCE58\uC5D0\uC11C \uD1B5\uD589\uB8CC\uB85C
       \uC0AC\uC6A9\uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
     coinValue: 25
-    _coinSprite: {fileID: 21300000, guid: f5e71cbcf304cd342883fdc5da44a18c, type: 3}
+    coinSprite: {fileID: 21300000, guid: f5e71cbcf304cd342883fdc5da44a18c, type: 3}
   weaponDatas:
   - itemId: 10101
     itemName: "\uC624\uB798\uB41C \uB300\uBABB"
@@ -86,7 +86,7 @@ MonoBehaviour:
     slotNumber: 2
     charmEffect: 2
     effectValue: 3
-    _charmSprite: {fileID: 21300000, guid: 82368a67f0462f34fb3e5cd7ffc50b04, type: 3}
+    charmSprite: {fileID: 21300000, guid: 82368a67f0462f34fb3e5cd7ffc50b04, type: 3}
   - itemId: 10202
     itemName: "\uC8FC\uC220\uC0AC\uC758 \uB3CC"
     itemType: 2
@@ -97,7 +97,7 @@ MonoBehaviour:
     slotNumber: 3
     charmEffect: 0
     effectValue: 10
-    _charmSprite: {fileID: 21300000, guid: 3b918fbbf43814c4d8c8f85a3d4c81b0, type: 3}
+    charmSprite: {fileID: 21300000, guid: 3b918fbbf43814c4d8c8f85a3d4c81b0, type: 3}
   - itemId: 10203
     itemName: "\uC601\uD63C \uD3EC\uC2DD\uC790"
     itemType: 2
@@ -109,7 +109,7 @@ MonoBehaviour:
     slotNumber: 4
     charmEffect: 2
     effectValue: 8
-    _charmSprite: {fileID: 21300000, guid: 8dc1d77f7fa07e2458e11a8610c51bd9, type: 3}
+    charmSprite: {fileID: 21300000, guid: 8dc1d77f7fa07e2458e11a8610c51bd9, type: 3}
   - itemId: 10204
     itemName: "\uD5C8\uC220\uD55C \uC2EC\uC7A5"
     itemType: 2
@@ -120,7 +120,7 @@ MonoBehaviour:
     slotNumber: 2
     charmEffect: 1
     effectValue: 20
-    _charmSprite: {fileID: 21300000, guid: daa649a5b66af0647a4b663e9dfed73e, type: 3}
+    charmSprite: {fileID: 21300000, guid: daa649a5b66af0647a4b663e9dfed73e, type: 3}
   - itemId: 10205
     itemName: "\uBD88\uBA78\uC758 \uC2EC\uC7A5"
     itemType: 2
@@ -130,7 +130,7 @@ MonoBehaviour:
     slotNumber: 2
     charmEffect: 1
     effectValue: 25
-    _charmSprite: {fileID: 21300000, guid: 431a24bb8727da941910d6a6f92b4174, type: 3}
+    charmSprite: {fileID: 21300000, guid: 431a24bb8727da941910d6a6f92b4174, type: 3}
   - itemId: 10206
     itemName: "\uD5C8\uC220\uD55C \uD0D0\uC695"
     itemType: 2
@@ -141,7 +141,7 @@ MonoBehaviour:
     slotNumber: 2
     charmEffect: 3
     effectValue: 35
-    _charmSprite: {fileID: 21300000, guid: aaf67fcd09cc72e42bcac4a3b1e977d3, type: 3}
+    charmSprite: {fileID: 21300000, guid: aaf67fcd09cc72e42bcac4a3b1e977d3, type: 3}
   - itemId: 10207
     itemName: "\uBD88\uBA78\uC758 \uD0D0\uC695"
     itemType: 2
@@ -151,7 +151,7 @@ MonoBehaviour:
     slotNumber: 2
     charmEffect: 3
     effectValue: 35
-    _charmSprite: {fileID: 21300000, guid: fd46467f92c2c874fb4b2e35da058764, type: 3}
+    charmSprite: {fileID: 21300000, guid: fd46467f92c2c874fb4b2e35da058764, type: 3}
   - itemId: 10208
     itemName: "\uD5C8\uC220\uD55C \uD798 "
     itemType: 2
@@ -162,7 +162,7 @@ MonoBehaviour:
     slotNumber: 3
     charmEffect: 0
     effectValue: 50
-    _charmSprite: {fileID: 21300000, guid: 8cc2a73a95222df43af8d26a3b2f9590, type: 3}
+    charmSprite: {fileID: 21300000, guid: 8cc2a73a95222df43af8d26a3b2f9590, type: 3}
   - itemId: 10209
     itemName: "\uBD88\uBA78\uC758 \uD798"
     itemType: 2
@@ -172,7 +172,7 @@ MonoBehaviour:
     slotNumber: 3
     charmEffect: 0
     effectValue: 50
-    _charmSprite: {fileID: 21300000, guid: c4eab4e1c74d13c4b8e69d5db5dddd5e, type: 3}
+    charmSprite: {fileID: 21300000, guid: c4eab4e1c74d13c4b8e69d5db5dddd5e, type: 3}
   spellDatas:
   - itemId: 10301
     itemName: "\uC9D1\uC911"
@@ -184,4 +184,4 @@ MonoBehaviour:
     keyDescription: "\uAE38\uAC8C \uB204\uB974\uAE30"
     damage: 0
     spellSprite: {fileID: 21300000, guid: 4b76a3107d1d5bc408905d508ba7bead, type: 3}
-    DecscrtiptionSprite: {fileID: 21300000, guid: 28ef7189b6360634e831e4d32570d1dd, type: 3}
+    decscrtiptionSprite: {fileID: 0}
