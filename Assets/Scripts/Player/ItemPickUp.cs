@@ -6,10 +6,9 @@ using Data;
 
 public class ItemPickUp : MonoBehaviour
 {
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Item item = collision.gameObject.GetComponent<Item>();
+        ItemObject item = collision.gameObject.GetComponent<ItemObject>();
 
         if (item != null)
         {

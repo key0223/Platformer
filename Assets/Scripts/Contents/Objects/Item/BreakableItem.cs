@@ -59,7 +59,7 @@ public class BreakableItem : MonoBehaviour, IBreakable
 
         for (int i = 0; i < dropCount; i++)
         {
-            Item dropItem = ResourceManager.Instance.Instantiate(_dropItemPrefab).GetComponent<Item>();
+            ItemObject dropItem = ResourceManager.Instance.Instantiate(_dropItemPrefab).GetComponent<ItemObject>();
             dropItem.Init(_dropItemId);
             //GameObject dropItem = ResourceManager.Instance.Instantiate(_dropItemPrefab);
             dropItem.transform.position = transform.position;

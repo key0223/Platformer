@@ -40,7 +40,7 @@ public class CharmObject : MonoBehaviour,IInteractable
     }
     public void Interact()
     {
-        int itemId = GetComponent<Item>().ItemId;
+        int itemId = GetComponent<ItemObject>().ItemId;
 
         InputManager.Instance.TogglePopupInfo();
         _popup.InfoPanel.PopupUI(itemId);
