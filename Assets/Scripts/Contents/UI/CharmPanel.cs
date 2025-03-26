@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static Define;
 
 public class CharmPanel : PopupPanelBase
 {
@@ -96,35 +97,64 @@ public class CharmPanel : PopupPanelBase
         CharmSlot equippedSlot = currentSlot as CharmSlot;
         if (equippedSlot != null)
         {
-            if(!equippedSlot.IsEquipped)
+            if(equippedSlot.SlotType == CharmSlotType.EquippedSlot)
             {
-                _itemNameText.text = "";
-                _charmCostText.text = "";
-
-                _itemNameText.gameObject.SetActive(false);
-                _charmCostText.gameObject.SetActive(false);
-                _itemIconImage.gameObject.SetActive(false);
-
-                _itemDescText.text = "장착된 부적이 없습니다. \n아래에서 부적을 선택하여 장착하고 그 효과를 활성화하십시오.";
-            }
-            else
-            {
-                ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
-
-                if (data != null)
+                if (!equippedSlot.IsEquipped)
                 {
-                    _itemNameText.text = data.itemName;
-                    _itemDescText.text = data.itemDescription;
+                    _itemNameText.text = "";
+                    _charmCostText.text = "";
+
+                    _itemNameText.gameObject.SetActive(false);
+                    _charmCostText.gameObject.SetActive(false);
+                    _itemIconImage.gameObject.SetActive(false);
+
+                    _itemDescText.text = "장착된 부적이 없습니다. \n아래에서 부적을 선택하여 장착하고 그 효과를 활성화하십시오.";
                 }
                 else
                 {
-                    InitItemDescUI();
+                    ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
+
+                    if (data != null)
+                    {
+                        _itemNameText.text = data.itemName;
+                        _itemDescText.text = data.itemDescription;
+                        _itemIconImage.sprite = data.itemIcon;
+
+                        _itemNameText.gameObject.SetActive(false);
+                        _itemDescText.gameObject.SetActive(false);
+                        _charmCostText.gameObject.SetActive(false);
+                        _itemIconImage.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        InitItemDescUI();
+                    }
                 }
             }
-        }
-        else
-        {
+            else
+            {
+                if(equippedSlot.ItemId ==0)
+                {
+                    InitItemDescUI();
+                }
+                else
+                {
+                    ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
 
+                    if (data != null)
+                    {
+                        _itemNameText.text = data.itemName;
+                        _itemDescText.text = data.itemDescription;
+                        _itemIconImage.sprite = data.itemIcon;
+
+                        _itemNameText.gameObject.SetActive(true);
+                        _itemDescText.gameObject.SetActive(true);
+                        _charmCostText.gameObject.SetActive(true);
+                        _itemIconImage.gameObject.SetActive(true);
+                    }
+                }
+            }
+           
         }
     }
     void InitItemDescUI()
