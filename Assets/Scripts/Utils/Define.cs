@@ -44,4 +44,10 @@ public class Define
         Soul,
         Orbs,
     }
+
+    public enum CharmSlotType
+    {
+        EquippedSlot,
+        SelectionSlot,
+    }
 }
