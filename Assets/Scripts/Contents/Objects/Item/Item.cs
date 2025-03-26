@@ -51,10 +51,12 @@ public class Weapon: Item
 
 public class Charm : Item
 {
+    int _slotIndex;
     int _slotCost;
     CharmType _charmEffectType;
     float _effectValue;
 
+    public int SlotIndex { get { return _slotIndex; } }
     public int SlotCost {  get { return _slotCost; }}
     public CharmType CharmEffectType { get { return _charmEffectType; }}
     public float EffectValue { get { return _effectValue; }}
@@ -69,6 +71,7 @@ public class Charm : Item
             _count = count;
             _equipped = false;
             _itemType= ItemType.Charm;
+
 
             _slotCost = charmData.slotCost;
             _charmEffectType = charmData.charmEffect;
