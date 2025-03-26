@@ -35,7 +35,7 @@ namespace Data
     [Serializable]
     public class CharmData:ItemData
     {
-        public int slotNumber;
+        public int slotCost;
         public CharmType charmEffect;
         public float effectValue;
         [Space(10f)]
