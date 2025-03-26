@@ -37,7 +37,7 @@ public class CharmSlot : Slot
             if(charmData != null)
             {
                 // TODO: Slot UI Setting
-                _charmIconImage.sprite = charmData.charmSprite;
+                _charmIconImage.sprite = charmData.itemIcon;
                 _charmIconImage.gameObject.SetActive(true);
             }
         }

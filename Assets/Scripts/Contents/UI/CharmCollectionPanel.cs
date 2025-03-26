@@ -54,10 +54,8 @@ public class CharmCollectionPanel : MonoBehaviour
 
         if (itemData !=null)
         {
-            CharmData charmData = itemData as CharmData;
-
-            _charmImage.sprite = charmData.charmSprite;
-            _charmNameText.text = charmData.itemName;
+            _charmImage.sprite = itemData.itemIcon;
+            _charmNameText.text = itemData.itemName;
 
             SetUIAlpha(0);
             _coTextSequence = StartCoroutine(CoTextSequence());

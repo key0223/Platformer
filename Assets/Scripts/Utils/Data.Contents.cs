@@ -15,21 +15,19 @@ namespace Data
         public ItemType itemType;
         [TextArea(2, 5)]
         public string itemDescription;
+        public Sprite itemIcon;
     }
 
     [Serializable]
     public class CoinData:ItemData
     {
         public int coinValue;
-        [Space(10f)]
-        public Sprite coinSprite;
     }
 
     [Serializable]
     public class WeaponData : ItemData
     {
         public float damage;
-        public Sprite weaponSprite;
     }
 
     [Serializable]
@@ -39,8 +37,6 @@ namespace Data
         public int slotCost;
         public CharmType charmEffect;
         public float effectValue;
-        [Space(10f)]
-        public Sprite charmSprite;
     }
     [Serializable]
     public class SpellData: ItemData
@@ -48,7 +44,6 @@ namespace Data
         public string inputKey;
         public string keyDescription;
         public int damage;
-        public Sprite spellSprite;
         public Sprite decscrtiptionSprite;
     }
 

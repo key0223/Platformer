@@ -21,8 +21,7 @@ public class ItemObject : MonoBehaviour
             switch (data.itemType)
             {
                 case ItemType.Coin:
-                    CoinData coinData = data as CoinData;
-                    _spriteRenderer.sprite = coinData.coinSprite;
+                    _spriteRenderer.sprite = data.itemIcon;
                     break;
             }
         }
