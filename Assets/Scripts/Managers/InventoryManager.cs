@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Define;
 
 public class InventoryManager : SingletonMonobehaviour<InventoryManager>
 {
@@ -9,6 +10,8 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
     #region Event
     public event Action<int> OnCoinChanged;
     #endregion
+    public Dictionary<int, Item> Items { get; } = new Dictionary<int, Item>();
+    public Dictionary<int, Item> Charms { get; } = new Dictionary<int, Item>();
     int _coin;
     public int Coin
     {
@@ -29,7 +32,7 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
     #region Coin
     public void AddCoin(int amount)
     {
-        if(amount>0)
+        if (amount > 0)
         {
             Coin += amount;
             OnCoinChanged?.Invoke(amount);
@@ -37,12 +40,29 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
     }
     public bool SpendCoin(int amount)
     {
-        if(amount>0 && Coin>= amount)
+        if (amount > 0 && Coin >= amount)
         {
             Coin -= amount;
             return true;
         }
         return false;
     }
+    #endregion
+
+    #region Item
+
+    public void AddItem(Item item)
+    {
+        if (item.ItemType == ItemType.Charm)
+        {
+            Charms.Add(item.ItemId, item);
+        }
+        else
+        {
+            Items.Add(item.ItemId, item);
+        }
+    }
+
+
     #endregion
 }

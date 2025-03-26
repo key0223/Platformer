@@ -45,6 +45,10 @@ public class CharmObject : MonoBehaviour,IInteractable
         InputManager.Instance.TogglePopupInfo();
         _popup.InfoPanel.PopupUI(itemId);
 
+        Charm charm = new Charm();
+        charm.Init(itemId,count:1);
+        InventoryManager.Instance.AddItem(charm);
+
         ResourceManager.Instance.Destroy(gameObject);
     }
 }
