@@ -1,7 +1,9 @@
 using Data;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,15 +16,71 @@ public class CharmPanel : PopupPanelBase
     [SerializeField] Image _itemIconImage;
     #endregion
 
+    [Header("Equipped Slot Settings")]
+    [SerializeField] string _charmEquippedSlotPrefabPath;
+    [SerializeField] GameObject _equippedSlotParent;
+    int _equippedSlotCount = 8;
+
+    [Header("Selection Slot Settings")]
+    [SerializeField] string _charmSlotPrefabPath;
+    [SerializeField] GameObject _charmSlotParent;
+    int _charmSlotCount = 30;
+
     [Space(10f)]
     // Highlighter 
     [SerializeField] Transform _initPos;
 
+    public List<CharmSlot> Charms = new List<CharmSlot>();
+
     protected override void Init()
     {
-        _highlighter.MoveToSlot(_initPos);
+        _sections = new Section[2];
 
+        for (int i = 0; i < _sections.Length; i++)
+        {
+            _sections[i] = new Section();
+
+            SlotRow row = new SlotRow();
+            _sections[i]._rows.Add(row);
+        }
+
+        _highlighter.MoveToSlot(_initPos);
         InitItemDescUI();
+
+        Charms.Clear();
+
+        #region Equipped Slot Initialize
+        foreach (Transform child in _equippedSlotParent.transform)
+            Destroy(child.gameObject);
+
+        for (int i = 0; i < _equippedSlotCount; i++)
+        {
+            GameObject equippedSlotObject = ResourceManager.Instance.Instantiate(_charmEquippedSlotPrefabPath, _equippedSlotParent.transform);
+            CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();
+            charmSlot.SlotIndex = i;
+            _sections[0]._rows[0]._cloumns.Add(charmSlot);
+        }
+        #endregion
+
+        #region Selection Slot Initialize
+        foreach (Transform child in _charmSlotParent.transform)
+            Destroy(child.gameObject);
+
+        for (int i = 0; i < _charmSlotCount; i++)
+        {
+            GameObject charmSlotObject = ResourceManager.Instance.Instantiate(_charmSlotPrefabPath, _charmSlotParent.transform);
+            CharmSlot charmSlot = charmSlotObject.GetComponent<CharmSlot>();
+            charmSlot.SlotIndex = i;
+            _sections[1]._rows[0]._cloumns.Add(charmSlot);
+
+            Charms.Add(charmSlot);
+
+        }
+        #endregion
+
+       
+        RefreshUI();
+
     }
 
     protected override void MoveSelection(int horizontal, int vertical, bool sectionMove)
@@ -79,4 +137,18 @@ public class CharmPanel : PopupPanelBase
         _itemIconImage.gameObject.SetActive(false);
     }
     #endregion
+
+    public void RefreshUI()
+    {
+        if (Charms.Count == 0)
+            return;
+
+        List<Charm> charms = InventoryManager.Instance.Charms.Values.ToList();
+
+        foreach(Charm charm in charms)
+        {
+            Charms[charm.SlotIndex].SetSlot(charm);
+        }
+    }
+
 }

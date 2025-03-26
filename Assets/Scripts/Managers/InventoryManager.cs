@@ -11,7 +11,7 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
     public event Action<int> OnCoinChanged;
     #endregion
     public Dictionary<int, Item> Items { get; } = new Dictionary<int, Item>();
-    public Dictionary<int, Item> Charms { get; } = new Dictionary<int, Item>();
+    public Dictionary<int, Charm> Charms { get; } = new Dictionary<int, Charm>();
     int _coin;
     public int Coin
     {
@@ -55,7 +55,9 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
     {
         if (item.ItemType == ItemType.Charm)
         {
-            Charms.Add(item.ItemId, item);
+            Charm charm = item as Charm;
+
+            Charms.Add(item.ItemId, charm);
         }
         else
         {
