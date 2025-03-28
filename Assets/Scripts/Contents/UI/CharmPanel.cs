@@ -20,7 +20,7 @@ public class CharmPanel : PopupPanelBase
     [Header("Equipped Slot Settings")]
     [SerializeField] string _charmEquippedSlotPrefabPath;
     [SerializeField] GameObject _equippedSlotParent;
-    int _equippedSlotCount = 8;
+    int _equippedSlotMaxCount = 8;
 
     [Header("Selection Slot Settings")]
     [SerializeField] string _charmSlotPrefabPath;
@@ -54,13 +54,18 @@ public class CharmPanel : PopupPanelBase
         foreach (Transform child in _equippedSlotParent.transform)
             Destroy(child.gameObject);
 
-        for (int i = 0; i < _equippedSlotCount; i++)
         {
+            List<Slot> firstRowColumns = _sections[0]._rows[0]._cloumns;
+
             GameObject equippedSlotObject = ResourceManager.Instance.Instantiate(_charmEquippedSlotPrefabPath, _equippedSlotParent.transform);
             CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();
-            charmSlot.SlotIndex = i;
-            _sections[0]._rows[0]._cloumns.Add(charmSlot);
+            charmSlot.SlotIndex = 0;
+            firstRowColumns.Add(charmSlot);
+
+            charmSlot.CharmIconImage.gameObject.SetActive(false);
+            charmSlot.gameObject.SetActive(true);
         }
+      
         #endregion
 
         #region Selection Slot Initialize
@@ -88,6 +93,19 @@ public class CharmPanel : PopupPanelBase
     {
         base.MoveSelection(horizontal, vertical, sectionMove);
         UpdateItemDescUI();
+    }
+
+    protected override void SelectItem()
+    {
+        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn];
+
+        Item item = InventoryManager.Instance.GetItem(currentSlot.ItemId, ItemType.Charm);
+        item.Equipped = !item.Equipped;
+
+        RefreshUI();
+
+        // TODO: Refresh Additional Stat
+        _playerMovement.OnEquipItem();
     }
     #region Item Description UI
     void UpdateItemDescUI()

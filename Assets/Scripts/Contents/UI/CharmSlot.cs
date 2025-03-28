@@ -13,10 +13,12 @@ public class CharmSlot : Slot
 
     [Space(10f)]
     [SerializeField] Image _charmIconImage;
+    [SerializeField] Image _charmEquippedImage;
 
     public int SlotIndex { get { return _slotIndex; } set { _slotIndex = value; } }
     public CharmSlotType SlotType { get { return _slotType; } }
     public bool IsEquipped { get { return _isEquipped; } }
+    public Image CharmIconImage { get { return _charmIconImage; } }
 
     public void SetSlot(Charm charm)
     {
@@ -25,7 +27,8 @@ public class CharmSlot : Slot
             ItemId = 0;
             _isEquipped = false;
 
-            _charmIconImage.gameObject.SetActive(_isEquipped);
+            _charmIconImage.gameObject.SetActive(false);
+            _charmEquippedImage.gameObject.SetActive(false);
         }
         else
         {
@@ -39,6 +42,7 @@ public class CharmSlot : Slot
                 // TODO: Slot UI Setting
                 _charmIconImage.sprite = charmData.itemIcon;
                 _charmIconImage.gameObject.SetActive(true);
+                _charmEquippedImage.gameObject.SetActive(_isEquipped);
             }
         }
     }

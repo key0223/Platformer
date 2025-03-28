@@ -1,7 +1,9 @@
 using Data;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static Define;
 public class PlayerStat : Stat
 {
@@ -10,15 +12,22 @@ public class PlayerStat : Stat
     [SerializeField] float _currentSoul;
     [SerializeField] float _currentShield;
 
-    #region Waepon Stat
+    
 
+    #region Item Stat
+
+    [SerializeField] float _additionalHp;
     [SerializeField] float _weaponDamage;
+    [SerializeField] float _additionalSoul;
+    [SerializeField] float _additionalCoin;
     #endregion
 
     public float CurrentExp { get { return _currentExp; } set {  _currentExp = value; } }
     public float MaxSoul { get { return _maxSoul; }}
     public float CurrentSoul { get { return _currentSoul; }set { _currentSoul = value; } }
     public float CurrentShield { get { return _currentShield; } set { _currentShield = value; } }
+
+    public float TotalMaxHp { get { return _maxHp + _additionalHp; } }
     public float TotalAttack { get { return _currentAttack + _weaponDamage; } }
 
     protected override void Start()
@@ -36,20 +45,52 @@ public class PlayerStat : Stat
         CurrentHp = Mathf.Min(CurrentHp + amount, MaxHp);
     }
 
-   public void OnModifySoul(float amount)
+   public void OnRefreshSoul(float amount)
     {
         _currentSoul = Mathf.Clamp(_currentSoul+amount, 0, MaxSoul);
     }
 
-    public void OnModifyEquipItem(int itemId)
+    public void OnRefreshEquipItem()
     {
+        _additionalHp = 0;
         _weaponDamage = 0;
-        ItemData itemData = DataManager.Instance.GetItemData(itemId);
-        WeaponData weaponData = itemData as WeaponData;
-
-        if (weaponData !=null)
+        _additionalSoul = 0;
+        _additionalCoin = 0;
+        foreach(Item item in InventoryManager.Instance.Items.Values)
         {
-            _weaponDamage = weaponData.damage;
+            if (item.Equipped == false)
+                continue;
+
+           if(item.ItemType == ItemType.Weapon)
+            {
+                _weaponDamage += ((Weapon)item).Damage;
+            }
         }
+
+        foreach(Charm charm in InventoryManager.Instance.Charms.Values)
+        {
+            if(charm.Equipped == false)
+                continue;
+
+            switch (charm.CharmEffectType)
+            {
+                case CharmType.Attack:
+                    float additionalDamage = (_attack + _weaponDamage) * charm.EffectValue / 100;
+                    _weaponDamage += additionalDamage;
+
+                    break;
+                case CharmType.Hp:
+                    float additionalValue = _maxHp * charm.EffectValue / 100;
+                    _additionalHp += additionalValue;
+                    break;
+                case CharmType.Soul:
+                    _additionalSoul += charm.EffectValue;
+                    break;
+                case CharmType.Orbs:
+                    _additionalCoin += charm.EffectValue;
+                    break;
+            }
+        }
+      
     }
 }

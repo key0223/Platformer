@@ -6,6 +6,7 @@ public class PopupPanel : MonoBehaviour
 {
     [SerializeField] GameObject _backgroundPanel;
     [SerializeField] InventoryPanel _inventoryPanel;
+    [SerializeField] CharmPanel _charmPanel;
     [SerializeField] InformationPanel _informationPanel;
 
     // Inventory
@@ -14,6 +15,7 @@ public class PopupPanel : MonoBehaviour
     HUDPanel _hud;
 
     public InventoryPanel InvenPanel { get { return _inventoryPanel; } }
+    public CharmPanel CharmPanel { get { return _charmPanel; } }
     public InformationPanel InfoPanel { get { return _informationPanel; } }
 
 

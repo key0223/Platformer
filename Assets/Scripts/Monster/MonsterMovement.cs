@@ -121,7 +121,7 @@ public class MonsterMovement : MonoBehaviour
 
         if (player != null)
         {
-            player.ModifySoul(_stat.DropSoulAmount);
+            player.RefreshSoul(_stat.DropSoulAmount);
         }
         // FX
         GameObject fxGO = ResourceManager.Instance.Instantiate(_hitFXPath);

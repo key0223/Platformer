@@ -63,8 +63,29 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
         {
             Items.Add(item.ItemId, item);
         }
+
+        // TODO: Inventory Refresh UI 
+
+        UIManager.Instance.PopupPanel.CharmPanel.RefreshUI();
     }
 
+    public Item GetItem(int itemId, ItemType itemType = ItemType.Weapon)
+    {
+        Item item = null;
+        if(itemType == ItemType.Charm)
+        {
+            Charm charm = null;
+            Charms.TryGetValue(itemId, out charm);
 
+            item = charm;
+        }
+        else
+        {
+            Items.TryGetValue(itemId, out item);
+        }
+
+        return item;
+        
+    }
     #endregion
 }

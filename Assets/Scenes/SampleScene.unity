@@ -8680,6 +8680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _backgroundPanel: {fileID: 633760324}
   _inventoryPanel: {fileID: 1038419958}
+  _charmPanel: {fileID: 1302756442}
   _informationPanel: {fileID: 250687815}
 --- !u!4 &553153882 stripped
 Transform:
@@ -12711,7 +12712,10 @@ MonoBehaviour:
   _maxSoul: 0
   _currentSoul: 0
   _currentShield: 0
+  _additionalHp: 0
   _weaponDamage: 0
+  _additionalSoul: 0
+  _additionalCoin: 0
 --- !u!114 &1051467357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76702,10 +76706,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 800943881}
     m_Modifications:
-    - target: {fileID: 5189548846039508439, guid: bc3fa0098ecee5748b60c41d8b371e87, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5189548847578977924, guid: bc3fa0098ecee5748b60c41d8b371e87, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

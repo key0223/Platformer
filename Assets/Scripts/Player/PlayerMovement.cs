@@ -618,9 +618,9 @@ public class PlayerMovement : MonoBehaviour
         LastPressedAttackTime = 0;
     }
 
-    public void ModifySoul(float amount)
+    public void RefreshSoul(float amount)
     {
-        _stat.OnModifySoul(amount);
+        _stat.OnRefreshSoul(amount);
         OnModifySoul?.Invoke(amount);
         //Debug.Log($"Current Soul:{_stat.CurrentSoul}");
     }
@@ -676,7 +676,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A)&& _stat.CurrentSoul>=30)
         {
-            ModifySoul(-30f);
+            RefreshSoul(-30f);
             StartCoroutine(CoCreateEffect());
         }
     }
@@ -723,9 +723,9 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Equip Item
-    public void OnEquipItem(int itemId)
+    public void OnEquipItem()
     {
-        _stat.OnModifyEquipItem(itemId);
+        _stat.OnRefreshEquipItem();
     }
     #endregion
     #region Check
