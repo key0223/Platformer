@@ -19,10 +19,11 @@ public class CharmSlot : Slot
     public CharmSlotType SlotType { get { return _slotType; } }
     public bool IsEquipped { get { return _isEquipped; } }
     public Image CharmIconImage { get { return _charmIconImage; } }
+    public Image CharmEquippedImage { get { return _charmEquippedImage; } }
 
     public void SetSlot(Charm charm)
     {
-        if(charm == null)
+        if(charm == null|| charm.ItemId == 0)
         {
             ItemId = 0;
             _isEquipped = false;

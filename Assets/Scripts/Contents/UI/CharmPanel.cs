@@ -81,6 +81,8 @@ public class CharmPanel : PopupPanelBase
 
             Charms.Add(charmSlot);
 
+            charmSlot.CharmIconImage.gameObject.SetActive(false);
+            charmSlot.CharmEquippedImage.gameObject.SetActive(false);
         }
         #endregion
 

@@ -293,5 +293,5 @@ MonoBehaviour:
   _slotIndex: 0
   _slotType: 1
   _isEquipped: 0
-  _charmIconImage: {fileID: 5189548846009791440}
+  _charmIconImage: {fileID: 5189548846039508433}
   _charmEquippedImage: {fileID: 834529582}
