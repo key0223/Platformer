@@ -14652,6 +14652,7 @@ MonoBehaviour:
   _charmSlotPrefabPath: UI/CharmSlot
   _charmSlotParent: {fileID: 800943880}
   _initPos: {fileID: 1302756437}
+  EquippedCharms: []
   Charms: []
 --- !u!1 &1303296975
 GameObject:

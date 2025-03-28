@@ -47,4 +47,14 @@ public class CharmSlot : Slot
             }
         }
     }
+
+    public void SetSlot(Item item,CharmSlotType slotType = CharmSlotType.EquippedSlot)
+    {
+        ItemId = item.ItemId;
+        _isEquipped = item.Equipped;
+
+        ItemData itemData = DataManager.Instance.GetItemData(item.ItemId);
+        _charmIconImage.sprite = itemData.itemIcon;
+        _charmIconImage.gameObject.SetActive(true);
+    }
 }

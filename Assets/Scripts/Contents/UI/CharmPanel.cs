@@ -31,6 +31,7 @@ public class CharmPanel : PopupPanelBase
     // Highlighter 
     [SerializeField] Transform _initPos;
 
+    public List<CharmSlot> EquippedCharms = new List<CharmSlot>();
     public List<CharmSlot> Charms = new List<CharmSlot>();
 
     protected override void Init()
@@ -61,6 +62,8 @@ public class CharmPanel : PopupPanelBase
             CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();
             charmSlot.SlotIndex = 0;
             firstRowColumns.Add(charmSlot);
+
+            EquippedCharms.Add(charmSlot);
 
             charmSlot.CharmIconImage.gameObject.SetActive(false);
             charmSlot.gameObject.SetActive(true);
@@ -105,8 +108,7 @@ public class CharmPanel : PopupPanelBase
         item.Equipped = !item.Equipped;
 
         RefreshUI();
-
-        // TODO: Refresh Additional Stat
+        RefreshEquippedUI(item);
         _playerMovement.OnEquipItem();
     }
     #region Item Description UI
@@ -140,10 +142,10 @@ public class CharmPanel : PopupPanelBase
                         _itemDescText.text = data.itemDescription;
                         _itemIconImage.sprite = data.itemIcon;
 
-                        _itemNameText.gameObject.SetActive(false);
-                        _itemDescText.gameObject.SetActive(false);
-                        _charmCostText.gameObject.SetActive(false);
-                        _itemIconImage.gameObject.SetActive(false);
+                        _itemNameText.gameObject.SetActive(true);
+                        _itemDescText.gameObject.SetActive(true);
+                        _charmCostText.gameObject.SetActive(true);
+                        _itemIconImage.gameObject.SetActive(true);
                     }
                     else
                     {
@@ -188,6 +190,7 @@ public class CharmPanel : PopupPanelBase
     }
     #endregion
 
+    // Selection UI
     public void RefreshUI()
     {
         if (Charms.Count == 0)
@@ -201,4 +204,22 @@ public class CharmPanel : PopupPanelBase
         }
     }
 
+   
+    // Equipped UI
+    public void RefreshEquippedUI(Item item)
+    {
+        EquippedCharms[EquippedCharms.Count-1].SetSlot(item);
+
+        List<Slot> firstRowColumns = _sections[0]._rows[0]._cloumns;
+
+        GameObject equippedSlotObject = ResourceManager.Instance.Instantiate(_charmEquippedSlotPrefabPath, _equippedSlotParent.transform);
+        CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();
+        charmSlot.SlotIndex = Mathf.Max(0,EquippedCharms.Count-1);
+        firstRowColumns.Add(charmSlot);
+
+        EquippedCharms.Add(charmSlot);
+
+        charmSlot.CharmIconImage.gameObject.SetActive(false);
+        charmSlot.gameObject.SetActive(true);
+    }
 }
