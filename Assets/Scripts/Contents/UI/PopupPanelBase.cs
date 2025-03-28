@@ -15,6 +15,7 @@ public class SlotRow
 }
 public class PopupPanelBase : MonoBehaviour
 {
+    protected PlayerMovement _playerMovement;
     [SerializeField] 
     protected int _panelIndex = 0;
 
@@ -33,6 +34,7 @@ public class PopupPanelBase : MonoBehaviour
     public int PanelIndex { get { return _panelIndex; } }
     void Start()
     {
+        _playerMovement = FindObjectOfType<PlayerMovement>();
         _highlighter = GetComponentInChildren<Highlighter>();
 
         Init();
@@ -46,6 +48,9 @@ public class PopupPanelBase : MonoBehaviour
     void Update()
     {
         bool isSectionMove = Input.GetKey(KeyCode.LeftControl);
+
+        if (Input.GetKeyDown(KeyCode.Return))
+            SelectItem();
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
             MoveSelection(0, -1, isSectionMove);
@@ -103,6 +108,11 @@ public class PopupPanelBase : MonoBehaviour
 
             _highlighter.MoveToSlot(_sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn].transform);
         }
+    }
+
+    protected virtual void SelectItem()
+    {
+
     }
 
     protected int FindClosestColumn(SlotRow row, int currentCol)
