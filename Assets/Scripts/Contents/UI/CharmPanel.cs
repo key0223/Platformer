@@ -105,6 +105,9 @@ public class CharmPanel : PopupPanelBase
         Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn];
 
         Item item = InventoryManager.Instance.GetItem(currentSlot.ItemId, ItemType.Charm);
+
+        if (item == null) return;
+
         item.Equipped = !item.Equipped;
 
         RefreshUI();
