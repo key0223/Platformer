@@ -36,9 +36,10 @@ public class InventoryPanel : PopupPanelBase
         base.MoveSelection(horizontal, vertical, sectionMove);
         UpdateItemDescUI();
     }
-    public void SetCoinText(int amount)
+    public void SetCoinText(float amount)
     {
-        _coinText.text = amount.ToString();
+        int intOutput = Mathf.FloorToInt(amount);
+        _coinText.text = intOutput.ToString();
     }
 
     #region Item Description UI

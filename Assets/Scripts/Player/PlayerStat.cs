@@ -32,6 +32,9 @@ public class PlayerStat : Stat
     public float TotalMaxHp { get { return _maxHp + _additionalHp; } }
     public float TotalAttack { get { return _currentAttack + _weaponDamage; } }
 
+    public float AdditionalSoul { get { return _additionalSoul; }}
+    public float AdditionalCoin { get { return _additionalCoin; }}
+
     public int CharmMaxCost { get { return _charmMaxCost; }}
 
     protected override void Start()

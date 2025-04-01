@@ -17,7 +17,7 @@ public class HUDPanel : MonoBehaviour
 
     // Animation parameters
     bool _isCoinUIVisible = false;
-    int _countCoin;
+    float _countCoin;
     float _countingDuration = 0.3f;
     float _fadeDuration = 1f;
     float _timeout = 2f;
@@ -90,7 +90,7 @@ public class HUDPanel : MonoBehaviour
 
     }
 
-    public void AddCoin(int amount)
+    public void AddCoin(float amount)
     {
         if (!_isCoinUIVisible)
         {
@@ -116,8 +116,8 @@ public class HUDPanel : MonoBehaviour
         yield return new WaitForSeconds(_timeout);
 
         // timeout -> update UI
-        int startValue = Mathf.Max(InventoryManager.Instance.Coin - _countCoin, 0);
-        int targetValue = InventoryManager.Instance.Coin;
+        float startValue = Mathf.Max(InventoryManager.Instance.Coin - _countCoin, 0);
+        float targetValue = InventoryManager.Instance.Coin;
 
         CurrentCoinCounting(startValue, targetValue);
         CountCoinCounting(_countCoin, 0);
@@ -126,21 +126,21 @@ public class HUDPanel : MonoBehaviour
     }
 
     #region Animation Methods
-    void CurrentCoinCounting(int start, int end)
+    void CurrentCoinCounting(float start, float end)
     {
         DOTween.To(() => start, x =>
         {
             start = x;
-            _currntCoinText.text = x.ToString(); // update UI text
+            _currntCoinText.text = Mathf.FloorToInt(x).ToString(); // update UI text
         }, end, _countingDuration).SetEase(Ease.Linear);
     }
 
-    void CountCoinCounting(int start, int end)
+    void CountCoinCounting(float start, float end)
     {
         DOTween.To(() => start, x =>
         {
             start = x;
-            _countText.text = "+ " + x.ToString(); // update UI text
+            _countText.text = "+ " + Mathf.FloorToInt(x).ToString(); // update UI text
         }, end, _countingDuration).SetEase(Ease.Linear);
     }
     #endregion

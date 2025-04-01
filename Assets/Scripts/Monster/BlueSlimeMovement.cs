@@ -36,7 +36,7 @@ public class BlueSlimeMovement : MonsterMovement
 
     void CreateFX()
     {
-        GameObject fxGO = ResourceManager.Instance.Instantiate("FX/Blue SlimeFX");
+        GameObject fxGO = ResourceManager.Instance.Instantiate("FX/MonsterFX/Blue SlimeFX");
         fxGO.transform.SetParent(_fxPoint.transform, false);
         fxGO.SetActive(true);
     }

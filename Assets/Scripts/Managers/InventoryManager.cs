@@ -8,12 +8,12 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
 {
     [SerializeField] HUDPanel HUD;
     #region Event
-    public event Action<int> OnCoinChanged;
+    public event Action<float> OnCoinChanged;
     #endregion
     public Dictionary<int, Item> Items { get; } = new Dictionary<int, Item>();
     public Dictionary<int, Charm> Charms { get; } = new Dictionary<int, Charm>();
-    int _coin;
-    public int Coin
+    [SerializeField] float _coin;
+    public float Coin
     {
         get { return _coin; }
         set
@@ -30,7 +30,7 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
     }
 
     #region Coin
-    public void AddCoin(int amount)
+    public void AddCoin(float amount)
     {
         if (amount > 0)
         {

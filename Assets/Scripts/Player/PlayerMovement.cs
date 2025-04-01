@@ -1,3 +1,4 @@
+using Data;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -620,8 +621,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void RefreshSoul(float amount)
     {
-        _stat.OnRefreshSoul(amount);
-        OnModifySoul?.Invoke(amount);
+        float additaionalValue = (amount* Stat.AdditionalSoul) / 100;
+        float finalValue = Mathf.Floor(additaionalValue * 10f) / 10f; // 소수점 한자리까지만 
+
+        _stat.OnRefreshSoul(amount+finalValue);
+        OnModifySoul?.Invoke(amount+finalValue);
         //Debug.Log($"Current Soul:{_stat.CurrentSoul}");
     }
     
