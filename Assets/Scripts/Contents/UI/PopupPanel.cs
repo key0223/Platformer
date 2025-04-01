@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 
 public class PopupPanel : MonoBehaviour
@@ -17,11 +18,13 @@ public class PopupPanel : MonoBehaviour
     [SerializeField] CharmPanel _charmPanel;
     [SerializeField] InformationPanel _informationPanel;
 
+    [Header("Slide Animation Settings")]
     [Space(10f)]
     [SerializeField] float _slideDuration;
     [SerializeField] float _slideDistance;
-
+    
     int _currentPopupPanel = 0;
+    bool _isAnimating = false;
 
     // Inventory
     List<PopupPanelBase> _panels = new List<PopupPanelBase>();
@@ -90,6 +93,9 @@ public class PopupPanel : MonoBehaviour
 
     public void ShowPanel(int newIndex, bool isLeft)
     {
+        if (_isAnimating) return;
+
+        _isAnimating = true;
         RectTransform currentPanel = Panels[CurrentPopupPanel].Frame;
         RectTransform nextPanel = Panels[newIndex].Frame;
 
@@ -104,7 +110,11 @@ public class PopupPanel : MonoBehaviour
         nextPanel.transform.DOLocalMove(targetPos, _slideDuration).SetEase(Ease.OutQuart);
         currentPanel.transform.DOLocalMove(isLeft ? targetPos + new Vector3(_slideDistance, 0, 0) : targetPos + new Vector3(-_slideDistance, 0, 0), _slideDuration)
             .SetEase(Ease.OutQuart)
-            .OnComplete(() => currentPanel.gameObject.SetActive(false));
+            .OnComplete(() =>
+            {
+                currentPanel.gameObject.SetActive(false);
+                _isAnimating = false;
+            });
 
         CurrentPopupPanel = newIndex;
     }
@@ -116,6 +126,7 @@ public class PopupPanel : MonoBehaviour
         this.gameObject.SetActive(!this.gameObject.activeSelf);
         _backgroundPanel.gameObject.SetActive(!_backgroundPanel.gameObject.activeSelf);
         _inventoryPanel.gameObject.SetActive(!_inventoryPanel.gameObject.activeSelf);
+
 
         NotifyUIState();
     }

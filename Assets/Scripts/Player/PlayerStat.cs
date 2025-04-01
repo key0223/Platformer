@@ -22,6 +22,8 @@ public class PlayerStat : Stat
     [SerializeField] float _additionalCoin;
     #endregion
 
+    int _charmMaxCost = 3;
+
     public float CurrentExp { get { return _currentExp; } set {  _currentExp = value; } }
     public float MaxSoul { get { return _maxSoul; }}
     public float CurrentSoul { get { return _currentSoul; }set { _currentSoul = value; } }
@@ -29,6 +31,8 @@ public class PlayerStat : Stat
 
     public float TotalMaxHp { get { return _maxHp + _additionalHp; } }
     public float TotalAttack { get { return _currentAttack + _weaponDamage; } }
+
+    public int CharmMaxCost { get { return _charmMaxCost; }}
 
     protected override void Start()
     {

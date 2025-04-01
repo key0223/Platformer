@@ -26,6 +26,10 @@ public class CharmPanel : PopupPanelBase
     [SerializeField] GameObject _equippedSlotParent;
     int _equippedSlotMaxCount = 8;
 
+    [Header("Charm Cost Settings")]
+    [SerializeField] string _charmCostSlotPrefabPath;
+    [SerializeField] GameObject _costSlotParent;
+
     [Header("Selection Slot Settings")]
     [SerializeField] string _charmSlotPrefabPath;
     [SerializeField] GameObject _charmSlotParent;
@@ -37,7 +41,7 @@ public class CharmPanel : PopupPanelBase
 
     public List<CharmSlot> EquippedCharms = new List<CharmSlot>();
     public List<CharmSlot> Charms = new List<CharmSlot>();
-
+    public List<CharmCostSlot> CharmCostSlots = new List<CharmCostSlot>();
     protected override void Init()
     {
         _sections = new Section[3];
@@ -50,7 +54,7 @@ public class CharmPanel : PopupPanelBase
             _sections[i]._rows.Add(row);
         }
 
-        _highlighter.MoveToSlot(_initPos);
+        //_highlighter.MoveToSlot(_initPos);
         InitItemDescUI();
 
         Charms.Clear();
@@ -71,8 +75,27 @@ public class CharmPanel : PopupPanelBase
 
             charmSlot.CharmIconImage.gameObject.SetActive(false);
             charmSlot.gameObject.SetActive(true);
+
+            _initPos = charmSlot.transform;
+            _highlighter.MoveToSlot(_initPos);
         }
-      
+
+        #endregion
+
+        #region Charm Cost Slot Initialize
+
+        foreach (Transform child in _costSlotParent.transform)
+            Destroy(child.gameObject);
+
+        for (int i = 0; i < _playerMovement.Stat.CharmMaxCost; i++)
+        {
+            GameObject costSlotObject = ResourceManager.Instance.Instantiate(_charmCostSlotPrefabPath, _costSlotParent.transform);
+            CharmCostSlot costSlot = costSlotObject.GetComponent<CharmCostSlot>();
+            costSlot.SetSlotState(false);
+
+            CharmCostSlots.Add(costSlot);
+        }
+
         #endregion
 
         #region Selection Slot Initialize
@@ -93,11 +116,15 @@ public class CharmPanel : PopupPanelBase
         }
         #endregion
 
+        #region Arrow Slot Initialize
         for (int i = 0; i < _arrowSlot.Count; i++)
         {
             Slot slot = _arrowSlot[i];
             _sections[2]._rows[0]._cloumns.Add(slot);
         }
+        #endregion
+
+       
         RefreshUI();
 
     }
@@ -122,6 +149,7 @@ public class CharmPanel : PopupPanelBase
 
         RefreshUI();
         RefreshEquippedUI(item);
+        RefreshCharmCostUI();
         _playerMovement.OnEquipItem();
     }
     #region Item Description UI
@@ -249,5 +277,33 @@ public class CharmPanel : PopupPanelBase
             }
         }
        
+    }
+
+    public void RefreshCharmCostUI()
+    {
+        if (Charms.Count == 0)
+            return;
+
+        List<Charm> charms = InventoryManager.Instance.Charms.Values.ToList();
+
+        int totalCost = 0;
+        foreach (Charm charm in charms)
+        {
+            if(Charms[charm.SlotIndex].IsEquipped)
+            {
+                totalCost += charm.SlotCost;
+            }
+        }
+
+        foreach (CharmCostSlot costSlot in CharmCostSlots)
+        {
+            // 일단 모두 비활성화
+            costSlot.SetSlotState(false);
+        }
+
+        for (int i = 0; i < totalCost; i++)
+        {
+            CharmCostSlots[i].SetSlotState(true);
+        }
     }
 }
