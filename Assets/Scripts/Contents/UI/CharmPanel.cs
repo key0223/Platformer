@@ -211,18 +211,33 @@ public class CharmPanel : PopupPanelBase
     // Equipped UI
     public void RefreshEquippedUI(Item item)
     {
-        EquippedCharms[EquippedCharms.Count-1].SetSlot(item);
+        if(item.Equipped)
+        {
+            EquippedCharms[EquippedCharms.Count - 1].SetSlot(item);
 
-        List<Slot> firstRowColumns = _sections[0]._rows[0]._cloumns;
+            List<Slot> firstRowColumns = _sections[0]._rows[0]._cloumns;
 
-        GameObject equippedSlotObject = ResourceManager.Instance.Instantiate(_charmEquippedSlotPrefabPath, _equippedSlotParent.transform);
-        CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();
-        charmSlot.SlotIndex = Mathf.Max(0,EquippedCharms.Count-1);
-        firstRowColumns.Add(charmSlot);
+            GameObject equippedSlotObject = ResourceManager.Instance.Instantiate(_charmEquippedSlotPrefabPath, _equippedSlotParent.transform);
+            CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();
+            charmSlot.SlotIndex = Mathf.Max(0, EquippedCharms.Count - 1);
+            firstRowColumns.Add(charmSlot);
 
-        EquippedCharms.Add(charmSlot);
+            EquippedCharms.Add(charmSlot);
 
-        charmSlot.CharmIconImage.gameObject.SetActive(false);
-        charmSlot.gameObject.SetActive(true);
+            charmSlot.CharmIconImage.gameObject.SetActive(false);
+            charmSlot.gameObject.SetActive(true);
+        }
+        else
+        {
+            for (int i = 0; i < EquippedCharms.Count; i++)
+            {
+                if (EquippedCharms[i].ItemId != item.ItemId)
+                    continue;
+
+                Destroy(EquippedCharms[i].gameObject);
+                EquippedCharms.RemoveAt(i);
+            }
+        }
+       
     }
 }
