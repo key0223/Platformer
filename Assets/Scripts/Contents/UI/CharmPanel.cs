@@ -10,6 +10,10 @@ using static Define;
 
 public class CharmPanel : PopupPanelBase
 {
+    [Header("Arrow Slot")]
+    [SerializeField] List<Slot> _arrowSlot;
+
+    [Space(10f)]
     #region Charm Description
     [SerializeField] TextMeshProUGUI _itemNameText;
     [SerializeField] TextMeshProUGUI _charmCostText;
@@ -36,7 +40,7 @@ public class CharmPanel : PopupPanelBase
 
     protected override void Init()
     {
-        _sections = new Section[2];
+        _sections = new Section[3];
 
         for (int i = 0; i < _sections.Length; i++)
         {
@@ -89,7 +93,11 @@ public class CharmPanel : PopupPanelBase
         }
         #endregion
 
-       
+        for (int i = 0; i < _arrowSlot.Count; i++)
+        {
+            Slot slot = _arrowSlot[i];
+            _sections[2]._rows[0]._cloumns.Add(slot);
+        }
         RefreshUI();
 
     }
@@ -102,6 +110,8 @@ public class CharmPanel : PopupPanelBase
 
     protected override void SelectItem()
     {
+        base.SelectItem();
+
         Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn];
 
         Item item = InventoryManager.Instance.GetItem(currentSlot.ItemId, ItemType.Charm);

@@ -35,8 +35,8 @@ public class PopupPanelBase : MonoBehaviour
     void Start()
     {
         _playerMovement = FindObjectOfType<PlayerMovement>();
-        _highlighter = GetComponentInChildren<Highlighter>();
-
+        //_highlighter = GetComponentInChildren<Highlighter>();
+        _highlighter = FindObjectOfType<Highlighter>();
         Init();
     }
 
@@ -112,7 +112,26 @@ public class PopupPanelBase : MonoBehaviour
 
     protected virtual void SelectItem()
     {
+        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn];
 
+        if(currentSlot.IsArrow)
+        {
+            PopupPanel popupPanel = UIManager.Instance.PopupPanel;
+            if (currentSlot.ArrowLeft)
+            {
+                int prevIndex = (popupPanel.CurrentPopupPanel - 1 + popupPanel.Panels.Count) % popupPanel.Panels.Count;
+                popupPanel.Panels[prevIndex].gameObject.SetActive(true);
+                popupPanel.CurrentPopupPanel = prevIndex;
+            }
+            else
+            {
+                int nextIndex = (popupPanel.CurrentPopupPanel+1) % popupPanel.Panels.Count;
+                popupPanel.Panels[nextIndex].gameObject.SetActive(true);
+                popupPanel.CurrentPopupPanel = nextIndex;
+            }
+
+            return;
+        }
     }
 
     protected int FindClosestColumn(SlotRow row, int currentCol)

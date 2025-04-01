@@ -9,6 +9,8 @@ public class PopupPanel : MonoBehaviour
     [SerializeField] CharmPanel _charmPanel;
     [SerializeField] InformationPanel _informationPanel;
 
+    int _currentPopupPanel = 0;
+
     // Inventory
     List<PopupPanelBase> _panels = new List<PopupPanelBase>();
 
@@ -17,6 +19,19 @@ public class PopupPanel : MonoBehaviour
     public InventoryPanel InvenPanel { get { return _inventoryPanel; } }
     public CharmPanel CharmPanel { get { return _charmPanel; } }
     public InformationPanel InfoPanel { get { return _informationPanel; } }
+    public List<PopupPanelBase> Panels{ get { return _panels; } }
+
+    public int CurrentPopupPanel
+    { 
+        get { return _currentPopupPanel;} 
+        set 
+        {
+            if (_currentPopupPanel == value) return;
+
+           _currentPopupPanel=value;
+            OnPanelChanged(value);
+        }
+    }
 
 
     void Start()
@@ -45,6 +60,16 @@ public class PopupPanel : MonoBehaviour
             panel.gameObject.SetActive(false);
 
         }
+    }
+
+    void OnPanelChanged(int panelIndex)
+    {
+        foreach(PopupPanelBase panel in _panels)
+        {
+            panel.gameObject.SetActive(false);
+        }
+
+        _panels[panelIndex].gameObject.SetActive(true);
     }
 
     void ToggleInventory()
