@@ -8697,6 +8697,8 @@ MonoBehaviour:
   _inventoryPanel: {fileID: 1038419958}
   _charmPanel: {fileID: 1302756442}
   _informationPanel: {fileID: 250687815}
+  _slideDuration: 0.7
+  _slideDistance: 500
 --- !u!4 &553153882 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5105019042742145307, guid: df516b91afec7274480ddfff54c52828, type: 3}
@@ -12425,6 +12427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panelName: "\uC18C\uC9C0\uD488"
   _panelIndex: 0
+  _frame: {fileID: 1332686075}
   _sections:
   - _rows:
     - _cloumns:
@@ -14675,6 +14678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panelName: "\uBD80\uC801"
   _panelIndex: 1
+  _frame: {fileID: 807677882}
   _sections: []
   _arrowSlot:
   - {fileID: 135601143}

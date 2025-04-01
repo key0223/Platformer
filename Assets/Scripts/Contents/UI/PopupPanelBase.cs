@@ -19,8 +19,9 @@ public class PopupPanelBase : MonoBehaviour
 
     [SerializeField] string _panelName;
     [SerializeField] protected int _panelIndex = 0;
-    
+
     [Space(10f)]
+    [SerializeField] RectTransform _frame;
     [SerializeField] protected Section[] _sections;
 
     protected int _currentSection = 0;
@@ -33,6 +34,8 @@ public class PopupPanelBase : MonoBehaviour
     // Panel index should be populated before runtime
     public int PanelIndex { get { return _panelIndex; } }
     public string PanelName { get { return _panelName; } }
+
+    public RectTransform Frame { get { return _frame; } }
     void Start()
     {
         _playerMovement = FindObjectOfType<PlayerMovement>();
@@ -121,14 +124,16 @@ public class PopupPanelBase : MonoBehaviour
             if (currentSlot.ArrowLeft)
             {
                 int prevIndex = popupPanel.GetPopupPrevIndex();
-                popupPanel.Panels[prevIndex].gameObject.SetActive(true);
-                popupPanel.CurrentPopupPanel = prevIndex;
+                popupPanel.ShowPanel(prevIndex, true);
+                //popupPanel.Panels[prevIndex].gameObject.SetActive(true);
+                //popupPanel.CurrentPopupPanel = prevIndex;
             }
             else
             {
                 int nextIndex = popupPanel.GetPopupNextIndex();
-                popupPanel.Panels[nextIndex].gameObject.SetActive(true);
-                popupPanel.CurrentPopupPanel = nextIndex;
+                popupPanel.ShowPanel(nextIndex, false);
+                //popupPanel.Panels[nextIndex].gameObject.SetActive(true);
+                //popupPanel.CurrentPopupPanel = nextIndex;
             }
 
             return;

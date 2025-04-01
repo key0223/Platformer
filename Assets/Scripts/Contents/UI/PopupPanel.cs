@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,10 @@ public class PopupPanel : MonoBehaviour
     [SerializeField] InventoryPanel _inventoryPanel;
     [SerializeField] CharmPanel _charmPanel;
     [SerializeField] InformationPanel _informationPanel;
+
+    [Space(10f)]
+    [SerializeField] float _slideDuration;
+    [SerializeField] float _slideDistance;
 
     int _currentPopupPanel = 0;
 
@@ -81,6 +86,27 @@ public class PopupPanel : MonoBehaviour
         _leftText.text = _panels[GetPopupPrevIndex()].PanelName;
         _rightText.text = _panels[GetPopupNextIndex()].PanelName;
 
+    }
+
+    public void ShowPanel(int newIndex, bool isLeft)
+    {
+        RectTransform currentPanel = Panels[CurrentPopupPanel].Frame;
+        RectTransform nextPanel = Panels[newIndex].Frame;
+
+        Vector3 startPos = nextPanel.transform.localPosition;
+        Vector3 targetPos = currentPanel.transform.localPosition;
+        Vector3 offScreenPos = targetPos + new Vector3(isLeft ? -_slideDistance : _slideDistance, 0, 0);
+
+        nextPanel.transform.localPosition = offScreenPos;
+        nextPanel.gameObject.SetActive(true);
+
+        // 이동 애니메이션
+        nextPanel.transform.DOLocalMove(targetPos, _slideDuration).SetEase(Ease.OutQuart);
+        currentPanel.transform.DOLocalMove(isLeft ? targetPos + new Vector3(_slideDistance, 0, 0) : targetPos + new Vector3(-_slideDistance, 0, 0), _slideDuration)
+            .SetEase(Ease.OutQuart)
+            .OnComplete(() => currentPanel.gameObject.SetActive(false));
+
+        CurrentPopupPanel = newIndex;
     }
 
     void ToggleInventory()
