@@ -8690,6 +8690,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b1eddc338870741a0f906427177c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _titleText: {fileID: 406363234}
+  _leftText: {fileID: 1880074177}
+  _rightText: {fileID: 1980862033}
   _backgroundPanel: {fileID: 633760324}
   _inventoryPanel: {fileID: 1038419958}
   _charmPanel: {fileID: 1302756442}
@@ -12420,6 +12423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d8b72fefdc26da4a9227092c6a28e11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _panelName: "\uC18C\uC9C0\uD488"
   _panelIndex: 0
   _sections:
   - _rows:
@@ -14669,8 +14673,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28855f77255fa4a40a56dbb2c75eb8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _panelName: "\uBD80\uC801"
   _panelIndex: 1
   _sections: []
+  _arrowSlot:
+  - {fileID: 135601143}
+  - {fileID: 1397518315}
   _itemNameText: {fileID: 223893411}
   _charmCostText: {fileID: 681150741}
   _itemDescText: {fileID: 1100831899}

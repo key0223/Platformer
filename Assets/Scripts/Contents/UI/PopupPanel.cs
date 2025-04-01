@@ -1,9 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PopupPanel : MonoBehaviour
 {
+    [Header("Panel Info")]
+    [SerializeField] TextMeshProUGUI _titleText;
+    [SerializeField] TextMeshProUGUI _leftText;
+    [SerializeField] TextMeshProUGUI _rightText;
+
+    [Space(10f)]
     [SerializeField] GameObject _backgroundPanel;
     [SerializeField] InventoryPanel _inventoryPanel;
     [SerializeField] CharmPanel _charmPanel;
@@ -70,6 +77,10 @@ public class PopupPanel : MonoBehaviour
         }
 
         _panels[panelIndex].gameObject.SetActive(true);
+        _titleText.text = _panels[panelIndex].PanelName;
+        _leftText.text = _panels[GetPopupPrevIndex()].PanelName;
+        _rightText.text = _panels[GetPopupNextIndex()].PanelName;
+
     }
 
     void ToggleInventory()
@@ -95,5 +106,18 @@ public class PopupPanel : MonoBehaviour
     {
         bool isUIOn = this.gameObject.activeSelf;
         InputManager.Instance.UIStateChanged(isUIOn);
+    }
+
+    public int GetPopupPrevIndex()
+    {
+        int prevIndex = (_currentPopupPanel-1 + _panels.Count) % _panels.Count;
+
+        return prevIndex;
+    }
+    public int GetPopupNextIndex()
+    {
+        int nextIndex = (_currentPopupPanel+1)% _panels.Count;
+
+        return nextIndex;
     }
 }

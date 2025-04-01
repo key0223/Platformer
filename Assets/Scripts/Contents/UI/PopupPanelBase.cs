@@ -16,12 +16,12 @@ public class SlotRow
 public class PopupPanelBase : MonoBehaviour
 {
     protected PlayerMovement _playerMovement;
-    [SerializeField] 
-    protected int _panelIndex = 0;
 
+    [SerializeField] string _panelName;
+    [SerializeField] protected int _panelIndex = 0;
+    
     [Space(10f)]
-    [SerializeField]
-    protected Section[] _sections;
+    [SerializeField] protected Section[] _sections;
 
     protected int _currentSection = 0;
     protected int _currentRow;
@@ -32,6 +32,7 @@ public class PopupPanelBase : MonoBehaviour
 
     // Panel index should be populated before runtime
     public int PanelIndex { get { return _panelIndex; } }
+    public string PanelName { get { return _panelName; } }
     void Start()
     {
         _playerMovement = FindObjectOfType<PlayerMovement>();
@@ -119,13 +120,13 @@ public class PopupPanelBase : MonoBehaviour
             PopupPanel popupPanel = UIManager.Instance.PopupPanel;
             if (currentSlot.ArrowLeft)
             {
-                int prevIndex = (popupPanel.CurrentPopupPanel - 1 + popupPanel.Panels.Count) % popupPanel.Panels.Count;
+                int prevIndex = popupPanel.GetPopupPrevIndex();
                 popupPanel.Panels[prevIndex].gameObject.SetActive(true);
                 popupPanel.CurrentPopupPanel = prevIndex;
             }
             else
             {
-                int nextIndex = (popupPanel.CurrentPopupPanel+1) % popupPanel.Panels.Count;
+                int nextIndex = popupPanel.GetPopupNextIndex();
                 popupPanel.Panels[nextIndex].gameObject.SetActive(true);
                 popupPanel.CurrentPopupPanel = nextIndex;
             }
