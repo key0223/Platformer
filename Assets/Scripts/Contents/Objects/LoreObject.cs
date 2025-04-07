@@ -1,23 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Define;
 
-public class LoreObject : MonoBehaviour, IInteractable
+public class LoreObject : InteractionBase
 {
     PopupPanel _popup;
 
     [SerializeField] int _loreStrId;
     [SerializeField] int _spellId;
+  
 
-    public GameObject Player { get; set; }
-    [SerializeField] public bool CanInteract { get; set; }
-
-
-    void Start()
+    public override void Start()
     {
+        base.Start();
         _popup = UIManager.Instance.PopupPanel;
-        Player = GameObject.FindGameObjectWithTag(TAG_PLAYER);
     }
     void Update()
     {
@@ -26,23 +22,8 @@ public class LoreObject : MonoBehaviour, IInteractable
             Interact();
         }
     }
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject == Player)
-        {
-            CanInteract = true;
-
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject == Player)
-        {
-            CanInteract = false;
-        }
-    }
-    public void Interact()
+   
+    public override void Interact()
     {
         //_popup.PopupInfoPanel();
         InputManager.Instance.TogglePopupInfo();
