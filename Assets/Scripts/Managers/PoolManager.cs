@@ -74,6 +74,11 @@ public class PoolManager : SingletonMonobehaviour<PoolManager>
     {
         base.Awake();
         Init();
+        //HierachyRoot = GameObject.FindWithTag(TAG_POOLROOT);
+    }
+
+    void Start()
+    {
         HierachyRoot = GameObject.FindWithTag(TAG_POOLROOT);
     }
 

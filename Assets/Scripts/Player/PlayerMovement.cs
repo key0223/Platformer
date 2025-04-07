@@ -109,8 +109,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        if(IsDead) return;
-        if(!_canMove) return;
+        if (IsDead) return;
+        if (!_canMove) return;
 
         #region Timers
         LastOnGroundTime -= Time.deltaTime;
@@ -147,11 +147,11 @@ public class PlayerMovement : MonoBehaviour
             _anim.StartedAttacking = true;
             OnAttackInput();
         }
-        if(Input.GetKey(KeyCode.A) &&_coHold == null)
+        if (Input.GetKey(KeyCode.A) && _coHold == null)
         {
             OnHealInput();
         }
-        if(Input.GetKeyUp(KeyCode.A))
+        if (Input.GetKeyUp(KeyCode.A))
         {
             OnHealUpInput();
         }
@@ -323,16 +323,16 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(IsDead) return;
+        if (IsDead) return;
 
-        if(!_canMove)
+        if (!_canMove)
         {
             RB.velocity = new Vector2(0, RB.velocity.y);
             return;
         }
         if (IsAttacking)
         {
-            RB.velocity = Vector2.zero; 
+            RB.velocity = Vector2.zero;
             return;
         }
 
@@ -355,7 +355,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #region Input
-    void SetMovementEnabled(bool isUIOn)
+    public void SetMovementEnabled(bool isUIOn)
     {
         _canMove = !isUIOn;
 
@@ -589,21 +589,21 @@ public class PlayerMovement : MonoBehaviour
         hit = Physics2D.OverlapBoxAll(_frontAttackCheckPoint.position, _attackCheckSize, 0, _attackableLayer);
 
 
-        if(hit.Length>0)
+        if (hit.Length > 0)
         {
             for (int i = 0; i < hit.Length; i++)
             {
                 MonsterMovement monster = hit[i].GetComponent<MonsterMovement>();
-                if(monster != null)
+                if (monster != null)
                 {
                     Debug.Log($"Total Attack : {_stat.TotalAttack}");
-                    monster.OnDamaged(_stat.TotalAttack,this);
+                    monster.OnDamaged(_stat.TotalAttack, this);
                 }
 
                 IBreakable breakable = hit[i].GetComponent<IBreakable>();
-                if(breakable != null)
+                if (breakable != null)
                 {
-                    breakable.OnDamaged(1); 
+                    breakable.OnDamaged(1);
                 }
             }
             Sleep(0.2f);
@@ -621,14 +621,14 @@ public class PlayerMovement : MonoBehaviour
 
     public void RefreshSoul(float amount)
     {
-        float additaionalValue = (amount* Stat.AdditionalSoul) / 100;
+        float additaionalValue = (amount * Stat.AdditionalSoul) / 100;
         float finalValue = Mathf.Floor(additaionalValue * 10f) / 10f; // 소수점 한자리까지만 
 
-        _stat.OnRefreshSoul(amount+finalValue);
-        OnModifySoul?.Invoke(amount+finalValue);
+        _stat.OnRefreshSoul(amount + finalValue);
+        OnModifySoul?.Invoke(amount + finalValue);
         //Debug.Log($"Current Soul:{_stat.CurrentSoul}");
     }
-    
+
     #endregion
 
     #region Damage
@@ -637,19 +637,19 @@ public class PlayerMovement : MonoBehaviour
     {
         _anim.Damaged = true;
 
-        if(_stat.CurrentShield>0)
+        if (_stat.CurrentShield > 0)
         {
             OnRemoveShield();
 
             return;
         }
 
-        
+
         _stat.OnDamaged(damage);
         //Debug.Log($"Player current HP : {_stat.CurrentHp}");
         OnPlayerDamged?.Invoke(damage); // UI update
 
-        if(_stat.CurrentHp<=0)
+        if (_stat.CurrentHp <= 0)
         {
             OnDead();
         }
@@ -678,7 +678,7 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(_data._healHoldTime);
 
-        if (Input.GetKey(KeyCode.A)&& _stat.CurrentSoul>=30)
+        if (Input.GetKey(KeyCode.A) && _stat.CurrentSoul >= 30)
         {
             RefreshSoul(-30f);
             StartCoroutine(CoCreateEffect());

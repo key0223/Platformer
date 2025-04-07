@@ -50,4 +50,13 @@ public class Define
         EquippedSlot,
         SelectionSlot,
     }
+
+    public enum DoorToSpawnAt
+    {
+        None,
+        One,
+        Two,
+        Three,
+        four,
+    }
 }

@@ -1,14 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using static Define;
 
-public class DoorInteraction : MonoBehaviour,IInteractable
+public class DoorInteraction : InteractionBase
 {
-    public GameObject Player { get; set; }
-    public bool CanInteract { get; set; }
+    [Header("Spawn TO")]
+    [SerializeField] SceneField _sceneToLoad;
+    [SerializeField] DoorToSpawnAt _doorToSpawnTo;
 
-    public void Interact()
+    [Space(10f)]
+    [Header("This Door")]
+    [SerializeField] public DoorToSpawnAt _currentDoorPosition;
+
+    public override void Interact()
     {
-        throw new System.NotImplementedException();
+       SceneChangeManager.ChangeSceneFromDoorUse(_sceneToLoad,_doorToSpawnTo);
     }
 }
