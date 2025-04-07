@@ -7,17 +7,19 @@ public class CharmObject : MonoBehaviour,IInteractable
 {
     PopupPanel _popup;
 
-    [SerializeField] bool _isPlayerNear = false;
+    public GameObject Player { get; set; }
+    [SerializeField]  public bool CanInteract { get; set; }
 
 
     void Start()
     {
         _popup = UIManager.Instance.PopupPanel;
+        Player = GameObject.FindGameObjectWithTag(TAG_PLAYER);
     }
 
     void Update()
     {
-        if (_isPlayerNear && Input.GetKeyDown(KeyCode.UpArrow))
+        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow))
         {
             Interact();
         }
@@ -26,16 +28,16 @@ public class CharmObject : MonoBehaviour,IInteractable
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(TAG_PLAYER))
+        if (collision.gameObject == Player)
         {
-            _isPlayerNear = true;
+            CanInteract = true;
         }
     }
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag(TAG_PLAYER))
+        if (collision.gameObject == Player)
         {
-            _isPlayerNear = false;
+            CanInteract = false;
         }
     }
     public void Interact()
