@@ -14,14 +14,14 @@ public class InteractionBase : MonoBehaviour,IInteractable
         Player = GameObject.FindGameObjectWithTag(TAG_PLAYER);
     }
 
-    void Update()
+    public virtual void Update()
     {
         if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow))
         {
             Interact();
         }
     }
-    void OnTriggerEnter2D(Collider2D collision)
+    public virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject == Player)
         {
@@ -30,7 +30,7 @@ public class InteractionBase : MonoBehaviour,IInteractable
         }
     }
 
-    void OnTriggerExit2D(Collider2D collision)
+    public virtual void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject == Player)
         {

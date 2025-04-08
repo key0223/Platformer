@@ -12,14 +12,6 @@ public class CharmObject : InteractionBase
         _popup = UIManager.Instance.PopupPanel;
     }
 
-    void Update()
-    {
-        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Interact();
-        }
-    }
-
     public override void Interact()
     {
         int itemId = GetComponent<ItemObject>().ItemId;

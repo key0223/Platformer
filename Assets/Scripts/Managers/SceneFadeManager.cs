@@ -43,7 +43,7 @@ public class SceneFadeManager : SingletonMonobehaviour<SceneFadeManager>
         {
             if (_fadeOutImage.color.a > 0f)
             {
-                _fadeOutStartColor.a -= Time.deltaTime * _fadeOutSpeed;
+                _fadeOutStartColor.a -= Time.deltaTime * _fadeInSpeed;
                 _fadeOutImage.color = _fadeOutStartColor;
             }
             else
