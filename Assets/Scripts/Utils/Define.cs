@@ -7,6 +7,7 @@ public class Define
     public const string TAG_GROUND = "Ground";
     public const string TAG_PLAYER = "Player";
     public const string TAG_POOLROOT = "PoolRoot";
+    public const string TAG_BOUNDS_CONFINER = "BoundsConfiner";
     public enum CreatureState
     {
         Idle,

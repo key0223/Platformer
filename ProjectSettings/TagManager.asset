@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - PoolRoot
+  - BoundsConfiner
   layers:
   - Default
   - TransparentFX

@@ -2195,6 +2195,7 @@ GameObject:
   - component: {fileID: 8554299594264412737}
   - component: {fileID: 8554299594264412736}
   - component: {fileID: 8554299594264412766}
+  - component: {fileID: 684310379596383595}
   m_Layer: 0
   m_Name: Player Follow Camera
   m_TagString: Untagged
@@ -2292,6 +2293,18 @@ MonoBehaviour:
   _minFOV: 3.5
   _zoomInSpeed: 0.3
   _zoomOutSpeed: 1.5
+--- !u!114 &684310379596383595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8554299594264412738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ab6df0c27d4f7e46a6fe86f4866f7ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8554299594330087701
 GameObject:
   m_ObjectHideFlags: 0
