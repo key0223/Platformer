@@ -24,7 +24,7 @@ public class Npc_IseldaController : NpcControllerBase
     }
 
     #region State Parameters
-    public bool IsTalking { get; private set; }
+    public bool IsTalking { get { return _isTalking; } set { _isTalking = value; } }
     public bool IsPlayerOnTheRight => _playerDir == Dir.Right;
     #endregion
 
@@ -65,11 +65,17 @@ public class Npc_IseldaController : NpcControllerBase
         if (_isFirstMeet)
         {
             _isFirstMeet = false;
+
             string dialogue = DataManager.Instance.DialogueDict["first_meet"].dialogueText;
             // Npc 이름 UI 추가 
 
-            UIManager.Instance.DialoguePanel.gameObject.SetActive(true);
-            DialogueManager.Instance.MakeDialogueQueue(dialogue);
+            DialogueManager.Instance.MakeDialogueQueue(dialogue,"이셀다",
+                ()=> 
+                { 
+                    _shopUI.SetActive(!_shopUI.activeSelf);
+                    IsTalking = false;
+                }
+                );
 
             IsTalking = true;
             // TODO: 대화가 끝나면 shop UI active

@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DialogueManager : SingletonMonobehaviour<DialogueManager>
 {
+    Action _onDialogueComplete;
+
     DialogueQueue _currentDialogueQueue;
     public DialogueQueue CurrentDialogueQueue { get { return _currentDialogueQueue; } }
     protected override void Awake()
@@ -11,11 +14,15 @@ public class DialogueManager : SingletonMonobehaviour<DialogueManager>
         base.Awake();
     }
 
-    public void MakeDialogueQueue(string dialogueText, string npcName = null)
+    public void MakeDialogueQueue(string dialogueText, string npcName = null, Action onComplete = null)
     {
+        UIManager.Instance.DialoguePanel.gameObject.SetActive(true);
+
+        _onDialogueComplete = onComplete;
+
         DialogueQueue newQueue = new DialogueQueue();
 
-        string[] dialogues = dialogueText.Split("#b"); // b를 기준으로 string을 나눈다.
+        string[] dialogues = dialogueText.Split("#b"); // #b를 기준으로 string을 나눈다.
 
         foreach(string dialogue in dialogues)
         {
@@ -41,5 +48,12 @@ public class DialogueManager : SingletonMonobehaviour<DialogueManager>
             // TODO : Display UI
             UIManager.Instance.DialoguePanel.StartTyping(newDialogue);
         }
+    }
+
+    public void EndDialogue()
+    {
+        UIManager.Instance.DialoguePanel.gameObject.SetActive(false);
+        _onDialogueComplete?.Invoke();
+        _onDialogueComplete = null;
     }
 }
