@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class NpcControllerBase : InteractionBase
 {
+    protected int _npcId;
 
+    protected bool _isFirstMeet = true;
+    public int NpcId { get { return _npcId; } }
     public override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);

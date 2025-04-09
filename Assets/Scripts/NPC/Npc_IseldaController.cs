@@ -1,3 +1,4 @@
+using Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,6 +51,11 @@ public class Npc_IseldaController : NpcControllerBase
         {
             _coIdle = StartCoroutine(CoIdle());
         }
+
+        if(IsTalking && !UIManager.Instance.DialoguePanel.IsTyping && DialogueManager.Instance.CurrentDialogueQueue.HasNextDialogue() && Input.GetKeyDown(KeyCode.Return))
+        {
+            DialogueManager.Instance.StartDialogue();
+        }
     }
     public override void OnTriggerEnter2D(Collider2D collision)
     {
@@ -61,7 +67,23 @@ public class Npc_IseldaController : NpcControllerBase
     }
     public override void Interact()
     {
-        _shopUI.SetActive(!_shopUI.activeSelf);
+        if (_isFirstMeet)
+        {
+            _isFirstMeet = false;
+            string dialogue = DataManager.Instance.DialogueDict["first_meet"].dialogueText;
+            // Npc 이름 UI 추가 
+
+            UIManager.Instance.DialoguePanel.gameObject.SetActive(true);
+            DialogueManager.Instance.MakeDialogueQueue(dialogue);
+
+            IsTalking = true;
+            // TODO: 대화가 끝나면 shop UI active
+        }
+        else
+        {
+            _shopUI.SetActive(!_shopUI.activeSelf);
+        }
+
     }
 
     IEnumerator CoIdle()
@@ -74,4 +96,33 @@ public class Npc_IseldaController : NpcControllerBase
 
         _coIdle = null;
     }
+
+    /*
+    string FindDialogue()
+    {
+        string foundDialogue = null;
+
+        foreach(DialogueNode dialogue in DataManager.Instance.DialogueDict.Values)
+        {
+            string[] parts = dialogue.conditionKey.Split(':');
+            if (parts.Length < 2)
+                continue;
+
+            string conditionType = parts[0];
+            string conditionValue = parts[1];
+
+            switch (conditionType)
+            {
+                case "conversation":
+                    {
+                        int requiredCount = int.Parse(conditionValue);
+                        if (_conversationCount == requiredCount)
+                            foundDialogue = dialogue.dialogueText;
+                        break;
+                    }
+            }
+        }
+        return foundDialogue;
+    }
+    */
 }
