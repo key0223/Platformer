@@ -56,4 +56,19 @@ namespace Data
         [TextArea(2,5)]
         public string ko;
     }
+
+    [Serializable]
+    public class NpcData
+    {
+        public int npcId;
+        public string displayName;
+    }
+
+    [Serializable]
+    public class DialogueNode
+    {
+        public int nodeId;
+        [TextArea(2, 5)]
+        public string dialogueText;
+    }
 }

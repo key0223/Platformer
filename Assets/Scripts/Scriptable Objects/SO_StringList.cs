@@ -1,8 +1,6 @@
 using Data;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "SO_StringList", menuName = "Scriptable Objects/String List")]
 public class SO_StringList : ScriptableObject, ILoader<int, StringData>

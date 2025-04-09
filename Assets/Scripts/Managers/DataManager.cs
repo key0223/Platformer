@@ -12,7 +12,8 @@ public class DataManager : SingletonMonobehaviour<DataManager>
 {
     Dictionary<int, ItemData> _itemDict;
     Dictionary<int, StringData> _stringDict;
-
+    Dictionary<string, NpcData> _npcDict;
+    Dictionary<int, DialogueNode> _dialogueDict;
     protected override void Awake()
     {
         base.Awake();
@@ -23,6 +24,8 @@ public class DataManager : SingletonMonobehaviour<DataManager>
     {
         _itemDict =  LoadScriptableObject<SO_ItemList,int,ItemData>("SO_ItemList").MakeDict();
         _stringDict = LoadScriptableObject<SO_StringList, int, StringData>("SO_StringList").MakeDict();
+        _npcDict = LoadScriptableObject<SO_NPCList, string, NpcData>("SO_NPCList").MakeDict();
+        _dialogueDict = LoadScriptableObject<SO_DialogueList, int, DialogueNode>("SO_DialogueList").MakeDict();
     }
    
     public ItemData GetItemData(int itemId)
