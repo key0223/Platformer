@@ -51,11 +51,6 @@ public class Npc_IseldaController : NpcControllerBase
         {
             _coIdle = StartCoroutine(CoIdle());
         }
-
-        if(IsTalking && !UIManager.Instance.DialoguePanel.IsTyping && DialogueManager.Instance.CurrentDialogueQueue.HasNextDialogue() && Input.GetKeyDown(KeyCode.Return))
-        {
-            DialogueManager.Instance.StartDialogue();
-        }
     }
     public override void OnTriggerEnter2D(Collider2D collision)
     {
