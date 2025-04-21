@@ -76,4 +76,14 @@ namespace Data
          * always -> 항상 표시 (조건 없음)
         */
     }
+
+    [Serializable]
+    public class ShopData
+    {
+        [ItemIdName]
+        public int itemId;
+        public int price;
+        [TextArea(2, 5)]
+        public string npcItemDesc;
+    }
 }
