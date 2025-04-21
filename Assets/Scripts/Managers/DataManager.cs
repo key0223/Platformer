@@ -15,6 +15,7 @@ public class DataManager : SingletonMonobehaviour<DataManager>
     Dictionary<string, NpcData> _npcDict;
     Dictionary<string, DialogueNode> _dialogueDict;
 
+    public Dictionary<string,NpcData> NpcDict { get { return _npcDict; } }
     public Dictionary<string,DialogueNode> DialogueDict {  get { return _dialogueDict; } }
     protected override void Awake()
     {

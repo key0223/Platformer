@@ -1221,10 +1221,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee96132d090010e42a98448082a50e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shopItemList: {fileID: 11400000, guid: eab75028e8689f441b46c3119e838a6a, type: 2}
   _contentRect: {fileID: 1944288273}
+  _itemNameText: {fileID: 1948014412}
+  _itemDescText: {fileID: 2122540241}
   _slotHeight: 100
   _rollDuration: 0.3
   _slotCount: 10
+  _currentSlot: 0
 --- !u!1 &1029824895
 GameObject:
   m_ObjectHideFlags: 0

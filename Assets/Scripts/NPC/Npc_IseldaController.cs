@@ -69,7 +69,7 @@ public class Npc_IseldaController : NpcControllerBase
             string dialogue = DataManager.Instance.DialogueDict["first_meet"].dialogueText;
             // Npc 이름 UI 추가 
 
-            DialogueManager.Instance.MakeDialogueQueue(dialogue,"이셀다",
+            DialogueManager.Instance.MakeDialogueQueue(dialogue,_npcName,
                 ()=> 
                 { 
                     _shopUI.SetActive(!_shopUI.activeSelf);

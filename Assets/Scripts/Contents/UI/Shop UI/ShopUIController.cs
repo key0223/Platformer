@@ -1,24 +1,36 @@
+using Data;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ShopUIController : MonoBehaviour
 {
+    [Header("Shop Item Data")]
+    [SerializeField] SO_ShopList _shopItemList;
 
+    [Space(10f)]
     [SerializeField] RectTransform _contentRect;
+
+    [Space(10f)]
+    [Header("UI")]
+    [SerializeField] TextMeshProUGUI _itemNameText;
+    [SerializeField] TextMeshProUGUI _itemDescText;
+
+    Dictionary<int, ShopData> _shopItemDict;
+    List<ShopItem> _itemList = new List<ShopItem>();
 
     [SerializeField] float _slotHeight = 0;
     [SerializeField] float _rollDuration = 0;
     [SerializeField] int _slotCount = 10;
 
-    int _currentSlot = 0;
+    [SerializeField] int _currentSlot = 0;
     bool _isAnimating = false;
 
     void Start()
     {
-        CreateSlots();
-        MoveToSlot(_currentSlot, instant: true);
+        Init();
     }
 
     void Update()
@@ -42,14 +54,35 @@ public class ShopUIController : MonoBehaviour
             }
         }
     }
+
+    void Init()
+    {
+        _slotCount = _shopItemList.itemList.Count;
+        CreateItemDict();
+        CreateSlots();
+        MoveToSlot(_currentSlot, animation: false);
+    }
+    void CreateItemDict()
+    {
+        _shopItemDict = new Dictionary<int, ShopData>();
+        foreach(ShopData shopData in _shopItemList.itemList)
+        {
+            _shopItemDict.Add(shopData.itemId, shopData);
+        }
+    }
     void CreateSlots()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < _slotCount; i++)
         {
+            ShopItem shopItem = ResourceManager.Instance.Instantiate("UI/Shop Item", _contentRect).GetComponent<ShopItem>();
+            int itemId = _shopItemList.itemList[i].itemId;
+            shopItem.Init(itemId, _shopItemDict[itemId].price);
 
-            GameObject slotObj = ResourceManager.Instance.Instantiate("UI/Shop Item",_contentRect);
+            _itemList.Add(shopItem);
 
-            RectTransform rect = slotObj.GetComponent<RectTransform>();
+            GameObject itemObj = shopItem.gameObject;
+
+            RectTransform rect = itemObj.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0.5f, 1f);
             rect.anchorMax = new Vector2(0.5f, 1f);
             rect.pivot = new Vector2(0.5f, 1f);
@@ -59,23 +92,28 @@ public class ShopUIController : MonoBehaviour
         }
 
     }
-    void MoveToSlot(int index, bool instant = false)
+    void MoveToSlot(int index, bool animation = true)
     {
+        int itemId = _itemList[index].ItemId;
+
+        _itemNameText.text = DataManager.Instance.GetItemData(itemId).itemName;
+        _itemDescText.text = _shopItemDict[itemId].npcItemDesc;
+
         float centerOffset = (_contentRect.parent as RectTransform).rect.height / 2f - _slotHeight / 2f;
 
         // ½½·ÔÀÌ Áß¾Óº¸´Ù ÇÑ Ä­ À§¿¡ ¿Àµµ·Ï
         float targetY = index * _slotHeight - centerOffset + _slotHeight;
 
-        if (instant)
-        {
-            _contentRect.anchoredPosition = new Vector2(0, targetY);
-        }
-        else
+        if (animation)
         {
             _isAnimating = true;
             _contentRect.DOAnchorPosY(targetY, _rollDuration)
                 .SetEase(Ease.OutCubic)
                 .OnComplete(() => _isAnimating = false);
+        }
+        else
+        {
+            _contentRect.anchoredPosition = new Vector2(0, targetY);
         }
     }
 }
