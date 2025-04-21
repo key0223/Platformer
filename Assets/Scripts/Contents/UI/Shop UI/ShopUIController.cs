@@ -4,9 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using static Define;
 public class ShopUIController : MonoBehaviour
 {
+
     [Header("Shop Item Data")]
     [SerializeField] SO_ShopList _shopItemList;
 
@@ -33,6 +34,15 @@ public class ShopUIController : MonoBehaviour
         Init();
     }
 
+    void OnEnable()
+    {
+        InputManager.Instance.UIStateChanged(true);
+    }
+
+    void OnDisable()
+    {
+        InputManager.Instance.UIStateChanged(false);
+    }
     void Update()
     {
         if (_isAnimating) return;

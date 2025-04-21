@@ -26,6 +26,9 @@ public class Npc_IseldaController : NpcControllerBase
     #region State Parameters
     public bool IsTalking { get { return _isTalking; } set { _isTalking = value; } }
     public bool IsPlayerOnTheRight => _playerDir == Dir.Right;
+
+    public bool IsUIOn => _shopUI.activeSelf;
+
     #endregion
 
     Coroutine _coIdle;
@@ -35,7 +38,11 @@ public class Npc_IseldaController : NpcControllerBase
     }
     public override void Update()
     {
-        base.Update();
+
+        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !IsUIOn)
+        {
+            Interact();
+        }
         Vector2 dir = Player.transform.position - transform.position;
 
         if(dir.x >0)
@@ -74,11 +81,13 @@ public class Npc_IseldaController : NpcControllerBase
                 { 
                     _shopUI.SetActive(!_shopUI.activeSelf);
                     IsTalking = false;
+                    InputManager.Instance.UIStateChanged(false);
                 }
                 );
 
             IsTalking = true;
-            // TODO: 대화가 끝나면 shop UI active
+            InputManager.Instance.UIStateChanged(true);
+
         }
         else
         {
