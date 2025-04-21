@@ -27,6 +27,8 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
     protected override void Awake()
     {
         base.Awake();
+
+        AddCoin(1000);
     }
 
     #region Coin
@@ -43,8 +45,11 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
         if (amount > 0 && Coin >= amount)
         {
             Coin -= amount;
+            Debug.Log("아이템 구매 성공");
             return true;
         }
+
+        Debug.Log("코인이 부족합니다");
         return false;
     }
     #endregion

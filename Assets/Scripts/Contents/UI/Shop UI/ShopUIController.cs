@@ -65,6 +65,16 @@ public class ShopUIController : MonoBehaviour
                 MoveToSlot(_currentSlot);
             }
         }
+        else if(Input.GetKeyDown(KeyCode.A))
+        {
+            this.gameObject.SetActive(false);
+        }
+        else if(Input.GetKeyDown(KeyCode.X))
+        {
+            // TODO : 아이템 구매
+            InventoryManager.Instance.SpendCoin(_itemList[_currentSlot].ItemCost);
+        }
+
     }
 
     void Init()

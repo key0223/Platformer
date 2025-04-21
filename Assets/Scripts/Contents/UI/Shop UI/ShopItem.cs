@@ -10,9 +10,9 @@ public class ShopItem : MonoBehaviour
     [SerializeField] TextMeshProUGUI _itemCostText;
 
     public int ItemId { get; private set; }
-    public float ItemCost { get; private set; }
+    public int ItemCost { get; private set; }
 
-    public void Init(int itemId,float itemCost)
+    public void Init(int itemId,int itemCost)
     {
         ItemId = itemId;
         ItemCost = itemCost;

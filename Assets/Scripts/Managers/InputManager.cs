@@ -10,6 +10,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
     public event Action OnTogglePopupInfo;
 
     public bool IsAnyUIOn { get; set; } = false;
+
     bool _isInvenUIOn = false;
     protected override void Awake()
     {
