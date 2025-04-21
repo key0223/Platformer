@@ -24,7 +24,7 @@ public class Npc_IseldaController : NpcControllerBase
     }
 
     #region State Parameters
-    public bool IsTalking { get { return _isTalking; } set { _isTalking = value; } }
+    public bool IsTalking { get { return _isTalking; } set { _isTalking = value; } } // for animation
     public bool IsPlayerOnTheRight => _playerDir == Dir.Right;
 
     public bool IsUIOn => _shopUI.activeSelf;
@@ -81,12 +81,12 @@ public class Npc_IseldaController : NpcControllerBase
                 { 
                     _shopUI.SetActive(!_shopUI.activeSelf);
                     IsTalking = false;
-                    InputManager.Instance.UIStateChanged(false);
                 }
                 );
 
             IsTalking = true;
             InputManager.Instance.UIStateChanged(true);
+            InputManager.Instance.IsAnyUIOn = true;
 
         }
         else
