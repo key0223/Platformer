@@ -33,6 +33,7 @@ public class CharmSlot : Slot
         }
         else
         {
+            
             ItemId = charm.ItemId;
             _isEquipped = charm.Equipped;
 

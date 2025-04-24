@@ -143,9 +143,17 @@ public class CharmPanel : PopupPanelBase
 
         Item item = InventoryManager.Instance.GetItem(currentSlot.ItemId, ItemType.Charm);
 
+        Charm charmItem = item as Charm;
+
         if (item == null) return;
 
-        item.Equipped = !item.Equipped;
+
+        if (item.Equipped)
+            item.Equipped = false;
+        else
+        {
+            charmItem.Equipped = _playerMovement.Stat.CurrentAvailableCost >= charmItem.SlotCost;
+        }
 
         RefreshUI();
         RefreshEquippedUI(item);
@@ -289,7 +297,7 @@ public class CharmPanel : PopupPanelBase
         int totalCost = 0;
         foreach (Charm charm in charms)
         {
-            if(Charms[charm.SlotIndex].IsEquipped)
+            if(charm.Equipped)
             {
                 totalCost += charm.SlotCost;
             }
@@ -301,6 +309,7 @@ public class CharmPanel : PopupPanelBase
             costSlot.SetSlotState(false);
         }
 
+        // TODO : 장착 가능한 cost가 부족하면 장착 실패 처리
         for (int i = 0; i < totalCost; i++)
         {
             CharmCostSlots[i].SetSlotState(true);

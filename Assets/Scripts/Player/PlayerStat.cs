@@ -36,13 +36,29 @@ public class PlayerStat : Stat
     public float AdditionalCoin { get { return _additionalCoin; }}
 
     public int CharmMaxCost { get { return _charmMaxCost; }}
+    public int CurrentAvailableCost
+    {
+        get
+        {
+            int usingCost = 0;
+            foreach (Charm charm in InventoryManager.Instance.Charms.Values)
+            {
+                if (charm.Equipped == false)
+                    continue;
+
+                usingCost += charm.SlotCost;
+            }
+
+            int remainCost = _charmMaxCost - usingCost;
+            return remainCost;
+        }
+    }
 
     protected override void Start()
     {
         base.Start();
         _maxSoul = 100f;
         _currentSoul = 0;
-
 
         // Initial Player stat settings
         _weaponDamage = UIManager.Instance.PopupPanel.InvenPanel.GetEquippedWeaponDamage();
