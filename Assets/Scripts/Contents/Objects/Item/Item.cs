@@ -16,7 +16,42 @@ public class Item
     public bool Equipped { get { return _equipped; }set { _equipped = value; } }
     public ItemType ItemType { get { return _itemType; } }
 
-    public virtual void Init(int itemId, int count)
+    public Item(ItemType itemType)
+    {
+        _itemType = itemType;
+    }
+
+    public static Item MakeItem(int itemId, int itemCount = 1)
+    {
+        Item item = null;
+        ItemData itemData = DataManager.Instance.GetItemData(itemId);
+
+        if(itemData == null)
+            return null;
+
+        switch(itemData.itemType)
+        {
+            case ItemType.Weapon:
+                item = new Weapon(itemId);
+                break;
+            case ItemType.Charm: 
+                item = new Charm(itemId);
+                break;
+            case ItemType.Spell:
+                break;
+
+        }
+
+        if (item != null)
+        {
+            item._itemId = itemId;
+            item._count = itemCount;
+            item.Equipped = false;
+        }
+
+        return item;
+    }
+    public virtual void Init(int itemId, int count = 1)
     {
         ItemData itemData  = DataManager.Instance.GetItemData(itemId);
         if (itemData != null )
@@ -33,17 +68,20 @@ public class Weapon: Item
     float _damage;
    public float Damage { get { return _damage; }}
 
-    public override void Init(int itemId, int count)
+    public Weapon(int itemId) : base(ItemType.Weapon)
+    {
+        Init(itemId);
+    }
+    public override void Init(int itemId, int count=1)
     {
         ItemData itemData = DataManager.Instance.GetItemData(itemId);
+       
         WeaponData weaponData  =  itemData as WeaponData;
         if (weaponData != null)
         {
             _itemId = itemId;
             _count = count;
             _equipped = false;
-            _itemType = ItemType.Weapon;
-
             _damage = weaponData.damage;
         }
     }
@@ -61,7 +99,11 @@ public class Charm : Item
     public CharmType CharmEffectType { get { return _charmEffectType; }}
     public float EffectValue { get { return _effectValue; }}
 
-    public override void Init(int itemId, int count)
+    public Charm (int itemId) :base(ItemType.Charm)
+    {
+        Init(itemId);
+    }
+    public override void Init(int itemId, int count=1)
     {
         ItemData itemData = DataManager.Instance.GetItemData(itemId);
         CharmData charmData = itemData as CharmData;
@@ -70,9 +112,8 @@ public class Charm : Item
             _itemId = itemId;
             _count = count;
             _equipped = false;
-            _itemType= ItemType.Charm;
 
-
+            _slotIndex = charmData.slotIndex;
             _slotCost = charmData.slotCost;
             _charmEffectType = charmData.charmEffect;
             _effectValue = charmData.effectValue;
