@@ -6283,6 +6283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5637a8382d604343a4b9f7fba7e3f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isInvenUIOn: 0
 --- !u!114 &8554299594776531908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6624,6 +6625,11 @@ MonoBehaviour:
   - {fileID: 8554299594981551109}
   _itemNameText: {fileID: 8554299595888301133}
   _charmCostText: {fileID: 8554299595414391547}
+  _charmCostSlots:
+  - {fileID: 8554299594160843027}
+  - {fileID: 8554299594346639187}
+  - {fileID: 8554299594162678103}
+  - {fileID: 8554299595870819349}
   _itemDescText: {fileID: 8554299594760363893}
   _itemIconImage: {fileID: 8554299594109018246}
   _charmEquippedSlotPrefabPath: UI/CharmEquippedSlot

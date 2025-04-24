@@ -17,6 +17,8 @@ public class CharmPanel : PopupPanelBase
     #region Charm Description
     [SerializeField] TextMeshProUGUI _itemNameText;
     [SerializeField] TextMeshProUGUI _charmCostText;
+    [SerializeField]
+    GameObject[] _charmCostSlots;
     [SerializeField] TextMeshProUGUI _itemDescText;
     [SerializeField] Image _itemIconImage;
     #endregion
@@ -184,8 +186,10 @@ public class CharmPanel : PopupPanelBase
                 else
                 {
                     ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
+                    CharmData charmData = data as CharmData;
 
-                    if (data != null)
+
+                    if (charmData != null)
                     {
                         _itemNameText.text = data.itemName;
                         _itemDescText.text = data.itemDescription;
@@ -195,6 +199,8 @@ public class CharmPanel : PopupPanelBase
                         _itemDescText.gameObject.SetActive(true);
                         _charmCostText.gameObject.SetActive(true);
                         _itemIconImage.gameObject.SetActive(true);
+
+                        UpdateCharmCostSlotUI(charmData.slotCost);
                     }
                     else
                     {
@@ -211,8 +217,9 @@ public class CharmPanel : PopupPanelBase
                 else
                 {
                     ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
+                    CharmData charmData = data as CharmData;
 
-                    if (data != null)
+                    if (charmData != null)
                     {
                         _itemNameText.text = data.itemName;
                         _itemDescText.text = data.itemDescription;
@@ -222,6 +229,8 @@ public class CharmPanel : PopupPanelBase
                         _itemDescText.gameObject.SetActive(true);
                         _charmCostText.gameObject.SetActive(true);
                         _itemIconImage.gameObject.SetActive(true);
+
+                        UpdateCharmCostSlotUI(charmData.slotCost);
                     }
                 }
             }
@@ -236,6 +245,19 @@ public class CharmPanel : PopupPanelBase
 
         _charmCostText.gameObject.SetActive(false);
         _itemIconImage.gameObject.SetActive(false);
+    }
+
+    void UpdateCharmCostSlotUI(int cost)
+    {
+        foreach(GameObject slot in _charmCostSlots)
+        {
+            slot.gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < cost; i++)
+        {
+            _charmCostSlots[i].SetActive(true);
+        }
     }
     #endregion
 
