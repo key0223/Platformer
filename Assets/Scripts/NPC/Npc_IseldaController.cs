@@ -39,7 +39,7 @@ public class Npc_IseldaController : NpcControllerBase
     public override void Update()
     {
 
-        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !IsUIOn)
+        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !IsUIOn && !InputManager.Instance.IsInvenUIOn)
         {
             Interact();
         }

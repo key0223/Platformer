@@ -11,7 +11,9 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 
     public bool IsAnyUIOn { get; set; } = false;
 
-    bool _isInvenUIOn = false;
+    [SerializeField] bool _isInvenUIOn = false;
+
+    public bool IsInvenUIOn { get {  return _isInvenUIOn; } }
     protected override void Awake()
     {
         base.Awake();
