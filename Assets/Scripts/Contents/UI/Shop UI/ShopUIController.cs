@@ -71,12 +71,19 @@ public class ShopUIController : MonoBehaviour
         }
         else if(Input.GetKeyDown(KeyCode.X))
         {
-            // TODO : 아이템 구매
-            InventoryManager.Instance.SpendCoin(_itemList[_currentSlot].ItemCost);
+            bool purchased = InventoryManager.Instance.SpendCoin(_itemList[_currentSlot].ItemCost);
+
+            if (purchased)
+            {
+                Item purchasedItem = Item.MakeItem(_itemList[_currentSlot].ItemId);
+
+                InventoryManager.Instance.AddItem(purchasedItem);
+            }
+
         }
 
     }
-
+    
     void Init()
     {
         _slotCount = _shopItemList.itemList.Count;

@@ -19,9 +19,8 @@ public class CharmObject : InteractionBase
         InputManager.Instance.TogglePopupInfo();
         _popup.InfoPanel.PopupUI(itemId);
 
-        Charm charm = new Charm();
-        charm.Init(itemId,count:1);
-        InventoryManager.Instance.AddItem(charm);
+        Item item = Item.MakeItem(itemId);
+        InventoryManager.Instance.AddItem(item);
 
         ResourceManager.Instance.Destroy(gameObject);
     }
