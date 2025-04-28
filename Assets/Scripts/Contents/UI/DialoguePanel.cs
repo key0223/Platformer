@@ -10,7 +10,7 @@ public class DialoguePanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI _dialogueText;
 
     [SerializeField] float _typingSpeed;
-    float _fadeDuration = 0.3f;
+    float _fadeDuration = 1f;
 
     public bool IsTyping { get; private set; }
 
@@ -29,6 +29,11 @@ public class DialoguePanel : MonoBehaviour
             DialogueManager.Instance.EndDialogue();
         }
         
+    }
+
+    public void SetNpcNameText(string npcName)
+    {
+        _npcNameText.text = npcName;
     }
     public void StartTyping(string text)
     {
