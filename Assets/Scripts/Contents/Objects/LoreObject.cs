@@ -14,13 +14,7 @@ public class LoreObject : InteractionBase
     {
         base.Start();
         _popup = UIManager.Instance.PopupPanel;
-    }
-    void Update()
-    {
-        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Interact();
-        }
+        _interactionType = Define.InteractionType.Examine;
     }
    
     public override void Interact()

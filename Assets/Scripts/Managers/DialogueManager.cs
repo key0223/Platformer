@@ -17,6 +17,8 @@ public class DialogueManager : SingletonMonobehaviour<DialogueManager>
     public void MakeDialogueQueue(string dialogueText, string npcName = null, Action onComplete = null)
     {
         UIManager.Instance.DialoguePanel.gameObject.SetActive(true);
+        UIManager.Instance.DialoguePanel.SetNpcNameText(npcName);
+        UIManager.Instance.DialoguePanel.FadeIn();
 
         _onDialogueComplete = onComplete;
 
@@ -29,10 +31,10 @@ public class DialogueManager : SingletonMonobehaviour<DialogueManager>
             newQueue.EnqueueDialogue(dialogue);
         }
 
-        SetDialogueQueue(newQueue,npcName);
+        SetDialogueQueue(newQueue);
     }
 
-    void SetDialogueQueue(DialogueQueue newQueue, string npcName = null)
+    void SetDialogueQueue(DialogueQueue newQueue)
     {
         _currentDialogueQueue = newQueue;
 
@@ -45,7 +47,6 @@ public class DialogueManager : SingletonMonobehaviour<DialogueManager>
 
         if(newDialogue != null)
         {
-            // TODO : Display UI
             UIManager.Instance.DialoguePanel.StartTyping(newDialogue);
         }
     }

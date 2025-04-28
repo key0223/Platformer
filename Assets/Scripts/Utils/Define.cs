@@ -75,5 +75,7 @@ public class Define
         None,
         Shop,
         Listen,
+        Examine,
+        Door,
     }
 }

@@ -10,6 +10,7 @@ public class CharmObject : InteractionBase
     {
         base.Start();
         _popup = UIManager.Instance.PopupPanel;
+        _interactionType = Define.InteractionType.Examine;
     }
 
     public override void Interact()

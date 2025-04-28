@@ -14,6 +14,11 @@ public class DoorInteraction : InteractionBase
     [Header("This Door")]
     [SerializeField] public DoorToSpawnAt _currentDoorPosition;
 
+    public override void Start()
+    {
+        base.Start();
+        _interactionType = InteractionType.Door;
+    }
     public override void Interact()
     {
        SceneChangeManager.ChangeSceneFromDoorUse(_sceneToLoad,_doorToSpawnTo);
