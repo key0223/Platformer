@@ -8,17 +8,21 @@ public class InteractionStartUI : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _interactionTypeText;
 
+    RectTransform _rectTrasnform;
+
     CanvasGroup _canvasGroup;
 
     float _fadeDuration = 0.3f;
     void Start()
     {
+        _rectTrasnform = GetComponent<RectTransform>();
         _canvasGroup = GetComponent<CanvasGroup>();
         _canvasGroup.alpha = 0f;
 
     }
-    public void SetInteractionTypeText(InteractionType interactionType)
+    public void SetUI(InteractionType interactionType, GameObject target)
     {
+        _rectTrasnform.position = new Vector3(target.transform.position.x, target.transform.position.y+1);
         string text = "";
 
         switch (interactionType)
@@ -30,6 +34,12 @@ public class InteractionStartUI : MonoBehaviour
                 break;
             case InteractionType.Listen:
                 text = "듣기";
+                break;
+            case InteractionType.Examine:
+                text = "조사";
+                break;
+            case InteractionType.Door:
+                text = "들어가기";
                 break;
         }
 

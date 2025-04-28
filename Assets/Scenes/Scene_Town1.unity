@@ -583,16 +583,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342984, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: _currentDoorPosition
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342984, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: _sceneToLoad._sceneName
-      value: Scene_Town_Store1
+      value: SampleScene
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342984, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: _sceneToLoad._sceneAsset
       value: 
-      objectReference: {fileID: 102900000, guid: b77df613ff70b234d9beb1a9a11d5a1f, type: 3}
+      objectReference: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
     - target: {fileID: 4707071587194342989, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: m_Name
       value: Door
@@ -607,11 +607,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342991, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 65.17
+      value: -6.08
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342991, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.65
+      value: 10.59
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342991, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: m_LocalPosition.z

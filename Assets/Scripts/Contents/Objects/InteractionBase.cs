@@ -28,7 +28,7 @@ public class InteractionBase : MonoBehaviour,IInteractable
         {
             CanInteract = true;
             //UIManager.Instance.InteractionStartUI.gameObject.SetActive(true);
-            UIManager.Instance.InteractionStartUI.SetInteractionTypeText(_interactionType);
+            UIManager.Instance.InteractionStartUI.SetUI(_interactionType,this.gameObject);
 
             UIManager.Instance.InteractionStartUI.FadeIn();
         }
