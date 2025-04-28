@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 7805321071114239962}
   - component: {fileID: 7805321071114239963}
   - component: {fileID: 3668711941402292432}
+  - component: {fileID: 1080294194725533233}
   m_Layer: 0
   m_Name: Interaction Start UI
   m_TagString: Untagged
@@ -365,7 +366,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 7.33, y: 0.47}
+  m_AnchoredPosition: {x: 7.330017, y: 0.4699707}
   m_SizeDelta: {x: 1000, y: 970}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7805321071114239941
@@ -411,7 +412,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7805321071114239963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,6 +443,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionTypeText: {fileID: 7805321070423790345}
+--- !u!225 &1080294194725533233
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7805321071114239960}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7805321071149432922
 GameObject:
   m_ObjectHideFlags: 0

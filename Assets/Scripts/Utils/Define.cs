@@ -69,4 +69,11 @@ public class Define
         Three,
         four,
     }
+
+    public enum InteractionType
+    {
+        None,
+        Shop,
+        Listen,
+    }
 }

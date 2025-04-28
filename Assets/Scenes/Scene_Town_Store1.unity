@@ -1755,6 +1755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874fba9c88b1e904698d9cfdbcbadfd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interactionType: 0
   _npcName: "\uC774\uC140\uB2E4"
   _shopUI: {fileID: 925262660}
 --- !u!61 &1175986594
@@ -2818,6 +2819,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1452652193053838548, guid: ab2b1b717e7558947814912221002729, type: 3}
+      propertyPath: m_IsGlobal
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1452652194574495433, guid: ab2b1b717e7558947814912221002729, type: 3}
       propertyPath: m_RootOrder
       value: 1

@@ -10,6 +10,7 @@ public class DialoguePanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI _dialogueText;
 
     [SerializeField] float _typingSpeed;
+    float _fadeDuration = 0.3f;
 
     public bool IsTyping { get; private set; }
 
@@ -53,5 +54,37 @@ public class DialoguePanel : MonoBehaviour
         }
 
         IsTyping=false;
+    }
+
+    public void FadeIn()
+    {
+        StartCoroutine(Fade(0, 1f));
+    }
+    public void FadeOut()
+    {
+        StartCoroutine(Fade(1f, 0));
+    }
+
+    IEnumerator Fade(float start, float end)
+    {
+        float elapsed = 0f;
+
+        Color color = _npcNameText.color;
+        color.a = start;
+
+        _npcNameText.color = color;
+
+        while (elapsed < _fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            color.a= Mathf.Lerp(start, end, elapsed / _fadeDuration);
+
+            _npcNameText.color = color;
+
+            yield return null;
+        }
+
+        color.a = end;
+        _npcNameText.color = color;
     }
 }

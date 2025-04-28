@@ -35,6 +35,7 @@ public class Npc_IseldaController : NpcControllerBase
     void Awake()
     {
         _anim = GetComponent<Npc_IseldaAnimation>();
+        _interactionType = InteractionType.Shop;
     }
     public override void Update()
     {
@@ -42,6 +43,7 @@ public class Npc_IseldaController : NpcControllerBase
         if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !IsUIOn && !InputManager.Instance.IsInvenUIOn)
         {
             Interact();
+            UIManager.Instance.InteractionStartUI.gameObject.SetActive(false);
         }
         Vector2 dir = Player.transform.position - transform.position;
 

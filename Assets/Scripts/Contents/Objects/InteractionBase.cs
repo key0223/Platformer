@@ -5,6 +5,7 @@ using static Define;
 
 public class InteractionBase : MonoBehaviour,IInteractable
 {
+    public InteractionType _interactionType;
     public GameObject Player { get; set; }
     public bool CanInteract { get; set; }
 
@@ -26,7 +27,10 @@ public class InteractionBase : MonoBehaviour,IInteractable
         if (collision.gameObject == Player)
         {
             CanInteract = true;
+            //UIManager.Instance.InteractionStartUI.gameObject.SetActive(true);
+            UIManager.Instance.InteractionStartUI.SetInteractionTypeText(_interactionType);
 
+            UIManager.Instance.InteractionStartUI.FadeIn();
         }
     }
 
@@ -35,6 +39,8 @@ public class InteractionBase : MonoBehaviour,IInteractable
         if (collision.gameObject == Player)
         {
             CanInteract = false;
+            //UIManager.Instance.InteractionStartUI.gameObject.SetActive(false);
+            UIManager.Instance.InteractionStartUI.FadeOut();
         }
     }
 
