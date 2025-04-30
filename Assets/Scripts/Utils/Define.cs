@@ -77,5 +77,6 @@ public class Define
         Listen,
         Examine,
         Door,
+        Rest,
     }
 }

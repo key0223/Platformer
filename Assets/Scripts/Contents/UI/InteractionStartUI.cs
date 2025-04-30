@@ -41,6 +41,9 @@ public class InteractionStartUI : MonoBehaviour
             case InteractionType.Door:
                 text = "들어가기";
                 break;
+            case InteractionType.Rest:
+                text = "휴식";
+                break;
         }
 
         _interactionTypeText.text = text;
