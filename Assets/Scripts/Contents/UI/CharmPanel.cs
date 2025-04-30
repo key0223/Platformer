@@ -41,9 +41,13 @@ public class CharmPanel : PopupPanelBase
     // Highlighter 
     [SerializeField] Transform _initPos;
 
+    bool _openByBench = false;
+    public bool OpenByBench { get { return _openByBench; } set {  _openByBench = value; } }
+
     public List<CharmSlot> EquippedCharms = new List<CharmSlot>();
     public List<CharmSlot> Charms = new List<CharmSlot>();
     public List<CharmCostSlot> CharmCostSlots = new List<CharmCostSlot>();
+
     protected override void Init()
     {
         _sections = new Section[3];
@@ -56,7 +60,7 @@ public class CharmPanel : PopupPanelBase
             _sections[i]._rows.Add(row);
         }
 
-        //_highlighter.MoveToSlot(_initPos);
+        _highlighter.MoveToSlot(_initPos);
         InitItemDescUI();
 
         Charms.Clear();
@@ -140,6 +144,8 @@ public class CharmPanel : PopupPanelBase
     protected override void SelectItem()
     {
         base.SelectItem();
+
+        if (!_openByBench) return;
 
         Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn];
 

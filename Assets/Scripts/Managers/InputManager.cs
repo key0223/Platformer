@@ -7,6 +7,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 {
     public event Action<bool> OnUIStateChanged;
     public event Action OnToggleInventory;
+    public event Action OnToggleCharmPanel;
     public event Action OnTogglePopupInfo;
 
     public bool IsAnyUIOn { get; set; } = false;
@@ -37,6 +38,10 @@ public class InputManager : SingletonMonobehaviour<InputManager>
     public void ToggleInventory()
     {
         OnToggleInventory?.Invoke();
+    }
+    public void ToggleCharmPanel()
+    {
+        OnToggleCharmPanel?.Invoke();
     }
     public void TogglePopupInfo()
     {
