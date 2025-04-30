@@ -75,8 +75,7 @@ public class Npc_IseldaController : NpcControllerBase
         {
             _isFirstMeet = false;
 
-            string dialogue = DataManager.Instance.DialogueDict["first_meet"].dialogueText;
-            // Npc 이름 UI 추가 
+            string dialogue = DataManager.Instance.DialogueDict["Iselda_first_meet"].dialogueText;
 
             DialogueManager.Instance.MakeDialogueQueue(dialogue,_npcName,
                 ()=> 
@@ -108,33 +107,4 @@ public class Npc_IseldaController : NpcControllerBase
 
         _coIdle = null;
     }
-
-    /*
-    string FindDialogue()
-    {
-        string foundDialogue = null;
-
-        foreach(DialogueNode dialogue in DataManager.Instance.DialogueDict.Values)
-        {
-            string[] parts = dialogue.conditionKey.Split(':');
-            if (parts.Length < 2)
-                continue;
-
-            string conditionType = parts[0];
-            string conditionValue = parts[1];
-
-            switch (conditionType)
-            {
-                case "conversation":
-                    {
-                        int requiredCount = int.Parse(conditionValue);
-                        if (_conversationCount == requiredCount)
-                            foundDialogue = dialogue.dialogueText;
-                        break;
-                    }
-            }
-        }
-        return foundDialogue;
-    }
-    */
 }

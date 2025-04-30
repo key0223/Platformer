@@ -5,6 +5,7 @@ using static Define;
 
 public class InteractionBase : MonoBehaviour,IInteractable
 {
+    [HideInInspector]
     public InteractionType _interactionType;
     public GameObject Player { get; set; }
     public bool CanInteract { get; set; }

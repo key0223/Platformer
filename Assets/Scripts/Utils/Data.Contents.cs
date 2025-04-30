@@ -70,7 +70,9 @@ namespace Data
         public string nodeId;
         [TextArea(2, 5)]
         public string dialogueText;
-        public string conditionKey; // 조건 키 
+        public string conditionKey; // 조건 키
+        public bool hasFollowingDialogue;
+        public string followingDialogueId;
         /*
          * conversation:1 -> 대화 1번 함
          * always -> 항상 표시 (조건 없음)

@@ -15,3 +15,5 @@ MonoBehaviour:
   npcDatas:
   - npcId: 5001
     displayName: "\uC774\uC140\uB2E4"
+  - npcId: 5002
+    displayName: "\uC7A5\uB85C\uBC8C\uB808"
