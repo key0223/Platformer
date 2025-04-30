@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Define;
 
-public class InteractionBase : MonoBehaviour,IInteractable
+public class InteractionBase : MonoBehaviour, IInteractable
 {
     [HideInInspector]
     public InteractionType _interactionType;
@@ -28,8 +28,7 @@ public class InteractionBase : MonoBehaviour,IInteractable
         if (collision.gameObject == Player)
         {
             CanInteract = true;
-            //UIManager.Instance.InteractionStartUI.gameObject.SetActive(true);
-            UIManager.Instance.InteractionStartUI.SetUI(_interactionType,this.gameObject);
+            UIManager.Instance.InteractionStartUI.SetUI(_interactionType, this.gameObject);
 
             UIManager.Instance.InteractionStartUI.FadeIn();
         }
@@ -40,15 +39,14 @@ public class InteractionBase : MonoBehaviour,IInteractable
         if (collision.gameObject == Player)
         {
             CanInteract = false;
-            //UIManager.Instance.InteractionStartUI.gameObject.SetActive(false);
             UIManager.Instance.InteractionStartUI.FadeOut();
         }
     }
 
     public virtual void Interact()
     {
-       
+
     }
 
-  
+
 }

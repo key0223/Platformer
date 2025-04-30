@@ -43,7 +43,7 @@ public class Npc_IseldaController : NpcControllerBase
         if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !IsUIOn && !InputManager.Instance.IsInvenUIOn)
         {
             Interact();
-            UIManager.Instance.InteractionStartUI.gameObject.SetActive(false);
+            UIManager.Instance.InteractionStartUI.FadeOut();
         }
         Vector2 dir = Player.transform.position - transform.position;
 

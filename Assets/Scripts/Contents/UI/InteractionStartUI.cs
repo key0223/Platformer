@@ -22,7 +22,7 @@ public class InteractionStartUI : MonoBehaviour
     }
     public void SetUI(InteractionType interactionType, GameObject target)
     {
-        _rectTrasnform.position = new Vector3(target.transform.position.x, target.transform.position.y+1);
+        _rectTrasnform.position = new Vector3(target.transform.position.x, target.transform.position.y+1.5f);
         string text = "";
 
         switch (interactionType)
