@@ -17,6 +17,7 @@ public class PopupPanel : MonoBehaviour
     [SerializeField] InventoryPanel _inventoryPanel;
     [SerializeField] CharmPanel _charmPanel;
     [SerializeField] InformationPanel _informationPanel;
+    [SerializeField] Highlighter _highlighter;
 
     [Header("Slide Animation Settings")]
     [Space(10f)]
@@ -35,6 +36,7 @@ public class PopupPanel : MonoBehaviour
     public CharmPanel CharmPanel { get { return _charmPanel; } }
     public InformationPanel InfoPanel { get { return _informationPanel; } }
     public List<PopupPanelBase> Panels{ get { return _panels; } }
+    public Highlighter Highlighter { get { return _highlighter; } }
 
     public int CurrentPopupPanel
     { 
@@ -54,6 +56,7 @@ public class PopupPanel : MonoBehaviour
         Init();
         InputManager.Instance.OnToggleInventory += ToggleInventory;
         InputManager.Instance.OnTogglePopupInfo += PopupInfoPanel;
+        InputManager.Instance.OnToggleCharmPanel += ToggleCharmPanel;
     }
 
     void Init()
@@ -127,10 +130,14 @@ public class PopupPanel : MonoBehaviour
         _backgroundPanel.gameObject.SetActive(!_backgroundPanel.gameObject.activeSelf);
         _inventoryPanel.gameObject.SetActive(!_inventoryPanel.gameObject.activeSelf);
 
-
         NotifyUIState();
     }
 
+    void ToggleCharmPanel()
+    {
+        ToggleInventory();
+        _charmPanel.OpenByBench = !_charmPanel.OpenByBench;
+    }
     public void PopupInfoPanel()
     {
         this.gameObject.SetActive(!this.gameObject.activeSelf);
