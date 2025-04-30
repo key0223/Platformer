@@ -24,6 +24,8 @@ public class Npc_ElderbugController : NpcControllerBase
 
     #region State parameters
 
+    bool _isIdle;
+    public bool IsIdle { get { return _isIdle; } set { _isIdle = value; } }
     bool _hasPassed = false;
     bool _isPassingBy; // for animation
     public bool IsPassingBy { get { return _isPassingBy; } set { _isPassingBy = value; } }
@@ -39,6 +41,7 @@ public class Npc_ElderbugController : NpcControllerBase
     {
         _anim = GetComponent<Npc_ElderbugAnimation>();
         _interactionType = Define.InteractionType.Listen;
+        _isIdle = true;
 
     }
 
@@ -47,7 +50,7 @@ public class Npc_ElderbugController : NpcControllerBase
         if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !InputManager.Instance.IsInvenUIOn)
         {
             Interact();
-            UIManager.Instance.InteractionStartUI.gameObject.SetActive(false);
+            UIManager.Instance.InteractionStartUI.FadeOut();
         }
 
         Vector2 dir = Player.transform.position - transform.position;
@@ -61,21 +64,18 @@ public class Npc_ElderbugController : NpcControllerBase
             PlayerDir = Dir.Left;
         }
 
-        if (!IsTalking)
-        {
-            _anim.StartedIdle = true;
-        }
 
         if (IsPlayerOnTheRight && _isFirstMeet && dir.magnitude > 5)
         {
             _isPassingBy = true;
             _hasPassed = true;
+            _isIdle = false;
 
         }
         else if (IsPlayerOnTheRight && _isFirstMeet && dir.magnitude < 3)
         {
-
             _isPassingBy = false;
+            _isIdle = true;
         }
     }
     public override void Interact()
@@ -86,9 +86,13 @@ public class Npc_ElderbugController : NpcControllerBase
      () =>
      {
          IsTalking = false;
-         
+         IsIdle = true;
+         InputManager.Instance.UIStateChanged(false);
+         InputManager.Instance.IsAnyUIOn = false;
+
      });
         IsTalking = true;
+        IsIdle = false;
         InputManager.Instance.UIStateChanged(true);
         InputManager.Instance.IsAnyUIOn = true;
 

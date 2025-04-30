@@ -7,7 +7,6 @@ public class Npc_ElderbugAnimation : NpcAnimationBase
 {
     Npc_ElderbugController _npc;
 
-    public bool StartedIdle { private get; set; }
     protected override void Start()
     {
         base.Start();
@@ -16,15 +15,10 @@ public class Npc_ElderbugAnimation : NpcAnimationBase
 
     protected override void CheckAnimationState()
     {
-        if(StartedIdle)
-        {
-            _anim.SetTrigger("Idle");
-            StartedIdle = false;
-        }
-
-
+        _anim.SetBool("IsIdle", _npc.IsIdle);
         _anim.SetBool("IsCallingPlayer", _npc.IsPassingBy);
         _anim.SetBool("IsPlayerOnTheRight", _npc.IsPlayerOnTheRight);
+        _anim.SetBool("IsTalking", _npc.IsTalking);
     }
 
     public void UpdateDirection()
