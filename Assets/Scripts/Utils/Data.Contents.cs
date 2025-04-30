@@ -68,7 +68,7 @@ namespace Data
     public class DialogueNode
     {
         public string nodeId;
-        [TextArea(2, 5)]
+        [TextArea(2, 20)]
         public string dialogueText;
         public string conditionKey; // Á¶°Ç Å°
         public bool hasFollowingDialogue;

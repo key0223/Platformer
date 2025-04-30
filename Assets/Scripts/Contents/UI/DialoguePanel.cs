@@ -24,7 +24,7 @@ public class DialoguePanel : MonoBehaviour
         {
             DialogueManager.Instance.StartDialogue();
         }
-        if(!DialogueManager.Instance.CurrentDialogueQueue.HasNextDialogue()&& Input.GetKeyDown(KeyCode.Return))
+        if(!IsTyping&& !DialogueManager.Instance.CurrentDialogueQueue.HasNextDialogue()&& Input.GetKeyDown(KeyCode.Return))
         {
             DialogueManager.Instance.EndDialogue();
         }
