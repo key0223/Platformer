@@ -19,7 +19,7 @@ TagManager:
   - Monster Projectile
   - Breakable
   - Item
-  - 
+  - MiniMap
   - 
   - 
   - 
@@ -73,4 +73,7 @@ TagManager:
     locked: 0
   - name: Collision
     uniqueID: 1406242151
+    locked: 0
+  - name: MiniMap
+    uniqueID: 2588925749
     locked: 0
