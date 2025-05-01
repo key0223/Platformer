@@ -79,4 +79,10 @@ public class Define
         Door,
         Rest,
     }
+
+    public enum SceneName
+    {
+        Greenpath,
+        Dirtmouth,
+    }
 }
