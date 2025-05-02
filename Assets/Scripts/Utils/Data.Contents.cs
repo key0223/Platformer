@@ -47,6 +47,12 @@ namespace Data
         public Sprite decscrtiptionSprite;
     }
 
+    [Serializable]
+    public class MiniMapData:ItemData
+    {
+        public SceneName sceneName;
+        public string areaName;
+    }
     #endregion
 
     [Serializable]
@@ -68,10 +74,11 @@ namespace Data
     public class DialogueNode
     {
         public string nodeId;
-        [TextArea(2, 20)]
+        [TextArea(2,20)]
         public string dialogueText;
         public string conditionKey; // 조건 키
         public bool hasFollowingDialogue;
+        [HideInInspector]
         public string followingDialogueId;
         /*
          * conversation:1 -> 대화 1번 함

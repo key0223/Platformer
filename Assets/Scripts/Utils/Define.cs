@@ -45,6 +45,7 @@ public class Define
         Weapon,
         Charm,
         Spell,
+        Map,
     }
 
     public enum CharmType

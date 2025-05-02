@@ -70,7 +70,7 @@ public class CharmPanel : PopupPanelBase
             Destroy(child.gameObject);
 
         {
-            List<Slot> firstRowColumns = _sections[0]._rows[0]._cloumns;
+            List<Slot> firstRowColumns = _sections[0]._rows[0]._columns;
 
             GameObject equippedSlotObject = ResourceManager.Instance.Instantiate(_charmEquippedSlotPrefabPath, _equippedSlotParent.transform);
             CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();
@@ -113,7 +113,7 @@ public class CharmPanel : PopupPanelBase
             GameObject charmSlotObject = ResourceManager.Instance.Instantiate(_charmSlotPrefabPath, _charmSlotParent.transform);
             CharmSlot charmSlot = charmSlotObject.GetComponent<CharmSlot>();
             charmSlot.SlotIndex = i;
-            _sections[1]._rows[0]._cloumns.Add(charmSlot);
+            _sections[1]._rows[0]._columns.Add(charmSlot);
 
             Charms.Add(charmSlot);
 
@@ -126,7 +126,7 @@ public class CharmPanel : PopupPanelBase
         for (int i = 0; i < _arrowSlot.Count; i++)
         {
             Slot slot = _arrowSlot[i];
-            _sections[2]._rows[0]._cloumns.Add(slot);
+            _sections[2]._rows[0]._columns.Add(slot);
         }
         #endregion
 
@@ -147,7 +147,7 @@ public class CharmPanel : PopupPanelBase
 
         if (!_openByBench) return;
 
-        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn];
+        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._columns[_currentColumn];
 
         Item item = InventoryManager.Instance.GetItem(currentSlot.ItemId, ItemType.Charm);
 
@@ -171,7 +171,7 @@ public class CharmPanel : PopupPanelBase
     #region Item Description UI
     void UpdateItemDescUI()
     {
-        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn];
+        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._columns[_currentColumn];
 
         CharmSlot equippedSlot = currentSlot as CharmSlot;
         if (equippedSlot != null)
@@ -289,7 +289,7 @@ public class CharmPanel : PopupPanelBase
         {
             EquippedCharms[EquippedCharms.Count - 1].SetSlot(item);
 
-            List<Slot> firstRowColumns = _sections[0]._rows[0]._cloumns;
+            List<Slot> firstRowColumns = _sections[0]._rows[0]._columns;
 
             GameObject equippedSlotObject = ResourceManager.Instance.Instantiate(_charmEquippedSlotPrefabPath, _equippedSlotParent.transform);
             CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();

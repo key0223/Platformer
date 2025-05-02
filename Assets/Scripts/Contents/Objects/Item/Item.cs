@@ -39,6 +39,9 @@ public class Item
                 break;
             case ItemType.Spell:
                 break;
+            case ItemType.Map:
+                item = new MiniMap(itemId);
+                break;
 
         }
 
@@ -118,5 +121,21 @@ public class Charm : Item
             _charmEffectType = charmData.charmEffect;
             _effectValue = charmData.effectValue;
         }
+    }
+}
+
+public class MiniMap : Item
+{
+    public MiniMap(int itemId):base(ItemType.Map)
+    {
+        Init(itemId);
+    }
+
+    public override void Init(int itemId, int count = 1)
+    {
+        ItemData itemData = DataManager.Instance.GetItemData(itemId);
+        MiniMapData miniMapData= itemData as MiniMapData;
+
+        base.Init(itemId, count);
     }
 }

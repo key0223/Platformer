@@ -11,7 +11,7 @@ public class Section
 [Serializable]
 public class SlotRow
 {
-    public List<Slot> _cloumns = new List<Slot>();
+    public List<Slot> _columns = new List<Slot>();
 }
 public class PopupPanelBase : MonoBehaviour
 {
@@ -85,7 +85,7 @@ public class PopupPanelBase : MonoBehaviour
 
         if(vertical != 0)
         {
-            newColumn = Mathf.Clamp(_currentColumn + vertical, 0, currecntSection._rows[newRow]._cloumns.Count - 1);
+            newColumn = Mathf.Clamp(_currentColumn + vertical, 0, currecntSection._rows[newRow]._columns.Count - 1);
         }
         else if( horizontal != 0)
         {
@@ -96,7 +96,7 @@ public class PopupPanelBase : MonoBehaviour
         {
             _currentRow = newRow;
             _currentColumn = newColumn;
-            _highlighter.MoveToSlot(_sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn].transform);
+            _highlighter.MoveToSlot(_sections[_currentSection]._rows[_currentRow]._columns[_currentColumn].transform);
         }
     }
 
@@ -110,13 +110,13 @@ public class PopupPanelBase : MonoBehaviour
             _currentRow = 0;
             _currentColumn = 0;
 
-            _highlighter.MoveToSlot(_sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn].transform);
+            _highlighter.MoveToSlot(_sections[_currentSection]._rows[_currentRow]._columns[_currentColumn].transform);
         }
     }
 
     protected virtual void SelectItem()
     {
-        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn];
+        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._columns[_currentColumn];
 
         if(currentSlot.IsArrow)
         {
@@ -144,7 +144,7 @@ public class PopupPanelBase : MonoBehaviour
     {
         int closestCol = 0;
         int minDistance = 100;
-        for (int col = 0; col < row._cloumns.Count; col++)
+        for (int col = 0; col < row._columns.Count; col++)
         {
             int distance = Mathf.Abs(col - currentCol);
             if (distance < minDistance)
