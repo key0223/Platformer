@@ -69,9 +69,9 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
             Items.Add(item.ItemId, item);
         }
 
-        // TODO: Inventory Refresh UI 
-
+        // Refresh UI
         UIManager.Instance.PopupPanel.CharmPanel.RefreshUI();
+        UIManager.Instance.PopupPanel.InvenPanel.RefreshUI();
     }
 
     public Item GetItem(int itemId, ItemType itemType = ItemType.Weapon)

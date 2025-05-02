@@ -2,6 +2,7 @@ using Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -25,11 +26,31 @@ public class InventoryPanel : PopupPanelBase
 
     [SerializeField] Slot _weaponSlot;
 
+    List<Slot> _belongings = new List<Slot>();
     protected override void Init()
     {
         _highlighter.MoveToSlot(_initPos);
 
         InitItemDescUI();
+        InitializeBelongingsList();
+    }
+
+    void InitializeBelongingsList()
+    {
+        Section section = _sections[1];
+
+        for (int i = 0; i< section._rows.Count; i++)
+        {
+            SlotRow row = section._rows[i];
+
+            for (int j = 0; j < row._columns.Count; j++)
+            {
+                Slot slot = row._columns[j];
+                _belongings.Add(slot);
+                slot.gameObject.SetActive(false);
+            }
+        }
+
     }
     protected override void MoveSelection(int horizontal, int vertical, bool sectionMove)
     {
@@ -42,10 +63,21 @@ public class InventoryPanel : PopupPanelBase
         _coinText.text = intOutput.ToString();
     }
 
+    public void RefreshUI()
+    {
+        List<Item> items = InventoryManager.Instance.Items.Values.ToList();
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            _belongings[i].gameObject.SetActive(true);
+            _belongings[i].SetSlot(items[i]);
+        }
+    }
+
     #region Item Description UI
     void UpdateItemDescUI()
     {
-        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._cloumns[_currentColumn];
+        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._columns[_currentColumn];
 
         ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
         if (data != null)
