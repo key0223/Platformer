@@ -36,14 +36,13 @@ public class ShopUIController : MonoBehaviour
 
     void OnEnable()
     {
-        UIManager.Instance.InvokeUIStateChanged(true);
-        UIManager.Instance.IsAnyUIOn = true;
+
+        UIManager.Instance.UpdateUIStateChanged(gameObject.name,true);
     }
 
     void OnDisable()
     {
-        UIManager.Instance.InvokeUIStateChanged(false);
-        UIManager.Instance.IsAnyUIOn = false;
+        UIManager.Instance.UpdateUIStateChanged(gameObject.name, false);
     }
     void Update()
     {

@@ -137,7 +137,6 @@ public class PopupPanel : MonoBehaviour
         _backgroundPanel.gameObject.SetActive(!_backgroundPanel.gameObject.activeSelf);
         _inventoryPanel.gameObject.SetActive(!_inventoryPanel.gameObject.activeSelf);
 
-        NotifyUIState();
     }
 
     void ToggleCharmPanel()
@@ -150,8 +149,6 @@ public class PopupPanel : MonoBehaviour
         this.gameObject.SetActive(!this.gameObject.activeSelf);
         _backgroundPanel.gameObject.SetActive(false);
         _inventoryPanel.gameObject.SetActive(false);
-
-        NotifyUIState();
     }
 
     public void ToggleMiniMap()
@@ -161,11 +158,7 @@ public class PopupPanel : MonoBehaviour
         _backgroundPanel.gameObject.SetActive(false);
         _miniMapPanel.gameObject.SetActive(!_miniMapPanel.gameObject.activeSelf);
     }
-    void NotifyUIState()
-    {
-        bool isUIOn = this.gameObject.activeSelf;
-        UIManager.Instance.InvokeUIStateChanged(isUIOn);
-    }
+   
 
     public int GetPopupPrevIndex()
     {

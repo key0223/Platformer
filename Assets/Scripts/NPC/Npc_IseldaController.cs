@@ -27,8 +27,6 @@ public class Npc_IseldaController : NpcControllerBase
     public bool IsTalking { get { return _isTalking; } set { _isTalking = value; } } // for animation
     public bool IsPlayerOnTheRight => _playerDir == Dir.Right;
 
-    public bool IsUIOn => _shopUI.activeSelf;
-
     #endregion
 
     Coroutine _coIdle;
@@ -40,7 +38,7 @@ public class Npc_IseldaController : NpcControllerBase
     public override void Update()
     {
 
-        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !IsUIOn && !UIManager.Instance.IsInvenUIOn)
+        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !UIManager.Instance.IsAnyUIOn())
         {
             Interact();
             UIManager.Instance.InteractionStartUI.FadeOut();
@@ -86,10 +84,6 @@ public class Npc_IseldaController : NpcControllerBase
                 );
 
             IsTalking = true;
-
-            UIManager.Instance.InvokeUIStateChanged(true);
-            UIManager.Instance.IsAnyUIOn = true;
-
         }
         else
         {

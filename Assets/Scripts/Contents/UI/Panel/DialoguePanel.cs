@@ -17,7 +17,14 @@ public class DialoguePanel : MonoBehaviour
 
     Coroutine _coTyping;
 
-
+    void OnEnable()
+    {
+        UIManager.Instance.UpdateUIStateChanged("Dialogue", true);
+    }
+    void OnDisable()
+    {
+        UIManager.Instance.UpdateUIStateChanged("Dialogue", false);
+    }
     void Update()
     {
         if(!IsTyping && DialogueManager.Instance.CurrentDialogueQueue.HasNextDialogue() && Input.GetKeyDown(KeyCode.Return))

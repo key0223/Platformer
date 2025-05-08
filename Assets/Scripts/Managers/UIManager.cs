@@ -23,7 +23,7 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     public HUDPanel HUDPanel { get { return _hudUIPanel; } }
     public PopupPanel PopupPanel { get { return _popupUIPanel; } }
 
-    public DialoguePanel DialoguePanel {  get { return _dialoguePanel; } }
+    public DialoguePanel DialoguePanel { get { return _dialoguePanel; } }
 
     // World space UI
     public InteractionStartUI InteractionStartUI { get { return _interactionStartUI; } }
@@ -31,9 +31,10 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     #region UI state
 
     bool _isInvenUIOn = false;
-    
-    public bool IsInvenUIOn { get {  return _isInvenUIOn; } }
-    public bool IsAnyUIOn { get; set; } = false;
+
+    public bool IsInvenUIOn { get { return _isInvenUIOn; } }
+
+    HashSet<string> _onPanels = new HashSet<string>();
     #endregion
 
     #region KeyCode
@@ -49,32 +50,53 @@ public class UIManager : SingletonMonobehaviour<UIManager>
 
     void Update()
     {
-        if(Input.GetKeyDown(_inventory) && !IsAnyUIOn)
+        HandleInput();
+    }
+    void HandleInput()
+    {
+        if (Input.GetKeyDown(_inventory) && !IsAnyUIOn("Inventory"))
         {
-            _isInvenUIOn = !_isInvenUIOn;
             InvokeToggleInventory();
         }
-        if(Input.GetKeyDown(_miniMap) && !IsAnyUIOn)
+        if (Input.GetKeyDown(_miniMap) && !IsAnyUIOn("MiniMap"))
         {
-            IsAnyUIOn = true;
-            InvokeToggleMiniMap();
+            InvokeToggleMiniMap(true);
         }
-        if (Input.GetKeyUp(_miniMap))
+        if (Input.GetKeyUp(_miniMap) && !IsAnyUIOn("MiniMap"))
         {
-            IsAnyUIOn = false;
-            InvokeToggleMiniMap();
+            InvokeToggleMiniMap(false);
         }
+    }
+
+    public bool IsAnyUIOn(string exceptPanelName = null)
+    {
+        if (_onPanels.Count == 0) return false;
+
+        foreach (string panel in _onPanels)
+        {
+            if (panel != exceptPanelName)
+                return true;
+        }
+        return false;
     }
 
     #region Callbacks
 
-    public void InvokeUIStateChanged(bool state)
+    public void UpdateUIStateChanged(string panelName, bool isOn)
     {
-        OnUIStateChanged?.Invoke(state);
+        if (isOn)
+            _onPanels.Add(panelName);
+        else
+            _onPanels.Remove(panelName);
+
+        OnUIStateChanged?.Invoke(isOn);
     }
+
     public void InvokeToggleInventory()
     {
+        _isInvenUIOn = !_isInvenUIOn;
         OnToggleInventory?.Invoke();
+        UpdateUIStateChanged("Inventory", _isInvenUIOn);
     }
     public void InvokeToggleCharmPanel()
     {
@@ -84,9 +106,10 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     {
         OnTogglePopupInfo?.Invoke();
     }
-    public void InvokeToggleMiniMap()
+    public void InvokeToggleMiniMap(bool isOn)
     {
         OnToggleMiniMap?.Invoke();
+        UpdateUIStateChanged("MiniMap", isOn);
     }
     #endregion
 }
