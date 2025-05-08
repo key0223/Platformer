@@ -9,6 +9,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
     public event Action OnToggleInventory;
     public event Action OnToggleCharmPanel;
     public event Action OnTogglePopupInfo;
+    public event Action OnToggleMiniMap;
 
     public bool IsAnyUIOn { get; set; } = false;
 
@@ -28,6 +29,17 @@ public class InputManager : SingletonMonobehaviour<InputManager>
             UIStateChanged(_isInvenUIOn);
             ToggleInventory();
         }
+        
+        if(Input.GetKeyDown(KeyCode.M) && !IsAnyUIOn)
+        {
+            ToggleMiniMap();
+            IsAnyUIOn = true;
+        }
+        if(Input.GetKeyUp(KeyCode.M))
+        {
+            ToggleMiniMap();
+            IsAnyUIOn = false;
+        }
     }
 
     public void UIStateChanged(bool state)
@@ -46,6 +58,11 @@ public class InputManager : SingletonMonobehaviour<InputManager>
     public void TogglePopupInfo()
     {
         OnTogglePopupInfo?.Invoke();
+    }
+    
+    public void ToggleMiniMap()
+    {
+        OnToggleMiniMap?.Invoke();
     }
 }
 

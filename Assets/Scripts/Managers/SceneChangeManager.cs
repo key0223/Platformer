@@ -95,8 +95,5 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
         float colliderHeight = _playerColl.bounds.extents.y;
         _playerSpawnPosition = _doorColl.transform.position - new Vector3(0f, colliderHeight, 0f);
 
-        Debug.Log($"bounds center.y: {_playerColl.bounds.center.y}");
-        Debug.Log($"bounds min.y: {_playerColl.bounds.min.y}");
-
     }
 }
