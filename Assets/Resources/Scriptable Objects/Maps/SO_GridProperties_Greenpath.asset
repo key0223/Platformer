@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333a00b537fb4af4d863706a9d4be785, type: 3}
   m_Name: SO_GridProperties_Greenpath
   m_EditorClassIdentifier: 
-  sceneName: 0
+  mapName: 1
   gridWidth: 129
   gridHeight: 60
   originX: -16

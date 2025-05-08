@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eae996bab427fdb4897a4869276fa1b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapName: 0
+  mapName: 1
 --- !u!114 &3630603443187532987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 8759816045112696216}
   - component: {fileID: 2077255200454259043}
   m_Layer: 11
-  m_Name: MiniMap Bacground
+  m_Name: MiniMap Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

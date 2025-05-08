@@ -1,26 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using static Define;
 
 public class MiniMapController : MonoBehaviour
 {
-    [SerializeField] SceneName mapName;
     PlayerTestCode _player;
+    int _itemId = 0;
     int _checkRadius = 3;
 
     Dictionary<string, GridPropertyDetails> _gridPropertyDict = new Dictionary<string, GridPropertyDetails>();
+
+    public int ItemID { get { return _itemId; } }
     public Dictionary<string, GridPropertyDetails> GridPropertyDict {  get { return _gridPropertyDict; } }
     void Start()
     {
-        Init();
         _player = FindObjectOfType<PlayerTestCode>();
         _player.OnPlayerMove += UpdateVisit;
     }
 
-    void Init()
+    public void Init(MiniMap miniMap)
     {
-        SO_GridProperties soGridProperties = MapManager.Instance.GetGridProperties(mapName);
+        _itemId = miniMap.ItemId;
+        SO_GridProperties soGridProperties = MapManager.Instance.GetGridProperties(miniMap.MapName);
 
         foreach (GridCoordinate coordinate in soGridProperties.gridCoordinateList)
         {
@@ -38,6 +41,7 @@ public class MiniMapController : MonoBehaviour
             _gridPropertyDict.Add(key, gridPropertyDetails);
         }
 
+        gameObject.SetActive(false);
     }
 
     public void UpdateVisit(int originX, int originY)
