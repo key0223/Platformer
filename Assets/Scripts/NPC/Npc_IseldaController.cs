@@ -40,7 +40,7 @@ public class Npc_IseldaController : NpcControllerBase
     public override void Update()
     {
 
-        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !IsUIOn && !InputManager.Instance.IsInvenUIOn)
+        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !IsUIOn && !UIManager.Instance.IsInvenUIOn)
         {
             Interact();
             UIManager.Instance.InteractionStartUI.FadeOut();
@@ -86,8 +86,9 @@ public class Npc_IseldaController : NpcControllerBase
                 );
 
             IsTalking = true;
-            InputManager.Instance.UIStateChanged(true);
-            InputManager.Instance.IsAnyUIOn = true;
+
+            UIManager.Instance.InvokeUIStateChanged(true);
+            UIManager.Instance.IsAnyUIOn = true;
 
         }
         else

@@ -20,7 +20,7 @@ public class LoreObject : InteractionBase
     public override void Interact()
     {
         //_popup.PopupInfoPanel();
-        InputManager.Instance.TogglePopupInfo();
+        UIManager.Instance.InvokePopupInfo();
         _popup.InfoPanel.PopupUI(_loreStrId,_spellId);
     }
 

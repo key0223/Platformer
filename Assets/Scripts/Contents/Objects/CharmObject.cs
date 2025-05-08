@@ -17,7 +17,7 @@ public class CharmObject : InteractionBase
     {
         int itemId = GetComponent<ItemObject>().ItemId;
 
-        InputManager.Instance.TogglePopupInfo();
+        UIManager.Instance.InvokePopupInfo();
         _popup.InfoPanel.PopupUI(itemId);
 
         Item item = Item.MakeItem(itemId);

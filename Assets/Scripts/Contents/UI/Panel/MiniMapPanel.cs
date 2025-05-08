@@ -17,6 +17,8 @@ public class MiniMapPanel : MonoBehaviour
 
     void RefreshMiniMap()
     {
+        if (_miniMapParent.transform.childCount == 0) return;
+
         for (int i = 0; i < _miniMapParent.transform.childCount; i++)
         {
             _miniMapParent.transform.GetChild(i).gameObject.SetActive(false);

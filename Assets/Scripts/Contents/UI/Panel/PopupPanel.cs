@@ -59,10 +59,11 @@ public class PopupPanel : MonoBehaviour
     void Start()
     {
         Init();
-        InputManager.Instance.OnToggleInventory += ToggleInventory;
-        InputManager.Instance.OnTogglePopupInfo += PopupInfoPanel;
-        InputManager.Instance.OnToggleCharmPanel += ToggleCharmPanel;
-        InputManager.Instance.OnToggleMiniMap += ToggleMiniMap;
+
+        UIManager.Instance.OnToggleInventory += ToggleInventory;
+        UIManager.Instance.OnTogglePopupInfo += PopupInfoPanel;
+        UIManager.Instance.OnToggleCharmPanel += ToggleCharmPanel;
+        UIManager.Instance.OnToggleMiniMap += ToggleMiniMap;
     }
 
     void Init()
@@ -163,7 +164,7 @@ public class PopupPanel : MonoBehaviour
     void NotifyUIState()
     {
         bool isUIOn = this.gameObject.activeSelf;
-        InputManager.Instance.UIStateChanged(isUIOn);
+        UIManager.Instance.InvokeUIStateChanged(isUIOn);
     }
 
     public int GetPopupPrevIndex()

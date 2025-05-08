@@ -38,7 +38,7 @@ public class CharmCollectionPanel : MonoBehaviour
             gameObject.SetActive(false);
             _infoPanel.gameObject.SetActive(false);
 
-            InputManager.Instance.TogglePopupInfo();
+            UIManager.Instance.InvokePopupInfo();
         }
     }
     public void SetUI(int charmId)

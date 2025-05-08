@@ -15,6 +15,6 @@ public class BenchInteraction : InteractionBase
 
     public override void Interact()
     {
-        InputManager.Instance.ToggleCharmPanel();
+        UIManager.Instance.InvokeToggleCharmPanel();
     }
 }

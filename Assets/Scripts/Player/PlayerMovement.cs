@@ -103,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        InputManager.Instance.OnUIStateChanged += SetMovementEnabled;
+        UIManager.Instance.OnUIStateChanged += SetMovementEnabled;
 
         SetGravityScale(_data._gravityScale);
         IsFacingRight = true;
