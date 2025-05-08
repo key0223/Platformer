@@ -9,11 +9,11 @@ public class SceneField
     [SerializeField] Object _sceneAsset;
     [SerializeField] string _sceneName = "";
 
-    public string SceneName { get { return _sceneName; } }
+    public string MapName { get { return _sceneName; } }
 
     public static implicit operator string (SceneField sceneField)
     {
-        return sceneField.SceneName;
+        return sceneField.MapName;
     }
 }
 
@@ -26,7 +26,7 @@ public class SceneFieldPropertyDrawer : PropertyDrawer
         EditorGUI.BeginProperty(position, GUIContent.none, property);
 
         SerializedProperty sceneAsset = property.FindPropertyRelative("_sceneAsset");
-        SerializedProperty sceneName = property.FindPropertyRelative("_sceneName");
+        SerializedProperty mapName = property.FindPropertyRelative("_sceneName");
 
         position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive),label);
 
@@ -36,7 +36,7 @@ public class SceneFieldPropertyDrawer : PropertyDrawer
 
             if(sceneAsset.objectReferenceValue != null )
             {
-                sceneName.stringValue = (sceneAsset.objectReferenceValue as SceneAsset).name;
+                mapName.stringValue = (sceneAsset.objectReferenceValue as SceneAsset).name;
             }
         }
         EditorGUI.EndProperty();

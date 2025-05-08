@@ -41,6 +41,7 @@ public class Define
 
     public enum ItemType
     {
+        None,
         Coin,
         Weapon,
         Charm,
@@ -81,8 +82,9 @@ public class Define
         Rest,
     }
 
-    public enum SceneName
+    public enum MapName
     {
+        Shop,
         Greenpath,
         Dirtmouth,
     }

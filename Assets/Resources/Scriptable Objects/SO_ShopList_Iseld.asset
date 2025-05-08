@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444cb88c0cd96cc4283a6228bd512435, type: 3}
+  m_Name: SO_ShopList_Iseld
+  m_EditorClassIdentifier: 
+  itemList:
+  - itemId: 10401
+    price: 60
+    npcItemDesc: "\uD45C\uBA74\uC5D0 \uAC00\uAE4C\uC6B4 \uC2E0\uC131\uB465\uC9C0\uC758
+      \uC2E0\uB85D\uC758 \uC9C0\uC5ED\uC778 \uB179\uC0C9 \uAC70\uB9AC\uC758 \uC9C0\uB3C4.
+      \uBD84\uBA85 \uAC70\uAE30 \uBB3C\uC740 \uC811\uCD09\uD558\uBA74 \uCE58\uBA85\uC801\uC77C
+      \uAC70\uC608\uC694!"
+  - itemId: 10402
+    price: 100
+    npcItemDesc: "\uD759\uC758 \uB9C8\uC744 \uC9C0\uB3C4.\n\uC544\uB9C8 \uD544\uC694\uD560\uC9C0\uB3C4
+      \uBAB0\uB77C\uC694."
+  - itemId: 10501
+    price: 100
+    npcItemDesc: "\uC774 \uD540\uC740 \uC9C0\uB3C4\uC5D0 \uC758\uC790 \uBC0F \uAE30\uD0C0
+      \uD734\uC2DD \uC7A5\uC18C\uB97C \uD45C\uC2DC\uD574\uC918\uC694. \uAE30\uC9C4\uB9E5\uC9C4\uD574\uC11C
+      \uC5B4\uB518\uAC00 \uC549\uC744 \uACF3\uC744 \uCC3E\uC744 \uB54C \uC720\uC6A9\uD569\uB2C8\uB2E4!"
+  - itemId: 10502
+    price: 100
+    npcItemDesc: "\uC5EC\uD589 \uC911 \uBC1C\uACAC\uD558\uB294 \uC0C1\uC810 \uC8FC\uC778\uC774\uB098
+      \uB2E4\uB978 \uD765\uBBF8\uB85C\uC6B4 \uACE4\uCDA9\uB4E4\uC744 \uD45C\uC2DC\uD558\uB824\uBA74
+      \uC774 \uD540\uC744 \uC0AC\uC6A9\uD558\uC138\uC694.\r\n\uAC00\uB054\uC529 \uC624\uAC08
+      \uB54C \uADF8\uB4E4\uC774 \uC5B4\uB5BB\uAC8C \uC9C0\uB0B4\uACE0 \uC788\uB294\uC9C0
+      \uAC00\uC11C \uC778\uC0AC\uD574\uBD10\uC694. \uBD84\uBA85 \uADF8\uB4E4\uB3C4
+      \uB2F9\uC2E0\uC744 \uBC18\uAE38 \uAC70\uC608\uC694."
+  - itemId: 10503
+    price: 100
+    npcItemDesc: "\uC0C8\uB85C\uC6B4 \uB9C8\uCEE4\uAC00 \uAC00\uAC8C\uC5D0 \uCD94\uAC00\uB418\uC5C8\uC5B4\uC694.
+      \uC774\uAC78\uB85C \uC9C0\uB3C4\uC5D0 \uD765\uBBF8\uB85C\uC6B4 \uC7A5\uC18C\uB97C
+      \uD45C\uC2DC\uD574 \uB458 \uC218 \uC788\uC5B4\uC694!\r\n\uC0C9\uC774 \uCC38
+      \uC628\uD654\uD558\uC9C0 \uC54A\uB098\uC694?"

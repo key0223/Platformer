@@ -49,6 +49,8 @@ public class ItemIdNameDrawer : PropertyDrawer
         {
             so_itemList.weaponDatas.Select(x=> (ItemData)x).ToList(),
             so_itemList.charmDatas.Select(x=> (ItemData)x).ToList(),
+            so_itemList.miniMapDatas.Select(x=> (ItemData)x).ToList(),
+            so_itemList.itemDatas.Select(x=> (ItemData)x).ToList(),
         };
 
         foreach(List<ItemData> list in itemLists)

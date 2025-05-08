@@ -6,7 +6,7 @@ using static Define;
 [CreateAssetMenu(fileName = "SO_GridProperties", menuName = "Scriptable Objects/Grid Properties")]
 public class SO_GridProperties : ScriptableObject
 {
-    public SceneName sceneName;
+    public MapName mapName;
     public int gridWidth;
     public int gridHeight;
     public int originX; // Bottom Left

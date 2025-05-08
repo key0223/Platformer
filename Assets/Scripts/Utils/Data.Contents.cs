@@ -50,8 +50,9 @@ namespace Data
     [Serializable]
     public class MiniMapData:ItemData
     {
-        public SceneName sceneName;
+        public MapName mapName;
         public string areaName;
+        public string prefabPath;
     }
     #endregion
 

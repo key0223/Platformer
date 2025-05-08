@@ -31,6 +31,9 @@ public class Item
 
         switch(itemData.itemType)
         {
+            case ItemType.None:
+                item = new NormalItem(itemId);
+                break;
             case ItemType.Weapon:
                 item = new Weapon(itemId);
                 break;
@@ -42,7 +45,6 @@ public class Item
             case ItemType.Map:
                 item = new MiniMap(itemId);
                 break;
-
         }
 
         if (item != null)
@@ -66,6 +68,13 @@ public class Item
     }
 }
 
+public class NormalItem :Item
+{
+    public NormalItem(int itemId) : base(ItemType.None)
+    {
+        Init(itemId);
+    }
+}
 public class Weapon: Item
 {
     float _damage;
@@ -126,6 +135,14 @@ public class Charm : Item
 
 public class MiniMap : Item
 {
+    MapName _mapName;
+    string _areaName;
+    string _prefabsPath;
+
+    public MapName MapName { get { return _mapName; }}
+    public string AreaName { get { return _areaName; }}
+    public string PrefabPath { get { return _prefabsPath; }}
+
     public MiniMap(int itemId):base(ItemType.Map)
     {
         Init(itemId);
@@ -136,6 +153,11 @@ public class MiniMap : Item
         ItemData itemData = DataManager.Instance.GetItemData(itemId);
         MiniMapData miniMapData= itemData as MiniMapData;
 
-        base.Init(itemId, count);
+       if( miniMapData != null )
+        {
+            _mapName = miniMapData.mapName;
+            _areaName = miniMapData.areaName;
+            _prefabsPath = miniMapData.prefabPath;
+        }
     }
 }
