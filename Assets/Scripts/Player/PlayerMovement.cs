@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class PlayerMovement : MonoBehaviour
 {
     #region Event
+
     public event Action<float> OnPlayerDamged;
     public event Action<float> OnPlayerHealed;
 

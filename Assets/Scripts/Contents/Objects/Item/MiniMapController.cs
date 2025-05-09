@@ -1,23 +1,23 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using static Define;
 
 public class MiniMapController : MonoBehaviour
 {
-    PlayerTestCode _player;
+    PlayerPositionReporter _positionReporter;
     int _itemId = 0;
     int _checkRadius = 3;
 
+    MiniMapUI _miniMapUI;
     Dictionary<string, GridPropertyDetails> _gridPropertyDict = new Dictionary<string, GridPropertyDetails>();
 
     public int ItemID { get { return _itemId; } }
+    public MiniMapUI MiniMapUI { get { return _miniMapUI; } }
     public Dictionary<string, GridPropertyDetails> GridPropertyDict {  get { return _gridPropertyDict; } }
     void Start()
     {
-        _player = FindObjectOfType<PlayerTestCode>();
-        _player.OnPlayerMove += UpdateVisit;
+        _positionReporter = FindObjectOfType<PlayerPositionReporter>();
+        _positionReporter.OnPlayerMove += UpdateVisit;
+        _miniMapUI = GetComponent<MiniMapUI>();
     }
 
     public void Init(MiniMap miniMap)

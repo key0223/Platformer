@@ -100,6 +100,8 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     }
     public void InvokeToggleCharmPanel()
     {
+        _isInvenUIOn = !_isInvenUIOn;
+        UpdateUIStateChanged("Inventory", _isInvenUIOn);
         OnToggleCharmPanel?.Invoke();
     }
     public void InvokePopupInfo()

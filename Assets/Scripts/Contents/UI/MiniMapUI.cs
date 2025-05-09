@@ -46,7 +46,7 @@ public class MiniMapUI : MonoBehaviour
 
     }
    
-    void UpdateMiniMap()
+    public void UpdateMiniMap()
     {
         List<GridPropertyDetails> detailList = _miniMapController.GridPropertyDict.Where(detail =>detail.Value.visited==true).Select(detail=>detail.Value).ToList();
 
@@ -66,7 +66,8 @@ public class MiniMapUI : MonoBehaviour
             if(_mapBackground.HasTile(tilePos))
                 _mapBackground.SetColor(tilePos, newBackColor);
         }
-       
+
+        Debug.Log("MiniMap updated");
     }
 
 }
