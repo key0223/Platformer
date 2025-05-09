@@ -70,6 +70,9 @@ public class PopupPanel : MonoBehaviour
     {
         InitPanelList();
 
+        _informationPanel.gameObject.SetActive(false);
+        _miniMapPanel.gameObject.SetActive(false);
+
         _hud = UIManager.Instance.HUDPanel;
 
         _backgroundPanel.gameObject.SetActive(false);

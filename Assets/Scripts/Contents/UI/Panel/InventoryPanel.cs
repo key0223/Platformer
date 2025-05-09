@@ -48,7 +48,6 @@ public class InventoryPanel : PopupPanelBase
                 slot.gameObject.SetActive(false);
             }
         }
-
     }
     protected override void MoveSelection(int horizontal, int vertical, bool sectionMove)
     {
