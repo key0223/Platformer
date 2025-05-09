@@ -11,10 +11,26 @@ public class MiniMapPanel : MonoBehaviour
     [SerializeField] GameObject _miniMapParent;
     [SerializeField] RawImage _renderTexture;
 
+    [Header("Arrow Slot")]
+    [SerializeField] List<Slot> _arrowSlot;
+
     [Header("Marker Bar")]
     [SerializeField] MarkerBarUI _markerBar;
+    [SerializeField] string _markerSlotPrefabPath;
+    [SerializeField] RectTransform _markerSlotParent;
 
+
+
+    int[] _markerIds = { 10501, 10502, 10503 };
+
+
+    [Space(10f)]
+    // Highlighter 
+    [SerializeField] Transform _initPos;
+
+    List<MarkerBarSlot> _slots = new List<MarkerBarSlot>();
     public GameObject MiniMapParent { get { return _miniMapParent; } }
+
 
   
     void OnEnable()
