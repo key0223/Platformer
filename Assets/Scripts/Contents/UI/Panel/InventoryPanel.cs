@@ -63,7 +63,9 @@ public class InventoryPanel : PopupPanelBase
 
     public void RefreshUI()
     {
-        List<Item> items = InventoryManager.Instance.Items.Values.ToList();
+        if (InventoryManager.Instance.Items.Count == 0) return;
+
+        List<Item> items = InventoryManager.Instance.Items.Values.Where(item => item.ItemType != Define.ItemType.None && item.ItemType != Define.ItemType.Map).ToList();
 
         for (int i = 0; i < items.Count; i++)
         {
