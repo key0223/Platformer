@@ -10,8 +10,13 @@ public class MiniMapPanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI _rigionNameText;
     [SerializeField] GameObject _miniMapParent;
     [SerializeField] RawImage _renderTexture;
+
+    [Header("Marker Bar")]
+    [SerializeField] MarkerBarUI _markerBar;
+
     public GameObject MiniMapParent { get { return _miniMapParent; } }
 
+  
     void OnEnable()
     {
         RefreshMiniMap();
@@ -40,6 +45,8 @@ public class MiniMapPanel : MonoBehaviour
 
             _rigionNameText.text = miniMap.AreaName;
         }
+
+        _markerBar.RefreshUI();
     }
 
     void SetUnavaliable()
