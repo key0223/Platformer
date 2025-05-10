@@ -31,10 +31,13 @@ public class MiniMapPanel : PopupPanelBase
 
     List<MarkerBarSlot> _slots = new List<MarkerBarSlot>();
     public GameObject MiniMapParent { get { return _miniMapParent; } }
+    public bool IsExpanded { get { return _isExpanded; } set { _isExpanded = value; } }
 
 
     protected override void Init()
     {
+        if(_initialized) return;
+
         _initialized = true;
 
         _sections = new Section[2];
@@ -57,6 +60,8 @@ public class MiniMapPanel : PopupPanelBase
         for (int i = 0; i < _markerIds.Length; i++)
         {
             MarkerBarSlot markerSlot = ResourceManager.Instance.Instantiate(_markerSlotPrefabPath, _markerSlotParent.gameObject.transform).GetComponent<MarkerBarSlot>();
+
+            Debug.Log("Prefab created");
             markerSlot.gameObject.SetActive(false);
             markerSlot.Init(_markerIds[i]);
 
@@ -118,6 +123,8 @@ public class MiniMapPanel : PopupPanelBase
                 _slots[i].Init(_markerIds[i]);
             }
         }
+        _isExpanded = false;
+        MarkerBarToggle();
     }
     #endregion
 
