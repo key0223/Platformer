@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MarkerBarSlot : MonoBehaviour
+public class MarkerBarSlot : Slot
 {
     [SerializeField] Image _markerImage;
 

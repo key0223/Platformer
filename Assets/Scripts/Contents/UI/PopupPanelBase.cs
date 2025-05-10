@@ -39,7 +39,6 @@ public class PopupPanelBase : MonoBehaviour
     void Start()
     {
         _playerMovement = FindObjectOfType<PlayerMovement>();
-        //_highlighter = FindObjectOfType<Highlighter>();
         _highlighter = UIManager.Instance.PopupPanel.Highlighter;
         Init();
     }

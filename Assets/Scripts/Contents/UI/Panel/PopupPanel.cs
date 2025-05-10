@@ -154,12 +154,25 @@ public class PopupPanel : MonoBehaviour
         _inventoryPanel.gameObject.SetActive(false);
     }
 
-    public void ToggleMiniMap()
+    public void ToggleMiniMap(bool isUIOn)
     {
-        _hud.gameObject.SetActive(!_hud.gameObject.activeSelf);
-        this.gameObject.SetActive(!this.gameObject.activeSelf);
-        _backgroundPanel.gameObject.SetActive(false);
-        _miniMapPanel.gameObject.SetActive(!_miniMapPanel.gameObject.activeSelf);
+        if(isUIOn)
+        {
+            _hud.gameObject.SetActive(false);
+            _backgroundPanel.gameObject.SetActive(false);
+
+            gameObject.SetActive(true);
+            _miniMapPanel.gameObject.SetActive(true);
+
+            _miniMapPanel.RefreshMiniMap();
+            _miniMapPanel.RefreshMarkerBar();
+        }
+        else
+        {
+            _hud.gameObject.SetActive(true);
+            gameObject.SetActive(false);
+            _miniMapPanel.gameObject.SetActive(false);
+        }
     }
    
 

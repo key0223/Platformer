@@ -16,7 +16,7 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     public event Action<bool> OnUIStateChanged;
     public event Action OnToggleInventory;
     public event Action OnToggleCharmPanel;
-    public event Action OnToggleMiniMap;
+    public event Action<bool> OnToggleMiniMap;
     public event Action OnTogglePopupInfo;
 
     #endregion
@@ -106,7 +106,7 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     public void InvokeToggleMiniMap()
     {
         _isUIOn = !_isUIOn;
-        OnToggleMiniMap?.Invoke();
+        OnToggleMiniMap?.Invoke(_isUIOn);
         UpdateUIStateChanged("MiniMap", _isUIOn);
     }
     #endregion
