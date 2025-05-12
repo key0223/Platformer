@@ -86,7 +86,6 @@ public class PopupPanel : MonoBehaviour
         {
             _panels.Add(panel);
             panel.gameObject.SetActive(false);
-
         }
     }
 
