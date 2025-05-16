@@ -44,7 +44,7 @@ public class EyeSlimeProjectileController : Projectile
 
     void CreateFX()
     {
-        GameObject fx = ResourceManager.Instance.Instantiate("FX/Poison ExplosionFX");
+        GameObject fx = ResourceManager.Instance.Instantiate("FX/MonsterFX/Poison ExplosionFX");
         fx.transform.SetParent(PoolManager.Instance.HierachyRoot.transform);
         fx.transform.position = gameObject.transform.position;
         fx.SetActive(true);

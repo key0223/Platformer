@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using System.Security.Cryptography;
 using UnityEngine;
 using static Define;
-using static UnityEngine.ParticleSystem;
 
 public class EyeSlimeMovement : MonsterMovement
 {
