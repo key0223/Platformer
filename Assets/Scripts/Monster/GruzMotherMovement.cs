@@ -17,6 +17,25 @@ public class GruzMotherMovement : MonsterMovement
     [Header("Attack pattern waypoint")]
     [SerializeField] List<Transform> _waypoint;
 
+    GruzMotherAnimation _anim;
+
+    Dir _currentDir = Dir.None;
+    public Dir CurrentDir
+    { 
+        get { return _currentDir; }
+        set 
+        {
+            if (_currentDir == value) return;
+            _currentDir = value;
+            _anim.UpdateDir();
+        }
+    }
+
+    #region State Parameter
+    bool _isFirstDamage = false;
+    public bool IsMoving { get; private set; }
+    #endregion
+
     Coroutine _coSkill;
     delegate IEnumerator AttackPattern();
     AttackPattern Pattern;
@@ -49,13 +68,17 @@ public class GruzMotherMovement : MonsterMovement
     }
     protected override void Awake()
     {
-        base.Awake();
+        _stat = GetComponent<MonsterStat>();
         _rigid = GetComponent<Rigidbody2D>();
+        _anim = GetComponentInChildren<GruzMotherAnimation>();
     }
 
     
     protected override void Update()
     {
+        if (!_isFirstDamage)
+            return;
+
         UpdateMovement();
     }
 
@@ -77,6 +100,7 @@ public class GruzMotherMovement : MonsterMovement
         }
     }
 
+    #region Update State
     protected override void UpdateIdle()
     {
         if (_coPatrol == null)
@@ -94,8 +118,31 @@ public class GruzMotherMovement : MonsterMovement
         if (_coSkill == null)
             _coSkill = StartCoroutine(CoSkill());
     }
+    #endregion
+
+
+    public override void OnDamaged(float damage, PlayerMovement player = null)
+    {
+        if(!_isFirstDamage)
+        {
+            _isFirstDamage = true;
+            _anim.OnFirstDamage();
+        }
+    }
+
     #region General method
 
+    Dir GetDir(Vector2 dir)
+    {
+        Dir currentDir = Dir.None;
+
+        if (dir.x > 0)
+            currentDir = Dir.Right;
+        else if(dir.x<0)
+            currentDir = Dir.Left;
+
+        return currentDir;
+    }
     void SwitchSkillAttack()
     {
         int random = Random.Range(0, 2);
@@ -115,7 +162,7 @@ public class GruzMotherMovement : MonsterMovement
 
         for (int i = 0; i < _waypoint.Count; i++)
         {
-            float distance = (_waypoint[i].position - transform.position).magnitude;
+            float distance = (_waypoint[i].position - currentPos.position).magnitude;
 
             if (currentClosestDistance == 0)
             {
@@ -141,12 +188,14 @@ public class GruzMotherMovement : MonsterMovement
 
     protected override IEnumerator CoPatrol()
     {
+        IsMoving = true;
         _target = GameObject.FindObjectOfType<PlayerMovement>();
 
         if (_target == null) yield break;
 
         Vector2 idlePos = (Vector2)transform.position + _skillMoveDistance;
-
+        Vector3 dir = idlePos - (Vector2)transform.position;
+        CurrentDir = GetDir(dir);
         // TODO : Ground Collision 처리
         //while (Vector2.Distance(idlePos, transform.position) > 0.1f)
         //{
@@ -169,6 +218,7 @@ public class GruzMotherMovement : MonsterMovement
         }
 
         Vector3 dir = (_target.transform.position - transform.position);
+        CurrentDir = GetDir(dir);
         float distance = dir.magnitude;
         if (distance > _distanceThreshold)
             _rigid.velocity = dir.normalized * _moveSpeed;
@@ -182,64 +232,81 @@ public class GruzMotherMovement : MonsterMovement
     // Before Attack 
     IEnumerator CoSkill()
     {
+        IsMoving = false;
+
         Vector2 skillPos = (Vector2)transform.position + _skillMoveDistance;
 
         while (Vector2.Distance(skillPos, transform.position) > 0.1f)
         {
             Vector3 dir = skillPos - (Vector2)transform.position;
+            CurrentDir = GetDir(dir);
             _rigid.velocity = dir.normalized * _moveSpeed;
             yield return null;
         }
 
         _rigid.velocity = Vector2.zero;
-        SwitchSkillAttack();
+        _anim.IsAnticipating = true;
 
+        SwitchSkillAttack();
         yield return StartCoroutine(Pattern());
     }
 
     IEnumerator CoAttackPattern_1()
     {
+        yield return new WaitForSeconds(0.1f);
         Vector2 targetPos = _target.transform.position;
 
         while (Vector2.Distance(targetPos, transform.position) > _distanceThreshold)
         {
             Vector2 dir = targetPos - (Vector2)transform.position;
+            CurrentDir = GetDir(dir);
             _rigid.velocity = dir.normalized * _attackMoveSpeed;
             yield return null;
         }
 
         _rigid.velocity = Vector2.zero;
         yield return new WaitForSeconds(0.3f);
+
         State = CreatureState.Idle;
     }
     IEnumerator CoAttackPattern_2()
     {
-        int startPoint = FindClosestPoint(transform);
+        int startPoint = FindClosestPoint(_target.transform);
 
-        bool onRight = _waypoint.Count / 2 > startPoint;
+        Queue<Vector3> paths = new Queue<Vector3>();
 
-        Stack<Vector3> paths = new Stack<Vector3>();
-
-        if (onRight) // 왼쪽 -> 오른쪽으로 이동
+        if (_currentDir == Dir.Left) // 왼쪽 -> 오른쪽으로 이동
         {
-            for (int i = startPoint - 1; i >= 0; i--)
+            for (int i = startPoint; i< _waypoint.Count; i++)
             {
-                paths.Push(_waypoint[i].position);
+                paths.Enqueue(_waypoint[i].position);
+            }
+
+            for (int i = _waypoint.Count-1; i >= 0; i--)
+            {
+                paths.Enqueue(_waypoint[i].position);
             }
         }
         else // 오른쪽 -> 왼쪽으로 이동
         {
-            for (int i = 0; i < startPoint; i++)
+            for (int i = startPoint; i >=0; i--)
             {
-                paths.Push(_waypoint[i].position);
+                paths.Enqueue(_waypoint[i].position);
+            }
+
+            for (int i = 0; i< _waypoint.Count; i++)
+            {
+                paths.Enqueue(_waypoint[i].position);
             }
         }
 
         while (paths.Count > 0)
         {
-            Vector2 targetPoint = paths.Pop();
-            Vector2 dir = targetPoint - (Vector2)transform.position;
+            _anim.StartedSlam = true;
 
+            Vector2 targetPoint = paths.Dequeue();
+            Vector2 dir = targetPoint - (Vector2)transform.position;
+            CurrentDir = GetDir(dir);
             while (dir.magnitude > _distanceThreshold)
             {
                 dir = targetPoint - (Vector2)transform.position;
@@ -247,9 +314,18 @@ public class GruzMotherMovement : MonsterMovement
                 yield return null;
             }
 
+            if(Mathf.Sign(dir.normalized.y)>0)
+            {
+                _anim.SlamUp = true;
+            }
+            else
+            {
+                _anim.SlamDown = true;
+            }
             _rigid.velocity = Vector2.zero; // 도착 시 정지
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
         }
+
         State = CreatureState.Idle;
     }
     #endregion
