@@ -3156,7 +3156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _level: 1
-  _maxHp: 100
+  _maxHp: 30
   _attack: 10
   _defense: 0
   _currentHp: 0

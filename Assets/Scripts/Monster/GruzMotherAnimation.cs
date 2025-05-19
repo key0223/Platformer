@@ -41,6 +41,7 @@ public class GruzMotherAnimation : NpcAnimationBase
             SlamDown = false;
         }
         _anim.SetBool("IsMoving", _gruzMother.IsMoving);
+        
     }
 
     public void UpdateDir()
@@ -57,6 +58,12 @@ public class GruzMotherAnimation : NpcAnimationBase
     public void OnFirstDamage()
     {
         _anim.SetTrigger("Wake");
+    }
+
+    public void OnDead()
+    {
+        Debug.Log("On Dead");
+        _anim.SetTrigger("Dead");
     }
 
     

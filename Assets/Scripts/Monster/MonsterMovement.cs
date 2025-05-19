@@ -167,7 +167,7 @@ public class MonsterMovement : MonoBehaviour
         yield return Helper.GetWait(clipLength);
         State = CreatureState.Idle;
     }
-    protected IEnumerator CoDead()
+    protected virtual IEnumerator CoDead()
     {
         GameObject deathFX = ResourceManager.Instance.Instantiate(_deathFXPath);
         deathFX.transform.position = transform.position;

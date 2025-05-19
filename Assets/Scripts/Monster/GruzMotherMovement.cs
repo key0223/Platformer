@@ -34,9 +34,11 @@ public class GruzMotherMovement : MonsterMovement
     #region State Parameter
     bool _isFirstDamage = false;
     public bool IsMoving { get; private set; }
+    public bool IsDead { get; private set; }
     #endregion
 
     Coroutine _coSkill;
+    Coroutine _coDead;
     delegate IEnumerator AttackPattern();
     AttackPattern Pattern;
 
@@ -96,6 +98,7 @@ public class GruzMotherMovement : MonsterMovement
                 UpdateSkill();
                 break;
             case CreatureState.Dead:
+                UpdateDead();
                 break;
         }
     }
@@ -118,6 +121,12 @@ public class GruzMotherMovement : MonsterMovement
         if (_coSkill == null)
             _coSkill = StartCoroutine(CoSkill());
     }
+
+    void UpdateDead()
+    {
+        if(_coDead == null)
+            _coDead = StartCoroutine(CoDead());
+    }
     #endregion
 
 
@@ -127,6 +136,16 @@ public class GruzMotherMovement : MonsterMovement
         {
             _isFirstDamage = true;
             _anim.OnFirstDamage();
+        }
+
+        _stat.OnDamaged(damage);
+
+        // TODO: Damage FX 
+
+        if(_stat.CurrentHp <= 0)
+        {
+            StopAllCoroutines();
+            State = CreatureState.Dead;
         }
     }
 
@@ -193,16 +212,23 @@ public class GruzMotherMovement : MonsterMovement
 
         if (_target == null) yield break;
 
-        Vector2 idlePos = (Vector2)transform.position + _skillMoveDistance;
-        Vector3 dir = idlePos - (Vector2)transform.position;
-        CurrentDir = GetDir(dir);
-        // TODO : Ground Collision 贸府
-        //while (Vector2.Distance(idlePos, transform.position) > 0.1f)
-        //{
-        //    Vector3 dir = idlePos - (Vector2)transform.position;
-        //    _rigid.velocity = dir.normalized * _moveSpeed;
-        //    yield return null;
-        //}
+        int pointA = FindClosestPoint(transform);
+        int pointB = pointA + 1;
+
+        if(pointA == _waypoint.Count-1)
+        {
+            pointB = pointA - 1;
+        }
+
+        Vector3 idlePos = Vector2.Lerp(_waypoint[pointA].position, _waypoint[pointB].position, 0.5f);
+        while (Vector2.Distance(idlePos ,(Vector2)transform.position) >0.1f)
+        {
+            Vector3 dir = idlePos -transform.position;
+            CurrentDir = GetDir(dir);
+            _rigid.velocity = dir.normalized * _moveSpeed;
+            yield return null;
+        }
+        
         yield return new WaitForSeconds(0.5f);
         State = CreatureState.Moving;
     }
@@ -217,32 +243,63 @@ public class GruzMotherMovement : MonsterMovement
 
         }
 
-        Vector3 dir = (_target.transform.position - transform.position);
-        CurrentDir = GetDir(dir);
-        float distance = dir.magnitude;
-        if (distance > _distanceThreshold)
-            _rigid.velocity = dir.normalized * _moveSpeed;
-        else
+        float elapsed = 0f;
+        bool skillTriggered = false;
+
+        while (!skillTriggered)
         {
-            _rigid.velocity = Vector2.zero;
-            State = CreatureState.Skill;
+
+            Vector3 dir = (_target.transform.position - transform.position);
+            CurrentDir = GetDir(dir);
+            float distance = dir.magnitude;
+
+            if (distance > _distanceThreshold)
+                _rigid.velocity = dir.normalized * _moveSpeed;
+            else
+            {
+                _rigid.velocity = Vector2.zero;
+                State = CreatureState.Skill;
+                skillTriggered = true;
+
+                yield break;
+            }
+
+            elapsed += Time.deltaTime;
+            if(elapsed >= _attackInterval)
+            {
+                _rigid.velocity = Vector2.zero;
+                State = CreatureState.Skill;
+                skillTriggered = true;
+                yield break;
+            }
+
+            yield return null;
         }
+      
     }
 
     // Before Attack 
     IEnumerator CoSkill()
     {
-        IsMoving = false;
 
-        Vector2 skillPos = (Vector2)transform.position + _skillMoveDistance;
+        int pointA = FindClosestPoint(transform);
+        int pointB = pointA + 1;
+
+        if (pointA == _waypoint.Count - 1)
+        {
+            pointB = pointA - 1;
+        }
+
+        Vector3 skillPos = Vector2.Lerp(_waypoint[pointA].position, _waypoint[pointB].position, 0.5f);
 
         while (Vector2.Distance(skillPos, transform.position) > 0.1f)
         {
-            Vector3 dir = skillPos - (Vector2)transform.position;
+            Vector3 dir = skillPos - transform.position;
             CurrentDir = GetDir(dir);
             _rigid.velocity = dir.normalized * _moveSpeed;
             yield return null;
         }
+        IsMoving = false;
 
         _rigid.velocity = Vector2.zero;
         _anim.IsAnticipating = true;
@@ -327,6 +384,18 @@ public class GruzMotherMovement : MonsterMovement
         }
 
         State = CreatureState.Idle;
+    }
+
+    protected override IEnumerator CoDead()
+    {
+        _anim.IsAnticipating = false;
+        _rigid.velocity = Vector2.zero;
+        IsMoving = false;
+        IsDead = true;
+
+        _anim.OnDead();
+        // TODO : FX, Animation 贸府
+        yield return null;
     }
     #endregion
 }
