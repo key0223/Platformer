@@ -17,6 +17,10 @@ public class GruzMotherMovement : MonsterMovement
     [Header("Attack pattern waypoint")]
     [SerializeField] List<Transform> _waypoint;
 
+    // FX
+    string _bossHitFXPath = "FX/MonsterFX/Boss Monster HitFX_2";
+    string _bossDeathFXPath = "FX/MonsterFX/Boss Monster DeathFX";
+
     GruzMotherAnimation _anim;
 
     Dir _currentDir = Dir.None;
@@ -140,7 +144,9 @@ public class GruzMotherMovement : MonsterMovement
 
         _stat.OnDamaged(damage);
 
-        // TODO: Damage FX 
+        GameObject fxGO = ResourceManager.Instance.Instantiate(_bossHitFXPath);
+        fxGO.transform.position = gameObject.transform.position;
+        fxGO.SetActive(true);
 
         if(_stat.CurrentHp <= 0)
         {
@@ -392,6 +398,11 @@ public class GruzMotherMovement : MonsterMovement
         _rigid.velocity = Vector2.zero;
         IsMoving = false;
         IsDead = true;
+
+        // FX
+        GameObject fxGO = ResourceManager.Instance.Instantiate(_bossDeathFXPath);
+        fxGO.transform.position = gameObject.transform.position;
+        fxGO.SetActive(true);
 
         _anim.OnDead();
         // TODO : FX, Animation Ã³¸®
