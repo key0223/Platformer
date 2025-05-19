@@ -20,6 +20,7 @@ public class GruzMotherMovement : MonsterMovement
     // FX
     string _bossHitFXPath = "FX/MonsterFX/Boss Monster HitFX_2";
     string _bossDeathFXPath = "FX/MonsterFX/Boss Monster DeathFX";
+    string _bossSlamFXPath = "FX/MonsterFX/Monster SlamFX";
 
     GruzMotherAnimation _anim;
 
@@ -327,6 +328,11 @@ public class GruzMotherMovement : MonsterMovement
             yield return null;
         }
 
+        GameObject fxGO = ResourceManager.Instance.Instantiate(_bossSlamFXPath);
+        fxGO.transform.position = gameObject.transform.position;
+        fxGO.SetActive(true);
+
+        CameraController.Instance.ShakeCamera();
         _rigid.velocity = Vector2.zero;
         yield return new WaitForSeconds(0.3f);
 
@@ -377,14 +383,24 @@ public class GruzMotherMovement : MonsterMovement
                 yield return null;
             }
 
-            if(Mathf.Sign(dir.normalized.y)>0)
+
+            GameObject fxGO = ResourceManager.Instance.Instantiate(_bossSlamFXPath);
+
+            if (Mathf.Sign(dir.normalized.y)>0)
             {
+                fxGO.transform.position = targetPoint;
+                fxGO.transform.rotation = Quaternion.Euler(180,0f,0f);
                 _anim.SlamUp = true;
             }
             else
             {
+                fxGO.transform.position = targetPoint;
+                fxGO.transform.rotation = Quaternion.identity;
                 _anim.SlamDown = true;
             }
+            fxGO.SetActive(true);
+
+            CameraController.Instance.ShakeCamera();
             _rigid.velocity = Vector2.zero; // µµÂø ½Ã Á¤Áö
             yield return new WaitForSeconds(0.2f);
         }
