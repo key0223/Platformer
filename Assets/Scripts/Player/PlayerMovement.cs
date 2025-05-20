@@ -744,7 +744,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool CanJump()
     {
-        return LastOnGroundTime > 0 && !IsJumping;
+        return LastOnGroundTime > 0 && !IsJumping && !IsAttacking;
     }
     bool CanWallJump()
     {
