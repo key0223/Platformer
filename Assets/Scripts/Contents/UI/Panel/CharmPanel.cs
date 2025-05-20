@@ -166,7 +166,7 @@ public class CharmPanel : PopupPanelBase
         RefreshUI();
         RefreshEquippedUI(item);
         RefreshCharmCostUI();
-        _playerMovement.OnEquipItem();
+        InventoryManager.Instance.OnEquipItem();
     }
     #region Item Description UI
     void UpdateItemDescUI()

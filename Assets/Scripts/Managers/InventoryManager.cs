@@ -6,6 +6,8 @@ using static Define;
 
 public class InventoryManager : SingletonMonobehaviour<InventoryManager>
 {
+    PlayerController _playerController;
+
     [SerializeField] HUDPanel HUD;
     #region Event
     public event Action<float> OnCoinChanged;
@@ -28,6 +30,7 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
     {
         base.Awake();
 
+        _playerController = FindObjectOfType<PlayerController>();
         AddCoin(1000);
     }
 
@@ -93,4 +96,10 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
         
     }
     #endregion
+
+    // Equip Item
+    public void OnEquipItem()
+    {
+        _playerController.PlayerStat.OnRefreshEquipItem();
+    }
 }

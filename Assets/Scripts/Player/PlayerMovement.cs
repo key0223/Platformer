@@ -583,12 +583,6 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
-    #region Equip Item
-    public void OnEquipItem()
-    {
-        _stat.OnRefreshEquipItem();
-    }
-    #endregion
     #region Check
     public void CheckDirectionToFace(bool isMovingRight)
     {

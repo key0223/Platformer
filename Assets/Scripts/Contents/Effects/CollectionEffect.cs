@@ -9,7 +9,6 @@ public class CollectionEffect : MonoBehaviour
     [SerializeField] float _carryValue;
     public float CarryValue {  get { return _carryValue; } set {  _carryValue = value; } }
 
-    //PlayerMovement _playerMovement;
     PlayerController _playerController;
 
     RectTransform _target;
@@ -17,7 +16,6 @@ public class CollectionEffect : MonoBehaviour
 
     private void Awake()
     {
-        //_playerMovement = FindObjectOfType<PlayerMovement>();
         _playerController = FindObjectOfType<PlayerController>();
     }
     public void EffectStart(Vector2 start, RectTransform target, float range)

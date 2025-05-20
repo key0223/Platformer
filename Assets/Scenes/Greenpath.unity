@@ -99582,7 +99582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342984, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: _sceneToLoad._sceneName
-      value: Scene_Town1
+      value: Dirtmouth
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342984, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: _sceneToLoad._sceneAsset
@@ -99598,11 +99598,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342991, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 98.8
+      value: 67.25
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342991, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 34.4
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342991, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: m_LocalPosition.z
