@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    PlayerController _controller;
     PlayerStat _stat;
     PlayerAnimation _anim;
 
@@ -17,13 +16,11 @@ public class PlayerHealth : MonoBehaviour
 
     public bool IsDead { get; private set; }
 
-    private void Awake()
+    public void Init(PlayerStat stat, PlayerAnimation anim)
     {
-        _controller = GetComponent<PlayerController>();
-        _stat = _controller.PlayerStat;
-        _anim = _controller.Anim;
+        _stat = stat;
+        _anim = anim;
     }
-
     public void OnHpHeal(float amount)
     {
         _stat.OnHealHp(amount);

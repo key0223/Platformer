@@ -9,14 +9,14 @@ using Random = UnityEngine.Random;
 public class PlayerMovement : MonoBehaviour
 {
     PlayerController _controller;
+    PlayerMovementData _data;
+    PlayerStat _stat;
+    PlayerAnimation _anim;
+    PlayerAction _action;
 
     [Header("Layers & Tags")]
     int _groundLayer = (1 << (int)Layer.Ground);
-    int _attackableLayer = (1 << (int)Layer.Monster) | (1 << (int)Layer.Breakable);
 
-    PlayerMovementData _data;
-    PlayerAnimation _anim;
-    PlayerStat _stat;
 
     public PlayerStat Stat { get { return _stat; } }
     public Rigidbody2D RB { get; private set; }
@@ -29,7 +29,6 @@ public class PlayerMovement : MonoBehaviour
     public bool IsWallJumping { get; private set; }
     public bool IsDashing { get; private set; }
     public bool IsSliding { get; private set; }
-    public bool IsAttacking { get; private set; }
 
     bool _canMove = true;
 
@@ -40,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     public float LastOnWallLeftTime { get; private set; }
     public float LastPressedJumpTime { get; private set; } // 0 = 방금 점프 버튼을 눌렀음
     public float LastPressedDashTime { get; private set; } // 0 = 방금 대시 버튼 눌렀음
-    public float LastPressedAttackTime { get; private set; }
+    
 
     // Jump
     private bool _isJumpCut;
@@ -66,20 +65,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform _frontWallCheckPoint;
     [SerializeField] Transform _backWallCheckPoint;
     [SerializeField] Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
-    [Space(5)]
-    [SerializeField] Transform _frontAttackCheckPoint;
-    [SerializeField] Vector2 _attackCheckSize = new Vector2(1f, 1f);
+    
     #endregion
 
     void Awake()
     {
         _controller = GetComponent<PlayerController>();
         _data = GetComponent<PlayerMovementData>();
-        _anim = GetComponent<PlayerAnimation>();
         _stat = GetComponent<PlayerStat>();
+        _anim = GetComponent<PlayerAnimation>();
+        _action = _controller.PlayerAction;
+
         RB = GetComponent<Rigidbody2D>();
 
-        _controller.PlayerAction.Init(_data,_stat, _anim, RB);
         SubscribeEvent();
     }
 
@@ -89,7 +87,8 @@ public class PlayerMovement : MonoBehaviour
         _controller.Input.OnJumpInputDown += OnJumpInput;
         _controller.Input.OnJumpInputDown += OnJumpUpInput;
         _controller.Input.OnDashInput += OnDashInput;
-        _controller.Input.OnAttackInput += OnAttackInput;
+        _controller.Input.OnAttackInput += _action.OnAttackInput;
+
     }
     void Start()
     {
@@ -112,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
 
         LastPressedJumpTime -= Time.deltaTime;
         LastPressedDashTime -= Time.deltaTime;
-        LastPressedAttackTime -= Time.deltaTime;
+        
         #endregion
 
         #region Input
@@ -233,10 +232,9 @@ public class PlayerMovement : MonoBehaviour
 
         #region Attack Check
 
-        if (CanAttack())
+        if (_action.CanAttack(IsDashing))
         {
-            IsAttacking = true;
-            StartCoroutine(CoAttack());
+            StartCoroutine(_action.CoAttack(Sleep));
         }
 
         #endregion
@@ -296,7 +294,7 @@ public class PlayerMovement : MonoBehaviour
             RB.velocity = new Vector2(0, RB.velocity.y);
             return;
         }
-        if (IsAttacking)
+        if (_action.IsAttacking)
         {
             RB.velocity = new Vector2(0, RB.velocity.y);
             return;
@@ -345,13 +343,6 @@ public class PlayerMovement : MonoBehaviour
     {
         LastPressedDashTime = _data._dashInputBufferTime;
     }
-
-    public void OnAttackInput()
-    {
-        _anim.StartedAttacking = true;
-        LastPressedAttackTime = _data._attackInputBufferTime;
-    }
-
     #endregion
 
     #region General Methods
@@ -372,7 +363,6 @@ public class PlayerMovement : MonoBehaviour
         Time.timeScale = 1;
     }
 
-
     #endregion
 
     // Movement
@@ -380,7 +370,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Run(float lerpAmount)
     {
-        if (IsAttacking) return;
+        if (_action.IsAttacking) return;
 
         float targetSpeed = _moveInput.x * _data._runMaxSpeed;
         targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
@@ -534,55 +524,6 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    #region Attack
-
-    IEnumerator CoAttack()
-    {
-        Collider2D[] hit;
-        hit = Physics2D.OverlapBoxAll(_frontAttackCheckPoint.position, _attackCheckSize, 0, _attackableLayer);
-
-
-        if (hit.Length > 0)
-        {
-            for (int i = 0; i < hit.Length; i++)
-            {
-                MonsterMovement monster = hit[i].GetComponent<MonsterMovement>();
-                if (monster != null)
-                {
-                    monster.OnDamaged(_stat.TotalAttack, _controller);
-                }
-
-                IBreakable breakable = hit[i].GetComponent<IBreakable>();
-                if (breakable != null)
-                {
-                    breakable.OnDamaged(1);
-                }
-            }
-            Sleep(0.2f);
-            CameraController.Instance.ShakeCamera();
-        }
-
-        //Debug.Log($"Player Attack: {_stat.CurrentAttack}");
-
-        float remainingTime = Helper.GetRemainingAnimationTime(_anim.Anim);
-        yield return new WaitForSeconds(remainingTime);
-
-        IsAttacking = false;
-        LastPressedAttackTime = 0;
-    }
-
-    //public void RefreshSoul(float amount)
-    //{
-    //    float additaionalValue = (amount * Stat.AdditionalSoul) / 100;
-    //    float finalValue = Mathf.Floor(additaionalValue * 10f) / 10f; // 소수점 한자리까지만 
-
-    //    _stat.OnRefreshSoul(amount + finalValue);
-    //    OnModifySoul?.Invoke(amount + finalValue);
-    //    //Debug.Log($"Current Soul:{_stat.CurrentSoul}");
-    //}
-
-    #endregion
-
     #region Check
     public void CheckDirectionToFace(bool isMovingRight)
     {
@@ -592,7 +533,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool CanJump()
     {
-        return LastOnGroundTime > 0 && !IsJumping && !IsAttacking;
+        return LastOnGroundTime > 0 && !IsJumping && !_action.IsAttacking;
     }
     bool CanWallJump()
     {
@@ -634,13 +575,7 @@ public class PlayerMovement : MonoBehaviour
             return false;
     }
 
-    public bool CanAttack()
-    {
-        if (LastPressedAttackTime > 0 && !IsDashing && !IsAttacking)
-            return true;
-        else
-            return false;
-    }
+   
     #endregion
 
     #region Editor
@@ -651,8 +586,6 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
         Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(_frontAttackCheckPoint.position, _attackCheckSize);
     }
     #endregion
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Define;
 using Random = UnityEngine.Random;
 
 public class PlayerAction : MonoBehaviour
@@ -10,7 +11,6 @@ public class PlayerAction : MonoBehaviour
     PlayerMovementData _data;
     PlayerStat _stat;
     PlayerAnimation _anim;
-    Rigidbody2D _rigid;
 
     public event Action <float> OnModifySoul;
 
@@ -22,23 +22,34 @@ public class PlayerAction : MonoBehaviour
     [Tooltip("Particle effect when the player uses a heal skill")]
     [SerializeField] ParticleSystem _energyFX;
 
+    [Space(5f)]
+    [Header("Attack Settings")]
+    [SerializeField] Transform _frontAttackCheckPoint;
+    [SerializeField] Vector2 _attackCheckSize = new Vector2(1f, 1f);
+    
+    int _attackableLayer = (1 << (int)Layer.Monster) | (1 << (int)Layer.Breakable);
+    public bool IsAttacking { get; private set; }
+    public float LastPressedAttackTime { get; private set; }
+
     Coroutine _coHold;
 
     void Awake()
     {
-        _controller = GetComponent<PlayerController>();
         SubscribeEvent();
     }
 
-    public void Init(PlayerMovementData data, PlayerStat stat, PlayerAnimation anim, Rigidbody2D rigid)
+    public void Init(PlayerController controller, PlayerMovementData data, PlayerStat stat, PlayerAnimation anim)
     {
+        _controller = controller;
         _data = data;
         _stat = stat;
         _anim = anim;
-        _rigid = rigid;
     }
     void Update()
     {
+        if(_controller.PlayerHealth.IsDead) return;
+
+        LastPressedAttackTime -= Time.deltaTime;
         if (_controller.Input.IsHealPressed && _coHold == null)
         {
             OnHealInput();
@@ -63,10 +74,17 @@ public class PlayerAction : MonoBehaviour
         _energyFX.Stop();
         _coHold = null;
     }
+
+    public void OnAttackInput()
+    {
+        _anim.StartedAttacking = true;
+        LastPressedAttackTime = _data._attackInputBufferTime;
+    }
     #endregion
 
-    #region Coroutine
+    /* Coroutine */
 
+    #region Heal Coroutine
     IEnumerator CoHeal()
     {
         yield return new WaitForSeconds(_data._healHoldTime);
@@ -100,9 +118,55 @@ public class PlayerAction : MonoBehaviour
 
         _coHold = null;
     }
-
     #endregion
 
+    #region Attack Coroutine
+    public IEnumerator CoAttack(Action<float> sleep)
+    {
+        IsAttacking = true;
+        Collider2D[] hit;
+        hit = Physics2D.OverlapBoxAll(_frontAttackCheckPoint.position, _attackCheckSize, 0, _attackableLayer);
+
+
+        if (hit.Length > 0)
+        {
+            for (int i = 0; i < hit.Length; i++)
+            {
+                MonsterMovement monster = hit[i].GetComponent<MonsterMovement>();
+                if (monster != null)
+                {
+                    monster.OnDamaged(_stat.TotalAttack, _controller);
+                }
+
+                IBreakable breakable = hit[i].GetComponent<IBreakable>();
+                if (breakable != null)
+                {
+                    breakable.OnDamaged(1);
+                }
+            }
+            
+            CameraController.Instance.ShakeCamera();
+        }
+
+        sleep?.Invoke(0.2f);
+
+        float remainingTime = Helper.GetRemainingAnimationTime(_anim.Anim);
+        yield return new WaitForSeconds(remainingTime);
+
+        IsAttacking = false;
+        LastPressedAttackTime = 0;
+    }
+    #endregion
+
+
+    /* Check */
+    public bool CanAttack(bool isDashing)
+    {
+        if (LastPressedAttackTime > 0 && !isDashing && !IsAttacking)
+            return true;
+        else
+            return false;
+    }
 
     public void RefreshSoul(float amount)
     {
@@ -112,4 +176,12 @@ public class PlayerAction : MonoBehaviour
         _stat.OnRefreshSoul(amount + finalValue);
         OnModifySoul?.Invoke(amount + finalValue);
     }
+
+    #region Editor
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(_frontAttackCheckPoint.position, _attackCheckSize);
+    }
+    #endregion
 }

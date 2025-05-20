@@ -446,6 +446,8 @@ MonoBehaviour:
   _startPos: {fileID: 4399469844580461661}
   _targetPos: {fileID: 0}
   _energyFX: {fileID: 4399469844588120258}
+  _frontAttackCheckPoint: {fileID: 4399469844540040227}
+  _attackCheckSize: {x: 1.5, y: 1}
 --- !u!1 &4399469844972781181
 GameObject:
   m_ObjectHideFlags: 0

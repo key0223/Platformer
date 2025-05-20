@@ -22,10 +22,13 @@ public class PlayerAnimation : MonoBehaviour
     Coroutine _coFlicker;
     int _repeat = 4;
 
+    public void Init(PlayerController controller)
+    {
+        _controller = controller;
+    }
     void Start()
     {
         _playerMove = GetComponent<PlayerMovement>();
-        _controller = GetComponent<PlayerController>();
         _anim = GetComponentInChildren<Animator>();
         _renderer = GetComponentInChildren<SpriteRenderer>();
     }
@@ -68,7 +71,7 @@ public class PlayerAnimation : MonoBehaviour
       
         _anim.SetBool("IsWallSliding", _playerMove.IsSliding);
         _anim.SetBool("IsGroundSliding", _playerMove.IsDashing);
-        _anim.SetBool("IsAttacking", _playerMove.IsAttacking);
+        _anim.SetBool("IsAttacking", _controller.PlayerAction.IsAttacking);
         _anim.SetFloat("Vel Y", _playerMove.RB.velocity.y);
         _anim.SetFloat("Vel X", Mathf.Abs(_playerMove.RB.velocity.x));
 
