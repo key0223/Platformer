@@ -66,6 +66,7 @@ public class PlayerAnimation : MonoBehaviour
       
         _anim.SetBool("IsWallSliding", _playerMove.IsSliding);
         _anim.SetBool("IsGroundSliding", _playerMove.IsDashing);
+        _anim.SetBool("IsAttacking", _playerMove.IsAttacking);
         _anim.SetFloat("Vel Y", _playerMove.RB.velocity.y);
         _anim.SetFloat("Vel X", Mathf.Abs(_playerMove.RB.velocity.x));
 

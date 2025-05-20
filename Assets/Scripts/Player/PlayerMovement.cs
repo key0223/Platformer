@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    PlayerController _controller;
+
     [Header("Layers & Tags")]
     int _groundLayer = (1 << (int)Layer.Ground);
     int _attackableLayer = (1 << (int)Layer.Monster) | (1 << (int)Layer.Breakable);
@@ -95,13 +97,26 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        _controller = GetComponent<PlayerController>();
         _data = GetComponent<PlayerMovementData>();
         _anim = GetComponent<PlayerAnimation>();
         _stat = GetComponent<PlayerStat>();
         RB = GetComponent<Rigidbody2D>();
 
+        SubscribeEvent();
     }
 
+    // Subscribe to events
+    void SubscribeEvent()
+    {
+        _controller.Input.OnJumpInputDown += OnJumpInput;
+        _controller.Input.OnJumpInputDown += OnJumpUpInput;
+        _controller.Input.OnDashInput += OnDashInput;
+        _controller.Input.OnAttackInput += OnAttackInput;
+        _controller.Input.OnHealInputUp += OnHealUpInput;
+
+
+    }
     void Start()
     {
         UIManager.Instance.OnUIStateChanged += SetMovementEnabled;
@@ -127,37 +142,17 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         #region Input
-        _moveInput.x = (Input.GetKey(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKey(KeyCode.LeftArrow) ? 1 : 0);
-        _moveInput.y = (Input.GetKey(KeyCode.UpArrow) ? 1 : 0) - (Input.GetKey(KeyCode.DownArrow) ? 1 : 0);
+        _moveInput = _controller.Input.MoveInput;
 
         if (_moveInput.x != 0)
             CheckDirectionToFace(_moveInput.x > 0);
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            OnJumpInput();
-        }
-        if (Input.GetKeyUp(KeyCode.Z))
-        {
-            OnJumpUpInput();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            OnDashInput();
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            _anim.StartedAttacking = true;
-            OnAttackInput();
-        }
-        if (Input.GetKey(KeyCode.A) && _coHold == null)
+       
+       
+        if (_controller.Input.IsHealPressed && _coHold == null)
         {
             OnHealInput();
         }
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-            OnHealUpInput();
-        }
+     
         #endregion
 
 
@@ -335,7 +330,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (IsAttacking)
         {
-            RB.velocity = Vector2.zero;
+            RB.velocity = new Vector2(0, RB.velocity.y);
             return;
         }
 
@@ -385,6 +380,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnAttackInput()
     {
+        _anim.StartedAttacking = true;
         LastPressedAttackTime = _data._attackInputBufferTime;
     }
 
