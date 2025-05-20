@@ -43,7 +43,7 @@ public class CollectionEffect : MonoBehaviour
 
     IEnumerator CoDestoryEffect()
     {
-        _playerController.PlayerAction.OnHpHeal(CarryValue);
+        _playerController.PlayerHealth.OnHpHeal(CarryValue);
         GameObject destroyEffect = ResourceManager.Instance.Instantiate("FX/Collection DestroyFX");
         destroyEffect.gameObject.SetActive(true);
         destroyEffect.transform.position = transform.position;

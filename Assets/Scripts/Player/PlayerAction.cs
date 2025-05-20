@@ -12,7 +12,6 @@ public class PlayerAction : MonoBehaviour
     PlayerAnimation _anim;
     Rigidbody2D _rigid;
 
-    public event Action<float> OnPlayerHealed;
     public event Action <float> OnModifySoul;
 
     [Header("Heal Settings")]
@@ -65,14 +64,6 @@ public class PlayerAction : MonoBehaviour
         _coHold = null;
     }
     #endregion
-
-    public void OnHpHeal(float amount)
-    {
-        _stat.OnHealHp(amount);
-        OnPlayerHealed?.Invoke(amount);
-    }
-   
-
 
     #region Coroutine
 

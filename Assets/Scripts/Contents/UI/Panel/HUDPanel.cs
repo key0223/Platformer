@@ -52,10 +52,8 @@ public class HUDPanel : MonoBehaviour
         _playerController= FindObjectOfType<PlayerController>();
         InventoryManager.Instance.OnCoinChanged += AddCoin;
         _playerMovement.OnPlayerDamged += DecreaseHp;
-        //_playerMovement.OnPlayerHealed += InceaseHp;
-        _playerController.PlayerAction.OnPlayerHealed += InceaseHp;
+        _playerController.PlayerHealth.OnPlayerHealed += InceaseHp;
         _playerController.PlayerAction.OnModifySoul += ModifySoul;
-        //_playerMovement.OnModifySoul += ModifySoul;
         _playerMovement.OnPlayerAddShield += AddShield;
         _playerMovement.OnPlayerRemoveShield += RemoveShield;
 
