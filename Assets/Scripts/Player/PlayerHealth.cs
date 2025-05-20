@@ -10,6 +10,12 @@ public class PlayerHealth : MonoBehaviour
     PlayerAnimation _anim;
 
     public event Action<float> OnPlayerHealed;
+    public event Action<float> OnPlayerDamaged;
+
+    public event Action OnPlayerAddShield;
+    public event Action OnPlayerRemoveShield;
+
+    public bool IsDead { get; private set; }
 
     private void Awake()
     {
@@ -22,5 +28,40 @@ public class PlayerHealth : MonoBehaviour
     {
         _stat.OnHealHp(amount);
         OnPlayerHealed?.Invoke(amount);
+    }
+
+    public void OnDamaged(float damage)
+    {
+        _anim.Damaged = true;
+
+        if(_stat.CurrentShield> 0)
+        {
+            OnRemoveShield();
+            return;
+        }
+
+        _stat.OnDamaged(damage);
+        OnPlayerDamaged?.Invoke(damage);
+
+        if(_stat.CurrentHp <= 0)
+            OnDead();
+    }
+
+    public void OnAddShield()
+    {
+        _stat.CurrentShield++;
+
+        OnPlayerAddShield?.Invoke();
+    }
+    public void OnRemoveShield()
+    {
+        _stat.CurrentShield--;
+        OnPlayerRemoveShield?.Invoke();
+    }
+
+    void OnDead()
+    {
+        IsDead = true;
+        _anim.OnDead();
     }
 }

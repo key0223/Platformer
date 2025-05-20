@@ -31,11 +31,11 @@ public class EyeSlimeProjectileController : Projectile
         }
         else if(coll.gameObject.CompareTag(TAG_PLAYER))
         {
-            PlayerMovement player = null;
+            PlayerController player = null;
 
             if(coll.gameObject.TryGetComponent(out player))
             {
-                player.OnDamaged(_damage);
+                player.PlayerHealth.OnDamaged(_damage);
                 CreateFX();
                 ResourceManager.Instance.Destroy(gameObject);
             }

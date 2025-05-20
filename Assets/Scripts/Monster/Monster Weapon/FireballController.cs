@@ -39,10 +39,10 @@ public class FireballController : Projectile
         }
         else if(collision.gameObject.CompareTag(TAG_PLAYER))
         {
-            PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
+            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             if (player != null)
             {
-                player.OnDamaged(_damage);
+                player.PlayerHealth.OnDamaged(_damage);
 
                 _currentBounceCount = _maxBounceCount;
 

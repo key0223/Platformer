@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
-    PlayerMovement _playerMovement;
+    PlayerController _playerController;
+
     Transform _target;
 
     ParticleMove _particleMove;
 
     void Awake()
     {
-        _playerMovement = FindObjectOfType<PlayerMovement>();
-        _target = _playerMovement.transform;
+        _playerController = FindObjectOfType<PlayerController>();
+        _target = _playerController.transform;
     }
 
     void OnEnable()
@@ -36,7 +37,7 @@ public class Shield : MonoBehaviour
 
     void AddShieldToPlayer()
     {
-        _playerMovement.OnAddShield();
+        _playerController.PlayerHealth.OnAddShield();
         _particleMove.OnPariticleDeath -= AddShieldToPlayer;
         _particleMove = null;
 

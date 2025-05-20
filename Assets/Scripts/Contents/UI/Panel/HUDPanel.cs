@@ -51,11 +51,11 @@ public class HUDPanel : MonoBehaviour
         _playerMovement = FindObjectOfType<PlayerMovement>();
         _playerController= FindObjectOfType<PlayerController>();
         InventoryManager.Instance.OnCoinChanged += AddCoin;
-        _playerMovement.OnPlayerDamged += DecreaseHp;
+        _playerController.PlayerHealth.OnPlayerDamaged += DecreaseHp;
         _playerController.PlayerHealth.OnPlayerHealed += InceaseHp;
         _playerController.PlayerAction.OnModifySoul += ModifySoul;
-        _playerMovement.OnPlayerAddShield += AddShield;
-        _playerMovement.OnPlayerRemoveShield += RemoveShield;
+        _playerController.PlayerHealth.OnPlayerAddShield += AddShield;
+        _playerController.PlayerHealth.OnPlayerRemoveShield += RemoveShield;
 
         // Slider Settings
         _hpSlider.minValue = 0f;

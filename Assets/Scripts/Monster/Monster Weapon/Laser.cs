@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 using static Define;
 public class Laser : MonoBehaviour
 {
-    PlayerMovement _target = null;
+    PlayerController _target = null;
     EyeSlimeMovement _eyeSlime;
 
     LineRenderer _lineRenderer;
@@ -74,7 +74,7 @@ public class Laser : MonoBehaviour
     }
     void Attack()
     {
-        _target.OnDamaged(_damage);
+        _target.PlayerHealth.OnDamaged(_damage);
     }
 
     #region Laser
@@ -128,7 +128,7 @@ public class Laser : MonoBehaviour
         if (collision.gameObject.CompareTag(TAG_PLAYER))
         {
             _targetInPosition = true;
-            _target = collision.gameObject.GetComponent<PlayerMovement>();
+            _target = collision.gameObject.GetComponent<PlayerController>();
         }
     }
     void OnTriggerExit2D(Collider2D collision)

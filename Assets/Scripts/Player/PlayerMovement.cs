@@ -8,15 +8,6 @@ using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
-    #region Event
-
-    public event Action<float> OnPlayerDamged;
-
-    public event Action OnPlayerAddShield;
-    public event Action OnPlayerRemoveShield;
-
-    #endregion
-
     PlayerController _controller;
 
     [Header("Layers & Tags")]
@@ -39,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
     public bool IsDashing { get; private set; }
     public bool IsSliding { get; private set; }
     public bool IsAttacking { get; private set; }
-    public bool IsDead { get; private set; }
 
     bool _canMove = true;
 
@@ -111,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        if (IsDead) return;
+        if (_controller.PlayerHealth.IsDead) return;
         if (!_canMove) return;
 
         #region Timers
@@ -299,7 +289,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (IsDead) return;
+        if (_controller.PlayerHealth.IsDead) return;
 
         if (!_canMove)
         {
@@ -591,57 +581,6 @@ public class PlayerMovement : MonoBehaviour
     //    //Debug.Log($"Current Soul:{_stat.CurrentSoul}");
     //}
 
-    #endregion
-
-    #region Damage
-    // For animation, Use this method instead of the method in Sat class.
-    public void OnDamaged(float damage)
-    {
-        _anim.Damaged = true;
-
-        if (_stat.CurrentShield > 0)
-        {
-            OnRemoveShield();
-
-            return;
-        }
-
-
-        _stat.OnDamaged(damage);
-        //Debug.Log($"Player current HP : {_stat.CurrentHp}");
-        OnPlayerDamged?.Invoke(damage); // UI update
-
-        if (_stat.CurrentHp <= 0)
-        {
-            OnDead();
-        }
-
-    }
-    #endregion
-
-    #region Dead
-
-    void OnDead()
-    {
-        IsDead = true;
-        _anim.OnDead();
-    }
-    #endregion
-
-    #region Shield
-
-    public void OnAddShield()
-    {
-        _stat.CurrentShield++;
-
-        OnPlayerAddShield?.Invoke();
-        Debug.Log("Called Add Shield");
-    }
-    public void OnRemoveShield()
-    {
-        _stat.CurrentShield--;
-        OnPlayerRemoveShield?.Invoke();
-    }
     #endregion
 
     #region Equip Item

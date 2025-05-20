@@ -105,10 +105,10 @@ public class MonsterMovement : MonoBehaviour
         Collider2D hit = Physics2D.OverlapBox(_hitBoxPoint.position, _hitBoxSize, 0, _playerLayer);
         if (hit != null)
         {
-            PlayerMovement player = hit.GetComponent<PlayerMovement>();
+            PlayerController player = hit.GetComponent<PlayerController>();
             if (player != null)
             {
-                player.OnDamaged(_stat.CurrentAttack);
+                player.PlayerHealth.OnDamaged(_stat.CurrentAttack);
             }
         }
     }

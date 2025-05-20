@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
+    PlayerController _controller;
     PlayerMovement _playerMove;
     Animator _anim;
     SpriteRenderer _renderer;
@@ -24,6 +25,7 @@ public class PlayerAnimation : MonoBehaviour
     void Start()
     {
         _playerMove = GetComponent<PlayerMovement>();
+        _controller = GetComponent<PlayerController>();
         _anim = GetComponentInChildren<Animator>();
         _renderer = GetComponentInChildren<SpriteRenderer>();
     }
@@ -76,7 +78,7 @@ public class PlayerAnimation : MonoBehaviour
     public void OnDead()
     {
         _isDead = true;
-        _anim.SetBool("IsDead", _playerMove.IsDead);
+        _anim.SetBool("IsDead", _controller.PlayerHealth.IsDead);
     }
     #endregion
     IEnumerator CoFlicker()
