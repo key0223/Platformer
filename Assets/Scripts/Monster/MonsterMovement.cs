@@ -112,7 +112,7 @@ public class MonsterMovement : MonoBehaviour
             }
         }
     }
-    public virtual void OnDamaged(float damage, PlayerMovement player = null)
+    public virtual void OnDamaged(float damage, PlayerController player = null)
     {
         State = CreatureState.Damaged;
         StartCoroutine(CoDamaged());
@@ -121,7 +121,7 @@ public class MonsterMovement : MonoBehaviour
 
         if (player != null)
         {
-            player.RefreshSoul(_stat.DropSoulAmount);
+            player.PlayerAction.RefreshSoul(_stat.DropSoulAmount);
         }
         // FX
         GameObject fxGO = ResourceManager.Instance.Instantiate(_hitFXPath);

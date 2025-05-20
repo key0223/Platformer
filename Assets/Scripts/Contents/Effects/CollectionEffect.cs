@@ -9,13 +9,16 @@ public class CollectionEffect : MonoBehaviour
     [SerializeField] float _carryValue;
     public float CarryValue {  get { return _carryValue; } set {  _carryValue = value; } }
 
-    PlayerMovement _playerMovement;
+    //PlayerMovement _playerMovement;
+    PlayerController _playerController;
+
     RectTransform _target;
     Vector3 _targetPos;
 
     private void Awake()
     {
-        _playerMovement = FindObjectOfType<PlayerMovement>();
+        //_playerMovement = FindObjectOfType<PlayerMovement>();
+        _playerController = FindObjectOfType<PlayerController>();
     }
     public void EffectStart(Vector2 start, RectTransform target, float range)
     {
@@ -40,7 +43,7 @@ public class CollectionEffect : MonoBehaviour
 
     IEnumerator CoDestoryEffect()
     {
-        _playerMovement.OnHpHeal(CarryValue);
+        _playerController.PlayerAction.OnHpHeal(CarryValue);
         GameObject destroyEffect = ResourceManager.Instance.Instantiate("FX/Collection DestroyFX");
         destroyEffect.gameObject.SetActive(true);
         destroyEffect.transform.position = transform.position;

@@ -135,7 +135,7 @@ public class GruzMotherMovement : MonsterMovement
     #endregion
 
 
-    public override void OnDamaged(float damage, PlayerMovement player = null)
+    public override void OnDamaged(float damage, PlayerController player = null)
     {
         if(!_isFirstDamage)
         {

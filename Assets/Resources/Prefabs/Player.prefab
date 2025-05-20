@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 4399469844731047909}
   - component: {fileID: 1291628365045378158}
   - component: {fileID: 4399469844731047908}
+  - component: {fileID: 5788335440674264579}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -356,9 +357,6 @@ MonoBehaviour:
   _wallCheckSize: {x: 0.17, y: 0.7}
   _frontAttackCheckPoint: {fileID: 4399469844540040227}
   _attackCheckSize: {x: 1.5, y: 1}
-  _startPos: {fileID: 4399469844580461661}
-  _targetPos: {fileID: 0}
-  _energyFX: {fileID: 4399469844588120258}
 --- !u!114 &4399469844731047906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,6 +418,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46df14720f7c0204f979d5ed103405cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5788335440674264579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4399469844731047916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11387d1cc962ece4185f6b94eefa434d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startPos: {fileID: 4399469844580461661}
+  _targetPos: {fileID: 0}
+  _energyFX: {fileID: 4399469844588120258}
 --- !u!1 &4399469844972781181
 GameObject:
   m_ObjectHideFlags: 0

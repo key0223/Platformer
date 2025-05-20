@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class HUDPanel : MonoBehaviour
 {
+    PlayerController _playerController;
     PlayerMovement _playerMovement;
 
     #region Coin UI
@@ -48,10 +49,13 @@ public class HUDPanel : MonoBehaviour
     void Start()
     {
         _playerMovement = FindObjectOfType<PlayerMovement>();
+        _playerController= FindObjectOfType<PlayerController>();
         InventoryManager.Instance.OnCoinChanged += AddCoin;
         _playerMovement.OnPlayerDamged += DecreaseHp;
-        _playerMovement.OnPlayerHealed += InceaseHp;
-        _playerMovement.OnModifySoul += ModifySoul;
+        //_playerMovement.OnPlayerHealed += InceaseHp;
+        _playerController.PlayerAction.OnPlayerHealed += InceaseHp;
+        _playerController.PlayerAction.OnModifySoul += ModifySoul;
+        //_playerMovement.OnModifySoul += ModifySoul;
         _playerMovement.OnPlayerAddShield += AddShield;
         _playerMovement.OnPlayerRemoveShield += RemoveShield;
 

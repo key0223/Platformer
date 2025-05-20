@@ -11,9 +11,6 @@ public class PlayerMovement : MonoBehaviour
     #region Event
 
     public event Action<float> OnPlayerDamged;
-    public event Action<float> OnPlayerHealed;
-
-    public event Action<float> OnModifySoul;
 
     public event Action OnPlayerAddShield;
     public event Action OnPlayerRemoveShield;
@@ -69,8 +66,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _lastDashDir;
     private bool _isDashAttacking;
 
-    // Heal
-    Coroutine _coHold;
     #endregion
 
     #region Check Parameters
@@ -86,15 +81,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Vector2 _attackCheckSize = new Vector2(1f, 1f);
     #endregion
 
-    #region HP
-    [Header("Heal Settings")]
-    [SerializeField] Transform _startPos;
-    [SerializeField] RectTransform _targetPos; // Should be the handle in Hpbar slider
-
-    [Tooltip("Particle effect when the player uses a heal skill")]
-    [SerializeField] ParticleSystem _energyFX;
-    #endregion
-
     void Awake()
     {
         _controller = GetComponent<PlayerController>();
@@ -103,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
         _stat = GetComponent<PlayerStat>();
         RB = GetComponent<Rigidbody2D>();
 
+        _controller.PlayerAction.Init(_data,_stat, _anim, RB);
         SubscribeEvent();
     }
 
@@ -113,9 +100,6 @@ public class PlayerMovement : MonoBehaviour
         _controller.Input.OnJumpInputDown += OnJumpUpInput;
         _controller.Input.OnDashInput += OnDashInput;
         _controller.Input.OnAttackInput += OnAttackInput;
-        _controller.Input.OnHealInputUp += OnHealUpInput;
-
-
     }
     void Start()
     {
@@ -146,12 +130,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (_moveInput.x != 0)
             CheckDirectionToFace(_moveInput.x > 0);
-       
-       
-        if (_controller.Input.IsHealPressed && _coHold == null)
-        {
-            OnHealInput();
-        }
      
         #endregion
 
@@ -384,20 +362,6 @@ public class PlayerMovement : MonoBehaviour
         LastPressedAttackTime = _data._attackInputBufferTime;
     }
 
-    public void OnHealUpInput()
-    {
-        StopCoroutine(_coHold);
-        CameraController.Instance.ZoomCamera();
-        _energyFX.Stop();
-        _coHold = null;
-    }
-    public void OnHealInput()
-    {
-
-        _energyFX.Play();
-        CameraController.Instance.ZoomCamera(true);
-        _coHold = StartCoroutine(CoHeal());
-    }
     #endregion
 
     #region General Methods
@@ -595,8 +559,7 @@ public class PlayerMovement : MonoBehaviour
                 MonsterMovement monster = hit[i].GetComponent<MonsterMovement>();
                 if (monster != null)
                 {
-                    Debug.Log($"Total Attack : {_stat.TotalAttack}");
-                    monster.OnDamaged(_stat.TotalAttack, this);
+                    monster.OnDamaged(_stat.TotalAttack, _controller);
                 }
 
                 IBreakable breakable = hit[i].GetComponent<IBreakable>();
@@ -618,15 +581,15 @@ public class PlayerMovement : MonoBehaviour
         LastPressedAttackTime = 0;
     }
 
-    public void RefreshSoul(float amount)
-    {
-        float additaionalValue = (amount * Stat.AdditionalSoul) / 100;
-        float finalValue = Mathf.Floor(additaionalValue * 10f) / 10f; // 소수점 한자리까지만 
+    //public void RefreshSoul(float amount)
+    //{
+    //    float additaionalValue = (amount * Stat.AdditionalSoul) / 100;
+    //    float finalValue = Mathf.Floor(additaionalValue * 10f) / 10f; // 소수점 한자리까지만 
 
-        _stat.OnRefreshSoul(amount + finalValue);
-        OnModifySoul?.Invoke(amount + finalValue);
-        //Debug.Log($"Current Soul:{_stat.CurrentSoul}");
-    }
+    //    _stat.OnRefreshSoul(amount + finalValue);
+    //    OnModifySoul?.Invoke(amount + finalValue);
+    //    //Debug.Log($"Current Soul:{_stat.CurrentSoul}");
+    //}
 
     #endregion
 
@@ -654,12 +617,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-    public void OnHpHeal(float amount)
-    {
-        Debug.Log($"Heal amount : {amount}");
-        _stat.OnHealHp(amount);
-        OnPlayerHealed?.Invoke(amount);
-    }
     #endregion
 
     #region Dead
@@ -668,44 +625,6 @@ public class PlayerMovement : MonoBehaviour
     {
         IsDead = true;
         _anim.OnDead();
-    }
-    #endregion
-
-    #region Heal
-
-    IEnumerator CoHeal()
-    {
-        yield return new WaitForSeconds(_data._healHoldTime);
-
-        if (Input.GetKey(KeyCode.A) && _stat.CurrentSoul >= 30)
-        {
-            RefreshSoul(-30f);
-            StartCoroutine(CoCreateEffect());
-        }
-    }
-
-    IEnumerator CoCreateEffect()
-    {
-        int randCount = Random.Range(2, 6);
-        int randValue = Random.Range(5, 10);
-
-        int amount = randValue / randCount;
-        float last = randValue % randCount;
-
-        Debug.Log($"Count:{randCount}, Value:{randValue}");
-
-        for (int i = 0; i < randCount; i++)
-        {
-            float randTime = Random.Range(0, 0.5f);
-            yield return new WaitForSeconds(randTime);
-
-            CollectionEffect effect = ResourceManager.Instance.Instantiate("FX/Collection Effect").GetComponent<CollectionEffect>();
-
-            effect.CarryValue = (i == randCount - 1) ? amount + last : amount;
-            effect.EffectStart(_startPos.position, _targetPos, 1f);
-        }
-
-        _coHold = null;
     }
     #endregion
 
