@@ -32,16 +32,9 @@ public class PlayerMovement : MonoBehaviour
 
     bool _canMove = true;
 
-    #region Buffers
+    // Buffer
+    BufferManager _bufferManager = new BufferManager();
 
-    InputBuffer _groundBuffer;
-    InputBuffer _wallBuffer;
-    InputBuffer _wallRightBuffer;
-    InputBuffer _wallLeftBuffer;
-    InputBuffer _jumpBuffer;
-    InputBuffer _dashBuffer;
-
-    #endregion
     // Jump
     private bool _isJumpCut;
     private bool _isJumpFalling;
@@ -66,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform _frontWallCheckPoint;
     [SerializeField] Transform _backWallCheckPoint;
     [SerializeField] Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
-    
+
     #endregion
 
     void Awake()
@@ -94,11 +87,11 @@ public class PlayerMovement : MonoBehaviour
 
     void InitBuffers()
     {
-        _groundBuffer = new InputBuffer(_data._coyoteTime);
-        _wallRightBuffer = new InputBuffer(_data._coyoteTime);
-        _wallLeftBuffer = new InputBuffer(_data._coyoteTime);
-        _jumpBuffer = new InputBuffer(_data._jumpInputBufferTime);
-        _dashBuffer = new InputBuffer(_data._dashInputBufferTime);
+        _bufferManager.Add(BufferType.Ground, _data._coyoteTime);
+        _bufferManager.Add(BufferType.WallRight, _data._coyoteTime);
+        _bufferManager.Add(BufferType.WallLeft, _data._coyoteTime);
+        _bufferManager.Add(BufferType.Jump, _data._jumpInputBufferTime);
+        _bufferManager.Add(BufferType.Dash, _data._dashInputBufferTime);
     }
     void Start()
     {
@@ -113,25 +106,15 @@ public class PlayerMovement : MonoBehaviour
         if (_controller.PlayerHealth.IsDead) return;
         if (!_canMove) return;
 
-        #region Timers
+        // Buffer
+        _bufferManager.UpdateAll(Time.deltaTime);
 
-        _groundBuffer.Update(Time.deltaTime);
-        _wallRightBuffer.Update(Time.deltaTime);
-        _wallLeftBuffer.Update(Time.deltaTime);
-        _jumpBuffer.Update(Time.deltaTime);
-        _dashBuffer.Update(Time.deltaTime);
-
-        #endregion
-
-        #region Input
-
+       
+        // Input
         _moveInput = _controller.Input.MoveInput;
 
         if (_moveInput.x != 0)
             CheckDirectionToFace(_moveInput.x > 0);
-     
-        #endregion
-
 
         #region Collision Check
 
@@ -140,23 +123,23 @@ public class PlayerMovement : MonoBehaviour
             // 땅 체크
             if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer))
             {
-                if (_groundBuffer.Timer < -0.1f)
+                if (_bufferManager.Get(BufferType.Ground).Timer < -0.1f)
                 {
                     _anim.JustLanded = true;
                 }
 
-                _groundBuffer.Set();
+                _bufferManager.Get(BufferType.Ground).Set();
             }
 
             // 오른쪽 벽 체크
             if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
                     || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)) && !IsWallJumping)
-                _wallRightBuffer.Set();
+                _bufferManager.Get(BufferType.WallRight).Set();
 
             // 왼쪽 벽 체크
             if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
                 || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)) && !IsWallJumping)
-                _wallLeftBuffer.Set();
+                _bufferManager.Get(BufferType.WallLeft).Set();
         }
 
         #endregion
@@ -176,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // 착지
-        if (_groundBuffer.IsActive&& !IsJumping && !IsWallJumping)
+        if (_bufferManager.Get(BufferType.Ground).IsActive && !IsJumping && !IsWallJumping)
         {
             _isJumpCut = false;
             _isJumpFalling = false;
@@ -185,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
         if (!IsDashing)
         {
             //Jump
-            if (CanJump() && _jumpBuffer.IsActive)
+            if (CanJump() && _bufferManager.Get(BufferType.Jump).IsActive)
             {
                 IsJumping = true;
                 IsWallJumping = false;
@@ -196,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
                 _anim.StartedJumping = true;
             }
             // 벽 점프
-            else if (CanWallJump() && _jumpBuffer.IsActive)
+            else if (CanWallJump() && _bufferManager.Get(BufferType.Jump).IsActive)
             {
                 IsWallJumping = true;
                 IsJumping = false;
@@ -204,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
                 _isJumpFalling = false;
 
                 _wallJumpStartTime = Time.time;
-                _lastWallJumpDir = (_wallRightBuffer.IsActive) ? -1 : 1;
+                _lastWallJumpDir = (_bufferManager.Get(BufferType.WallRight).IsActive) ? -1 : 1;
 
                 WallJump(_lastWallJumpDir);
             }
@@ -212,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         #region Dash Check
-        if (CanDash() && _dashBuffer.IsActive)
+        if (CanDash() && _bufferManager.Get(BufferType.Dash).IsActive)
         {
             //Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
             Sleep(_data._dashSleepTime);
@@ -234,7 +217,7 @@ public class PlayerMovement : MonoBehaviour
 
         #region Slide Check
 
-        if (CanSlide() && ((_wallLeftBuffer.IsActive && _moveInput.x < 0) || (_wallRightBuffer.IsActive && _moveInput.x > 0)))
+        if (CanSlide() && ((_bufferManager.Get(BufferType.WallLeft).IsActive && _moveInput.x < 0) || (_bufferManager.Get(BufferType.WallRight).IsActive && _moveInput.x > 0)))
             IsSliding = true;
         else
             IsSliding = false;
@@ -341,7 +324,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnJumpInput()
     {
-        _jumpBuffer.Set();
+        _bufferManager.Get(BufferType.Jump).Set();
     }
 
     public void OnJumpUpInput()
@@ -352,7 +335,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnDashInput()
     {
-        _dashBuffer.Set();
+        _bufferManager.Get(BufferType.Dash).Set();
     }
     #endregion
 
@@ -390,7 +373,7 @@ public class PlayerMovement : MonoBehaviour
         // 가속 비율
         float accelRate;
 
-        if (_groundBuffer.IsActive)
+        if (_bufferManager.Get(BufferType.Ground).IsActive)
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data._runAccelAmount : _data._runDeccelAmount;
         else
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data._runAccelAmount * _data._accelInAir : _data._runDeccelAmount * _data._deccelInAir; // 공중에 있을 때 가속도와 감속도
@@ -407,7 +390,11 @@ public class PlayerMovement : MonoBehaviour
 
         #region 관성
         // 관성
-        if (_data._doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && !_groundBuffer.IsActive)
+        if (_data._doConserveMomentum 
+            && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) 
+            && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) 
+            && Mathf.Abs(targetSpeed) > 0.01f 
+            && !_bufferManager.Get(BufferType.Ground).IsActive)
         {
             // 현재 속도가 목표 속도보다 빠른지 확인
             // 현재 이동 방향과 목표 이동 방향이 같은지 확인
@@ -448,8 +435,8 @@ public class PlayerMovement : MonoBehaviour
     #region Jump
     private void Jump()
     {
-        _jumpBuffer.Reset();
-        _groundBuffer.Reset();
+        _bufferManager.Get(BufferType.Jump).Reset();
+        _bufferManager.Get(BufferType.Ground).Reset();
 
         #region Perform Jump
         //We increase the force applied if we are falling
@@ -466,10 +453,10 @@ public class PlayerMovement : MonoBehaviour
     private void WallJump(int dir)
     {
         //Ensures we can't call Wall Jump multiple times from one press
-        _jumpBuffer.Reset();
-        _groundBuffer.Reset();
-        _wallRightBuffer.Reset();
-        _wallLeftBuffer.Reset();
+        _bufferManager.Get(BufferType.Jump).Reset();
+        _bufferManager.Get(BufferType.Ground).Reset();
+        _bufferManager.Get(BufferType.WallRight).Reset();
+        _bufferManager.Get(BufferType.WallLeft).Reset();
 
         #region Perform Wall Jump
         Vector2 force = new Vector2(_data._wallJumpForce.x, _data._wallJumpForce.y);
@@ -491,8 +478,9 @@ public class PlayerMovement : MonoBehaviour
     #region Dash
     private IEnumerator CoStartDash(Vector2 dir)
     {
-        _groundBuffer.Reset();
-        _dashBuffer.Reset();
+        _bufferManager.Get(BufferType.Ground).Reset();
+        _bufferManager.Get(BufferType.Dash).Reset();
+
         float startTime = Time.time;
 
         _dashesLeft--;
@@ -544,7 +532,7 @@ public class PlayerMovement : MonoBehaviour
     bool CanJump()
     {
         /* LastOnGroundTime  = 플레이어가 마지막으로 땅에 닿은 뒤 경과한 시간 */
-        return _groundBuffer.IsActive && !IsJumping && !_action.IsAttacking;
+        return _bufferManager.Get(BufferType.Ground).IsActive && !IsJumping && !_action.IsAttacking;
     }
     bool CanWallJump()
     {
@@ -552,12 +540,12 @@ public class PlayerMovement : MonoBehaviour
         // 2. 벽에 붙은 시간이 유효한지
         // 3. 땅에 붙어 있지않은지
         // 4. 현재 벽 점프 중이 아니거나, (오른쪽(왼쪽)벽에 붙어 있고, 이전 점프 방향이 오른쪽(왼쪽)인 경우)
-        return _jumpBuffer.IsActive 
-            && (_wallLeftBuffer.IsActive || _wallRightBuffer.IsActive)
-            && !_groundBuffer.IsActive
-            && (!IsWallJumping 
-            || (_wallRightBuffer.IsActive && _lastWallJumpDir == 1) 
-            || (_wallLeftBuffer.IsActive&& _lastWallJumpDir == -1));
+        return _bufferManager.Get(BufferType.Jump).IsActive
+            && (_bufferManager.Get(BufferType.WallLeft).IsActive || _bufferManager.Get(BufferType.WallRight).IsActive)
+            && !_bufferManager.Get(BufferType.Ground).IsActive
+            && (!IsWallJumping
+            || (_bufferManager.Get(BufferType.WallRight).IsActive && _lastWallJumpDir == 1)
+            || (_bufferManager.Get(BufferType.WallLeft).IsActive && _lastWallJumpDir == -1));
     }
 
     bool CanJumpCut()
@@ -574,7 +562,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanDash()
     {
-        if (!IsDashing && _dashesLeft < _data._dashAmount && _groundBuffer.IsActive&& !_dashRefilling)
+        if (!IsDashing && _dashesLeft < _data._dashAmount && _bufferManager.Get(BufferType.Ground).IsActive && !_dashRefilling)
         {
             StartCoroutine(nameof(RefillDash), 1);
         }
@@ -584,11 +572,11 @@ public class PlayerMovement : MonoBehaviour
 
     public bool CanSlide()
     {
-        return (_wallLeftBuffer.IsActive || _wallRightBuffer.IsActive)
+        return (_bufferManager.Get(BufferType.WallLeft).IsActive || _bufferManager.Get(BufferType.WallRight).IsActive)
             && !IsJumping && !IsWallJumping && !IsDashing
-            && !_groundBuffer.IsActive;
+            && !_bufferManager.Get(BufferType.Ground).IsActive;
     }
-   
+
     #endregion
 
     #region Editor

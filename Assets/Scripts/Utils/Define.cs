@@ -17,6 +17,15 @@ public class Define
         Up,
         Down,
     }
+    public enum BufferType
+    {
+        Ground,
+        WallRight,
+        WallLeft,
+        Jump,
+        Dash,
+        Attack,
+    }
     public enum CreatureState
     {
         Idle,
