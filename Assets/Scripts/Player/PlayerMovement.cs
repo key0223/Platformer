@@ -1,10 +1,6 @@
-using Data;
-using System;
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 using static Define;
-using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -80,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
     void SubscribeEvent()
     {
         _controller.Input.OnJumpInputDown += OnJumpInput;
-        _controller.Input.OnJumpInputDown += OnJumpUpInput;
+        _controller.Input.OnJumpInputUp += OnJumpUpInput;
         _controller.Input.OnDashInput += OnDashInput;
         _controller.Input.OnAttackInput += _action.OnAttackInput;
     }
@@ -108,7 +104,6 @@ public class PlayerMovement : MonoBehaviour
 
         // Buffer
         _bufferManager.UpdateAll(Time.deltaTime);
-
        
         // Input
         _moveInput = _controller.Input.MoveInput;
@@ -116,8 +111,15 @@ public class PlayerMovement : MonoBehaviour
         if (_moveInput.x != 0)
             CheckDirectionToFace(_moveInput.x > 0);
 
-        #region Collision Check
+        CheckCollision();
+        HandleJump();
+        HandleDash();
+        HandleSlide();
+        HandleAttack();
+    }
 
+    void CheckCollision()
+    {
         if (!IsDashing && !IsJumping)
         {
             // 땅 체크
@@ -141,11 +143,9 @@ public class PlayerMovement : MonoBehaviour
                 || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)) && !IsWallJumping)
                 _bufferManager.Get(BufferType.WallLeft).Set();
         }
-
-        #endregion
-
-        #region Jump Check
-
+    }
+    void HandleJump()
+    {
         // 점프 시작
         if (IsJumping && RB.velocity.y < 0)
         {
@@ -192,9 +192,9 @@ public class PlayerMovement : MonoBehaviour
                 WallJump(_lastWallJumpDir);
             }
         }
-        #endregion
-
-        #region Dash Check
+    }
+    void HandleDash()
+    {
         if (CanDash() && _bufferManager.Get(BufferType.Dash).IsActive)
         {
             //Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
@@ -213,39 +213,34 @@ public class PlayerMovement : MonoBehaviour
 
             StartCoroutine(nameof(CoStartDash), _lastDashDir);
         }
-        #endregion
-
-        #region Slide Check
+    }
+    void HandleSlide()
+    {
+        // Wall Slide
 
         if (CanSlide() && ((_bufferManager.Get(BufferType.WallLeft).IsActive && _moveInput.x < 0) || (_bufferManager.Get(BufferType.WallRight).IsActive && _moveInput.x > 0)))
             IsSliding = true;
         else
             IsSliding = false;
-
-        #endregion
-
-        #region Attack Check
-
+    }
+    void HandleAttack()
+    {
         if (_action.CanAttack(IsDashing))
         {
             StartCoroutine(_action.CoAttack(Sleep));
         }
-
-        #endregion
-
-        #region Gravity
+    }
+    void HandleGravity()
+    {
         if (!_isDashAttacking)
         {
             if (IsSliding)
-            {
                 SetGravityScale(0);
-            }
             else if (RB.velocity.y < 0 && _moveInput.y < 0)
             {
                 // 아래키 눌렀을 때 중력 증가
                 SetGravityScale(_data._gravityScale * _data._fastFallGravityMult);
-                //Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -_data._maxFastFallSpeed));
+                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -_data._maxFastFallSpeed)); // 낙하 속도 제한
             }
             else if (_isJumpCut)
             {
@@ -255,40 +250,24 @@ public class PlayerMovement : MonoBehaviour
             }
             else if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < _data._jumpHangTimeThreshold)
             {
-                // 점프 정점 근처
-                SetGravityScale(_data._gravityScale * _data._jumpHangGravityMult);
+                SetGravityScale(_data._gravityScale * _data._jumpHangGravityMult); // 점프 정점 근처
             }
             else if (RB.velocity.y < 0)
             {
-                // 낙하 상태
-                SetGravityScale(_data._gravityScale * _data._fallGravityMult);
-                // 낙하 속도 제한
-                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -_data._maxFallSpeed));
+                SetGravityScale(_data._gravityScale * _data._fallGravityMult); // 낙하 상태
+                RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -_data._maxFallSpeed)); // 낙하 속도 제한
             }
             else
-            {
-                // 기본 중력
-                SetGravityScale(_data._gravityScale);
-            }
+                SetGravityScale(_data._gravityScale); // 기본 중력
         }
         else
-        {
-            // 대시 중
-            SetGravityScale(0);
-        }
-        #endregion
+            SetGravityScale(0); // 대시 중
     }
-
     void FixedUpdate()
     {
         if (_controller.PlayerHealth.IsDead) return;
 
-        if (!_canMove)
-        {
-            RB.velocity = new Vector2(0, RB.velocity.y);
-            return;
-        }
-        if (_action.IsAttacking)
+        if (!_canMove || _action.IsAttacking)
         {
             RB.velocity = new Vector2(0, RB.velocity.y);
             return;
@@ -360,8 +339,6 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     // Movement
-    #region Run
-
     void Run(float lerpAmount)
     {
         if (_action.IsAttacking) return;
@@ -430,9 +407,7 @@ public class PlayerMovement : MonoBehaviour
 
         RB.AddForce(movement * Vector2.up);
     }
-    #endregion
 
-    #region Jump
     private void Jump()
     {
         _bufferManager.Get(BufferType.Jump).Reset();
@@ -473,7 +448,6 @@ public class PlayerMovement : MonoBehaviour
         RB.AddForce(force, ForceMode2D.Impulse);
         #endregion
     }
-    #endregion
 
     #region Dash
     private IEnumerator CoStartDash(Vector2 dir)
