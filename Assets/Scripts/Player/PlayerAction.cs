@@ -29,13 +29,15 @@ public class PlayerAction : MonoBehaviour
     
     int _attackableLayer = (1 << (int)Layer.Monster) | (1 << (int)Layer.Breakable);
     public bool IsAttacking { get; private set; }
-    public float LastPressedAttackTime { get; private set; }
+
+    InputBuffer _attackBuffer;
 
     Coroutine _coHold;
 
     void Awake()
     {
         SubscribeEvent();
+        _attackBuffer = new InputBuffer(_data._attackInputBufferTime);
     }
 
     public void Init(PlayerController controller, PlayerMovementData data, PlayerStat stat, PlayerAnimation anim)
@@ -49,7 +51,7 @@ public class PlayerAction : MonoBehaviour
     {
         if(_controller.PlayerHealth.IsDead) return;
 
-        LastPressedAttackTime -= Time.deltaTime;
+        _attackBuffer.Update(Time.deltaTime);
         if (_controller.Input.IsHealPressed && _coHold == null)
         {
             OnHealInput();
@@ -78,7 +80,7 @@ public class PlayerAction : MonoBehaviour
     public void OnAttackInput()
     {
         _anim.StartedAttacking = true;
-        LastPressedAttackTime = _data._attackInputBufferTime;
+        _attackBuffer.Set();
     }
     #endregion
 
@@ -154,7 +156,7 @@ public class PlayerAction : MonoBehaviour
         yield return new WaitForSeconds(remainingTime);
 
         IsAttacking = false;
-        LastPressedAttackTime = 0;
+        _attackBuffer.Reset();
     }
     #endregion
 
@@ -162,7 +164,7 @@ public class PlayerAction : MonoBehaviour
     /* Check */
     public bool CanAttack(bool isDashing)
     {
-        if (LastPressedAttackTime > 0 && !isDashing && !IsAttacking)
+        if (_attackBuffer.IsActive && !isDashing && !IsAttacking)
             return true;
         else
             return false;

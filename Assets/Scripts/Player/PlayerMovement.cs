@@ -32,15 +32,16 @@ public class PlayerMovement : MonoBehaviour
 
     bool _canMove = true;
 
-    // Timers
-    public float LastOnGroundTime { get; private set; } // 0 이면 땅에 닿은 상태
-    public float LastOnWallTime { get; private set; } // 0 = 벽에 닿은 상태
-    public float LastOnWallRightTime { get; private set; } // 0 = 오른쪽 벽에 닿아 있는 상태
-    public float LastOnWallLeftTime { get; private set; }
-    public float LastPressedJumpTime { get; private set; } // 0 = 방금 점프 버튼을 눌렀음
-    public float LastPressedDashTime { get; private set; } // 0 = 방금 대시 버튼 눌렀음
-    
+    #region Buffers
 
+    InputBuffer _groundBuffer;
+    InputBuffer _wallBuffer;
+    InputBuffer _wallRightBuffer;
+    InputBuffer _wallLeftBuffer;
+    InputBuffer _jumpBuffer;
+    InputBuffer _dashBuffer;
+
+    #endregion
     // Jump
     private bool _isJumpCut;
     private bool _isJumpFalling;
@@ -79,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
 
         SubscribeEvent();
+        InitBuffers();
     }
 
     // Subscribe to events
@@ -88,7 +90,15 @@ public class PlayerMovement : MonoBehaviour
         _controller.Input.OnJumpInputDown += OnJumpUpInput;
         _controller.Input.OnDashInput += OnDashInput;
         _controller.Input.OnAttackInput += _action.OnAttackInput;
+    }
 
+    void InitBuffers()
+    {
+        _groundBuffer = new InputBuffer(_data._coyoteTime);
+        _wallRightBuffer = new InputBuffer(_data._coyoteTime);
+        _wallLeftBuffer = new InputBuffer(_data._coyoteTime);
+        _jumpBuffer = new InputBuffer(_data._jumpInputBufferTime);
+        _dashBuffer = new InputBuffer(_data._dashInputBufferTime);
     }
     void Start()
     {
@@ -104,17 +114,17 @@ public class PlayerMovement : MonoBehaviour
         if (!_canMove) return;
 
         #region Timers
-        LastOnGroundTime -= Time.deltaTime;
-        LastOnWallTime -= Time.deltaTime;
-        LastOnWallRightTime -= Time.deltaTime;
-        LastOnWallLeftTime -= Time.deltaTime;
 
-        LastPressedJumpTime -= Time.deltaTime;
-        LastPressedDashTime -= Time.deltaTime;
-        
+        _groundBuffer.Update(Time.deltaTime);
+        _wallRightBuffer.Update(Time.deltaTime);
+        _wallLeftBuffer.Update(Time.deltaTime);
+        _jumpBuffer.Update(Time.deltaTime);
+        _dashBuffer.Update(Time.deltaTime);
+
         #endregion
 
         #region Input
+
         _moveInput = _controller.Input.MoveInput;
 
         if (_moveInput.x != 0)
@@ -130,26 +140,25 @@ public class PlayerMovement : MonoBehaviour
             // 땅 체크
             if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer))
             {
-                if (LastOnGroundTime < -0.1f)
+                if (_groundBuffer.Timer < -0.1f)
                 {
                     _anim.JustLanded = true;
                 }
 
-                LastOnGroundTime = _data._coyoteTime;
+                _groundBuffer.Set();
             }
 
             // 오른쪽 벽 체크
             if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
                     || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)) && !IsWallJumping)
-                LastOnWallRightTime = _data._coyoteTime;
+                _wallRightBuffer.Set();
 
             // 왼쪽 벽 체크
             if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
                 || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)) && !IsWallJumping)
-                LastOnWallLeftTime = _data._coyoteTime;
-
-            LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
+                _wallLeftBuffer.Set();
         }
+
         #endregion
 
         #region Jump Check
@@ -167,7 +176,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // 착지
-        if (LastOnGroundTime > 0 && !IsJumping && !IsWallJumping)
+        if (_groundBuffer.IsActive&& !IsJumping && !IsWallJumping)
         {
             _isJumpCut = false;
             _isJumpFalling = false;
@@ -176,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
         if (!IsDashing)
         {
             //Jump
-            if (CanJump() && LastPressedJumpTime > 0)
+            if (CanJump() && _jumpBuffer.IsActive)
             {
                 IsJumping = true;
                 IsWallJumping = false;
@@ -187,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
                 _anim.StartedJumping = true;
             }
             // 벽 점프
-            else if (CanWallJump() && LastPressedJumpTime > 0)
+            else if (CanWallJump() && _jumpBuffer.IsActive)
             {
                 IsWallJumping = true;
                 IsJumping = false;
@@ -195,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
                 _isJumpFalling = false;
 
                 _wallJumpStartTime = Time.time;
-                _lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
+                _lastWallJumpDir = (_wallRightBuffer.IsActive) ? -1 : 1;
 
                 WallJump(_lastWallJumpDir);
             }
@@ -203,7 +212,7 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         #region Dash Check
-        if (CanDash() && LastPressedDashTime > 0)
+        if (CanDash() && _dashBuffer.IsActive)
         {
             //Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
             Sleep(_data._dashSleepTime);
@@ -224,10 +233,12 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         #region Slide Check
-        if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
+
+        if (CanSlide() && ((_wallLeftBuffer.IsActive && _moveInput.x < 0) || (_wallRightBuffer.IsActive && _moveInput.x > 0)))
             IsSliding = true;
         else
             IsSliding = false;
+
         #endregion
 
         #region Attack Check
@@ -330,7 +341,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnJumpInput()
     {
-        LastPressedJumpTime = _data._jumpInputBufferTime;
+        _jumpBuffer.Set();
     }
 
     public void OnJumpUpInput()
@@ -341,7 +352,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnDashInput()
     {
-        LastPressedDashTime = _data._dashInputBufferTime;
+        _dashBuffer.Set();
     }
     #endregion
 
@@ -379,7 +390,7 @@ public class PlayerMovement : MonoBehaviour
         // 가속 비율
         float accelRate;
 
-        if (LastOnGroundTime > 0)
+        if (_groundBuffer.IsActive)
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data._runAccelAmount : _data._runDeccelAmount;
         else
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data._runAccelAmount * _data._accelInAir : _data._runDeccelAmount * _data._deccelInAir; // 공중에 있을 때 가속도와 감속도
@@ -396,7 +407,7 @@ public class PlayerMovement : MonoBehaviour
 
         #region 관성
         // 관성
-        if (_data._doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
+        if (_data._doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && !_groundBuffer.IsActive)
         {
             // 현재 속도가 목표 속도보다 빠른지 확인
             // 현재 이동 방향과 목표 이동 방향이 같은지 확인
@@ -422,11 +433,11 @@ public class PlayerMovement : MonoBehaviour
     void Slide()
     {
         if (RB.velocity.y > 0)
-        {
             RB.AddForce(-RB.velocity.y * Vector2.up, ForceMode2D.Impulse);
-        }
+
         float speedDif = _data._slideSpeed - RB.velocity.y;
         float movement = speedDif * _data._slideAccel;
+
         // 속도 제한
         movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
 
@@ -437,8 +448,8 @@ public class PlayerMovement : MonoBehaviour
     #region Jump
     private void Jump()
     {
-        LastPressedJumpTime = 0;
-        LastOnGroundTime = 0; // 공중에 있음
+        _jumpBuffer.Reset();
+        _groundBuffer.Reset();
 
         #region Perform Jump
         //We increase the force applied if we are falling
@@ -455,10 +466,10 @@ public class PlayerMovement : MonoBehaviour
     private void WallJump(int dir)
     {
         //Ensures we can't call Wall Jump multiple times from one press
-        LastPressedJumpTime = 0;
-        LastOnGroundTime = 0;
-        LastOnWallRightTime = 0;
-        LastOnWallLeftTime = 0;
+        _jumpBuffer.Reset();
+        _groundBuffer.Reset();
+        _wallRightBuffer.Reset();
+        _wallLeftBuffer.Reset();
 
         #region Perform Wall Jump
         Vector2 force = new Vector2(_data._wallJumpForce.x, _data._wallJumpForce.y);
@@ -480,9 +491,8 @@ public class PlayerMovement : MonoBehaviour
     #region Dash
     private IEnumerator CoStartDash(Vector2 dir)
     {
-        LastOnGroundTime = 0;
-        LastPressedDashTime = 0;
-
+        _groundBuffer.Reset();
+        _dashBuffer.Reset();
         float startTime = Time.time;
 
         _dashesLeft--;
@@ -533,7 +543,8 @@ public class PlayerMovement : MonoBehaviour
 
     bool CanJump()
     {
-        return LastOnGroundTime > 0 && !IsJumping && !_action.IsAttacking;
+        /* LastOnGroundTime  = 플레이어가 마지막으로 땅에 닿은 뒤 경과한 시간 */
+        return _groundBuffer.IsActive && !IsJumping && !_action.IsAttacking;
     }
     bool CanWallJump()
     {
@@ -541,8 +552,12 @@ public class PlayerMovement : MonoBehaviour
         // 2. 벽에 붙은 시간이 유효한지
         // 3. 땅에 붙어 있지않은지
         // 4. 현재 벽 점프 중이 아니거나, (오른쪽(왼쪽)벽에 붙어 있고, 이전 점프 방향이 오른쪽(왼쪽)인 경우)
-        return LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0 && (!IsWallJumping ||
-             (LastOnWallRightTime > 0 && _lastWallJumpDir == 1) || (LastOnWallLeftTime > 0 && _lastWallJumpDir == -1));
+        return _jumpBuffer.IsActive 
+            && (_wallLeftBuffer.IsActive || _wallRightBuffer.IsActive)
+            && !_groundBuffer.IsActive
+            && (!IsWallJumping 
+            || (_wallRightBuffer.IsActive && _lastWallJumpDir == 1) 
+            || (_wallLeftBuffer.IsActive&& _lastWallJumpDir == -1));
     }
 
     bool CanJumpCut()
@@ -559,7 +574,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanDash()
     {
-        if (!IsDashing && _dashesLeft < _data._dashAmount && LastOnGroundTime > 0 && !_dashRefilling)
+        if (!IsDashing && _dashesLeft < _data._dashAmount && _groundBuffer.IsActive&& !_dashRefilling)
         {
             StartCoroutine(nameof(RefillDash), 1);
         }
@@ -569,12 +584,10 @@ public class PlayerMovement : MonoBehaviour
 
     public bool CanSlide()
     {
-        if (LastOnWallTime > 0 && !IsJumping && !IsWallJumping && !IsDashing && LastOnGroundTime <= 0)
-            return true;
-        else
-            return false;
+        return (_wallLeftBuffer.IsActive || _wallRightBuffer.IsActive)
+            && !IsJumping && !IsWallJumping && !IsDashing
+            && !_groundBuffer.IsActive;
     }
-
    
     #endregion
 
