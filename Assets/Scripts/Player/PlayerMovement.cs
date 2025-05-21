@@ -116,14 +116,17 @@ public class PlayerMovement : MonoBehaviour
         HandleDash();
         HandleSlide();
         HandleAttack();
+        HandleGravity();
     }
 
     void CheckCollision()
     {
         if (!IsDashing && !IsJumping)
         {
+
+            Collider2D groundHit = Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer);
             // 땅 체크
-            if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer))
+            if (groundHit)
             {
                 if (_bufferManager.Get(BufferType.Ground).Timer < -0.1f)
                 {
@@ -133,17 +136,22 @@ public class PlayerMovement : MonoBehaviour
                 _bufferManager.Get(BufferType.Ground).Set();
             }
 
-            // 오른쪽 벽 체크
-            if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
-                    || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)) && !IsWallJumping)
-                _bufferManager.Get(BufferType.WallRight).Set();
+            Collider2D rightWallHit = Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer);
+            Collider2D leftWallHit = Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer);
 
-            // 왼쪽 벽 체크
-            if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
-                || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)) && !IsWallJumping)
-                _bufferManager.Get(BufferType.WallLeft).Set();
+            if (!IsWallJumping)
+            {
+                // 오른쪽 벽 체크
+                if ((rightWallHit && IsFacingRight) || (leftWallHit && !IsFacingRight))
+                    _bufferManager.Get(BufferType.WallRight).Set();
+
+                // 왼쪽 벽 체크
+                if ((rightWallHit && !IsFacingRight) || (leftWallHit && IsFacingRight))
+                    _bufferManager.Get(BufferType.WallLeft).Set();
+            }
         }
     }
+
     void HandleJump()
     {
         // 점프 시작
@@ -346,7 +354,6 @@ public class PlayerMovement : MonoBehaviour
         float targetSpeed = _moveInput.x * _data._runMaxSpeed;
         targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
-        #region 가속 계산
         // 가속 비율
         float accelRate;
 
@@ -354,18 +361,14 @@ public class PlayerMovement : MonoBehaviour
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data._runAccelAmount : _data._runDeccelAmount;
         else
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _data._runAccelAmount * _data._accelInAir : _data._runDeccelAmount * _data._deccelInAir; // 공중에 있을 때 가속도와 감속도
-        #endregion
 
-        #region 점프 연출
         // 점프 자연스럽게 연출
         if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < _data._jumpHangTimeThreshold)
         {
             accelRate *= _data._jumpHangAccelerationMult;
             targetSpeed *= _data._jumpHangMaxSpeedMult;
         }
-        #endregion
 
-        #region 관성
         // 관성
         if (_data._doConserveMomentum 
             && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) 
@@ -377,7 +380,6 @@ public class PlayerMovement : MonoBehaviour
             // 현재 이동 방향과 목표 이동 방향이 같은지 확인
             accelRate = 0;
         }
-        #endregion
 
         // 실제 적용될 속도
         float speedDif = targetSpeed - RB.velocity.x;
