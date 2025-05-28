@@ -17,6 +17,7 @@ public class Stat : MonoBehaviour
     [SerializeField] protected float _currentHp;
     protected float _currentAttack;
 
+    public int Level { get { return _level; } set { _level = value; } }
     public float MaxHp { get { return _maxHp; } }
     public float Attack { get { return _attack; } }
     public float Defense { get { return _defense; } }

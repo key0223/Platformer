@@ -1415,6 +1415,7 @@ GameObject:
   - component: {fileID: 8554299594776531908}
   - component: {fileID: 6697022055437375225}
   - component: {fileID: 8073659666357373301}
+  - component: {fileID: 1491074000787907865}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1538,6 +1539,18 @@ MonoBehaviour:
   _soGridProperties:
   - {fileID: 11400000, guid: 24adc132b580c3b4ebf8844e95986d2f, type: 2}
   - {fileID: 11400000, guid: e838429a61fbb95459d17491dbd019b4, type: 2}
+--- !u!114 &1491074000787907865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8554299594776531916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 115bc50a0b2eb7544b9734b1f89523a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8554299595005383509
 GameObject:
   m_ObjectHideFlags: 0

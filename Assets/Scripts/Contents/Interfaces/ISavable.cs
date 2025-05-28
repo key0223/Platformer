@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public interface ISavable
 {
-    void SaveRegister();
-    void SaveDeregister();
+    void RegisterSave();
+    void DeregisterSave();
     object CaptureData();
     void RestoreData(object data);
 }
