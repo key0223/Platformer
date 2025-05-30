@@ -14,6 +14,8 @@ public class FXDestroySelf : MonoBehaviour
 
     void OnEnable()
     {
+        SceneChangeManager.Instance.OnSceneChanged += OnSceneChanged;
+
         if (_coDestroy != null)
         {
             StopCoroutine(_coDestroy);
@@ -22,11 +24,25 @@ public class FXDestroySelf : MonoBehaviour
         _coDestroy = StartCoroutine(CoDestroy());
 
     }
+    void OnDisable()
+    {
+        SceneChangeManager.Instance.OnSceneChanged -= OnSceneChanged;
+    }
     IEnumerator CoDestroy()
     {
         float duration = _particle.main.duration;
 
         yield return Helper.GetWait(duration);
+        ResourceManager.Instance.Destroy(gameObject);
+    }
+
+    void OnSceneChanged()
+    {
+        if (_coDestroy != null)
+        {
+            StopCoroutine(_coDestroy);
+            _coDestroy = null;
+        }
         ResourceManager.Instance.Destroy(gameObject);
     }
 }

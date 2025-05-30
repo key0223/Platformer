@@ -9,7 +9,7 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
     static bool _loadFromDoor;
 
     public event Action OnEnterGame;
-
+    public event Action OnSceneChanged;
     PlayerMovement _player;
     Collider2D _playerColl;
     Collider2D _doorColl;
@@ -60,6 +60,7 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
             yield return null;
         }
         _doorToSpawnTo = doorToSpawnAt;
+        OnSceneChanged?.Invoke();
         SceneManager.LoadScene(sceneToLoad);
     }
 
