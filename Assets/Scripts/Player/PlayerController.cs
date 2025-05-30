@@ -60,9 +60,10 @@ public class PlayerController : MonoBehaviour, ISavable
         /* Stat */
 
         data.level = PlayerStat.Level;
-        data.CurrentHp = PlayerStat.CurrentHp;
-        data.CurrentExp = PlayerStat.CurrentExp;
-        data.CurrentShield = PlayerStat.CurrentShield;
+        data.currentHp = PlayerStat.CurrentHp;
+        data.currentExp = PlayerStat.CurrentExp;
+        data.currentSoul = PlayerStat.CurrentSoul;
+        data.currentShield = PlayerStat.CurrentShield;
 
         return data;
     }
@@ -76,12 +77,11 @@ public class PlayerController : MonoBehaviour, ISavable
             transform.position = new Vector2(data.posX, data.posY);
 
             PlayerStat.Level = data.level;
-            PlayerStat.CurrentHp = data.CurrentHp;
-            PlayerStat.CurrentExp = data.CurrentExp;
-            PlayerStat.CurrentShield = data.CurrentShield;
+            PlayerStat.CurrentHp = data.currentHp;
+            PlayerStat.CurrentExp = data.currentExp;
+            PlayerStat.CurrentSoul = data.currentSoul;
+            PlayerStat.CurrentShield = data.currentShield;
         }
     }
-
-
     #endregion
 }

@@ -14,7 +14,7 @@ public class Stat : MonoBehaviour
     [SerializeField] protected float _defense = 0;
     #endregion
 
-    [SerializeField] protected float _currentHp;
+    [SerializeField] protected float _currentHp = 100;
     protected float _currentAttack;
 
     public int Level { get { return _level; } set { _level = value; } }
@@ -26,7 +26,7 @@ public class Stat : MonoBehaviour
 
     protected virtual void Start()
     {
-        _currentHp = _maxHp;
+        //_currentHp = _maxHp;
         _currentAttack = _attack;
     }
 

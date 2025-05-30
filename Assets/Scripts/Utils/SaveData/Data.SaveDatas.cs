@@ -11,9 +11,10 @@ namespace Data
 
         // Stat
         public int level;
-        public float CurrentHp;
-        public float CurrentExp;
-        public int CurrentShield;
+        public float currentHp;
+        public float currentExp;
+        public float currentSoul;
+        public int currentShield;
     }
 
     [Serializable]

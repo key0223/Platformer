@@ -58,7 +58,7 @@ public class PlayerStat : Stat
     {
         base.Start();
         _maxSoul = 100f;
-        _currentSoul = 0;
+        //_currentSoul = 0;
 
         // Initial Player stat settings
         _weaponDamage = UIManager.Instance.PopupPanel.InvenPanel.GetEquippedWeaponDamage();

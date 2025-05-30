@@ -63,7 +63,7 @@ public class HUDPanel : MonoBehaviour
         _hpSlider.value = _playerStat.CurrentHp;
 
         // Soul Settings
-        _soulImage.fillAmount = 0f;
+        _soulImage.fillAmount = GetFillAmount();
     }
 
     #region Coin Methods
@@ -153,8 +153,13 @@ public class HUDPanel : MonoBehaviour
     }
     void ModifySoul(float amount)
     {
-        float targetFillAmount = Mathf.Clamp(_playerStat.CurrentSoul, 0, _playerStat.MaxSoul) / _playerStat.MaxSoul;
+        float targetFillAmount = GetFillAmount();
         _soulImage.DOFillAmount(targetFillAmount, 0.3f).SetEase(Ease.Linear);
+    }
+
+    float GetFillAmount()
+    {
+        return Mathf.Clamp(_playerStat.CurrentSoul, 0, _playerStat.MaxSoul) / _playerStat.MaxSoul;
     }
     #endregion
 
