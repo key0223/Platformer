@@ -42,7 +42,10 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>,ISavabl
     {
         DeregisterSave();
     }
-
+    public bool HasItem(int itemId)
+    {
+        return Items.ContainsKey(itemId) || Charms.ContainsKey(itemId);
+    }
     #region Coin
     public void AddCoin(float amount)
     {

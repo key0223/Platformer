@@ -114,7 +114,10 @@ public class ShopUIController : MonoBehaviour
             _itemList.Add(shopItem);
 
             GameObject itemObj = shopItem.gameObject;
-
+            if(InventoryManager.Instance.HasItem(itemId))
+            {
+                shopItem.IsPurchased = true;
+            }
             RectTransform rect = itemObj.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0.5f, 1f);
             rect.anchorMax = new Vector2(0.5f, 1f);
