@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Data;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,9 +23,9 @@ public class PlayerController : MonoBehaviour, ISavable
 
         Init();
     }
-    void Start()
+
+    void OnEnable()
     {
-        Debug.Log("Registered");
         RegisterSave();
     }
     void OnDisable()
@@ -39,18 +38,10 @@ public class PlayerController : MonoBehaviour, ISavable
         Anim.Init(this);
         PlayerAction.Init(this, Data, PlayerStat, Anim);
         PlayerHealth.Init(PlayerStat, Anim);
-
-        SceneChangeManager.Instance.OnEnterGame += OnFirstLoaded;
     }
 
     #region Save
 
-    void OnFirstLoaded()
-    {
-        PlayerSaveData saveData = SaveLoadManager.Instance.SaveData.playerSaveData;
-        RestoreData(saveData);
-
-    }
     public void RegisterSave()
     {
         SaveLoadManager.Instance.Register(this);

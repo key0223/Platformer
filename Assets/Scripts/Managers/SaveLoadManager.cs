@@ -1,4 +1,4 @@
-using System.Collections;
+using Data;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -17,6 +17,8 @@ public class SaveLoadManager : SingletonMonobehaviour<SaveLoadManager>
     {
         base.Awake();
         _savePath = Application.persistentDataPath;
+
+        SceneChangeManager.Instance.OnEnterGame += RestoreAll;
     }
 
     public void Register(ISavable savable)
@@ -37,6 +39,8 @@ public class SaveLoadManager : SingletonMonobehaviour<SaveLoadManager>
         {
             if (savable is PlayerController)
                 saveData.playerSaveData = (PlayerSaveData)savable.CaptureData();
+            else if(savable is InventoryManager)
+                saveData.inventorySaveData = (InventorySaveData)savable.CaptureData();
         }
 
         return saveData;
@@ -46,8 +50,20 @@ public class SaveLoadManager : SingletonMonobehaviour<SaveLoadManager>
     {
         foreach(var savable in _savableList)
         {
-            if (savable is PlayerSaveData)
+            if (savable is PlayerController)
                 savable.RestoreData(saveData.playerSaveData);
+            else if (savable is InventoryManager)
+                savable.RestoreData(saveData.inventorySaveData);
+        }
+    }
+    public void RestoreAll()
+    {
+        foreach (var savable in _savableList)
+        {
+            if (savable is PlayerController)
+                savable.RestoreData(_saveData.playerSaveData);
+            else if (savable is InventoryManager)
+                savable.RestoreData(_saveData.inventorySaveData);
         }
     }
 
@@ -82,7 +98,7 @@ public class SaveLoadManager : SingletonMonobehaviour<SaveLoadManager>
         {
             _saveData = formatter.Deserialize(stream) as SaveData;
 
-            RestoreAll(_saveData);
+            //RestoreAll(_saveData);
             Debug.Log("파일 불러오기 완료");
         }
     }

@@ -1,8 +1,9 @@
 using UnityEngine;
 using Data;
 using static Define;
-using System.Security.Cryptography.X509Certificates;
+using System;
 
+[Serializable]
 public class Item 
 {
     protected int _itemId;
@@ -99,6 +100,7 @@ public class Weapon: Item
     }
 }
 
+[Serializable]
 public class Charm : Item
 {
     int _slotIndex;

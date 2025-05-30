@@ -1,10 +1,8 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class MiniMapPanel : PopupPanelBase
 {
@@ -61,7 +59,6 @@ public class MiniMapPanel : PopupPanelBase
         {
             MarkerBarSlot markerSlot = ResourceManager.Instance.Instantiate(_markerSlotPrefabPath, _markerSlotParent.gameObject.transform).GetComponent<MarkerBarSlot>();
 
-            Debug.Log("Prefab created");
             markerSlot.gameObject.SetActive(false);
             markerSlot.Init(_markerIds[i]);
 

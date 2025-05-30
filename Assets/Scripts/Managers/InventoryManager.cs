@@ -1,10 +1,10 @@
+using Data;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Define;
 
-public class InventoryManager : SingletonMonobehaviour<InventoryManager>
+public class InventoryManager : SingletonMonobehaviour<InventoryManager>,ISavable
 {
     PlayerController _playerController;
 
@@ -12,8 +12,8 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
     #region Event
     public event Action<float> OnCoinChanged;
     #endregion
-    public Dictionary<int, Item> Items { get; } = new Dictionary<int, Item>();
-    public Dictionary<int, Charm> Charms { get; } = new Dictionary<int, Charm>();
+    public Dictionary<int, Item> Items { get; private set; } = new Dictionary<int, Item>();
+    public Dictionary<int, Charm> Charms { get; private set; } = new Dictionary<int, Charm>();
     [SerializeField] float _coin;
     public float Coin
     {
@@ -32,6 +32,15 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
 
         _playerController = FindObjectOfType<PlayerController>();
         AddCoin(1000);
+    }
+
+    void OnEnable()
+    {
+        RegisterSave();
+    }
+    void OnDisable()
+    {
+        DeregisterSave();
     }
 
     #region Coin
@@ -102,4 +111,40 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>
     {
         _playerController.PlayerStat.OnRefreshEquipItem();
     }
+
+    #region Save
+    public void RegisterSave()
+    {
+        SaveLoadManager.Instance.Register(this);
+    }
+    public void DeregisterSave()
+    {
+        SaveLoadManager.Instance.Deregister(this);
+    }
+
+    public object CaptureData()
+    {
+        InventorySaveData data = new InventorySaveData();
+        data.currentCoin = _coin;
+
+        data.items = Items;
+        data.charms = Charms;
+
+        return data;
+    }
+
+    public void RestoreData(object loadeddata)
+    {
+        InventorySaveData data = loadeddata as InventorySaveData;
+
+        if(data != null)
+        {
+            _coin = data.currentCoin;
+
+            Items = data.items;
+            Charms = data.charms;
+        }
+    }
+    #endregion
+
 }
