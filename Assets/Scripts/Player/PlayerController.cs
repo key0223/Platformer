@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour, ISavable
     }
     void Start()
     {
+        Debug.Log("Registered");
         RegisterSave();
     }
     void OnDisable()
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour, ISavable
     public object CaptureData()
     {
         PlayerSaveData data = new PlayerSaveData();
-        data.currentScene = SceneManager.GetActiveScene().ToString();
+        data.currentScene = SceneManager.GetActiveScene().name;
         data.posX = transform.position.x;
         data.posY = transform.position.y;
 

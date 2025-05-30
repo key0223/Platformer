@@ -11,6 +11,8 @@ public class SaveLoadManager : SingletonMonobehaviour<SaveLoadManager>
 
     SaveData _saveData;
     List<ISavable> _savableList = new List<ISavable>();
+
+    public SaveData SaveData { get { return _saveData; } }
     protected override void Awake()
     {
         base.Awake();

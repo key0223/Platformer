@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Define;
@@ -16,10 +16,16 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
 
     DoorToSpawnAt _doorToSpawnTo;
 
+    SceneName _currentScene;
+
+    public SceneName CurrentScene {  get { return _currentScene; } }
     protected override void Awake()
     {
         base.Awake();
+    }
 
+    public void OnEnterGameScene()
+    {
         _player = GameObject.FindGameObjectWithTag(TAG_PLAYER).GetComponent<PlayerMovement>();
         _playerColl = _player.gameObject.GetComponent<Collider2D>();
     }
@@ -33,11 +39,14 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
+    #region Scene change from door use 
     public static void ChangeSceneFromDoorUse(SceneField sceneToLoad, DoorToSpawnAt doorToSpawnAt = DoorToSpawnAt.None)
     {
         _loadFromDoor = true;
-        Instance.StartCoroutine(Instance.FadeOutThenChangeScene(sceneToLoad,doorToSpawnAt));
+        Instance.StartCoroutine(Instance.FadeOutThenChangeScene(sceneToLoad, doorToSpawnAt));
     }
+
     IEnumerator FadeOutThenChangeScene(SceneField sceneToLoad, DoorToSpawnAt doorToSpawnAt = DoorToSpawnAt.None)
     {
         _player.SetMovementEnabled(true);
@@ -53,7 +62,7 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
 
     IEnumerator ActivatePlayerMovementAfterFadeIn()
     {
-        while(SceneFadeManager.Instance.IsFadingIn)
+        while (SceneFadeManager.Instance.IsFadingIn)
         {
             yield return null;
         }
@@ -91,9 +100,39 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
 
     void CalculateSpawnPosition()
     {
-
         float colliderHeight = _playerColl.bounds.extents.y;
         _playerSpawnPosition = _doorColl.transform.position - new Vector3(0f, colliderHeight, 0f);
-
     }
+    #endregion
+
+    #region Scene change by scene name
+    public static void ChangeSceneBySceneName(string sceneName)
+    {
+        Instance.StartCoroutine(Instance.FadeOutThenChangeScene(sceneName));
+    }
+
+    IEnumerator FadeOutThenChangeScene(string sceneName)
+    {
+        //_player.SetMovementEnabled(true);
+        SceneFadeManager.Instance.StartFadeOut();
+
+        while (SceneFadeManager.Instance.IsFadingOut)
+        {
+            yield return null;
+        }
+        SceneManager.LoadScene(sceneName);
+
+        OnSceneLoaded();
+    }
+
+    void OnSceneLoaded()
+    {
+        SceneFadeManager.Instance.StartFadeIn();
+
+        GameObject contentsObject = Instantiate(Resources.Load<GameObject>("Prefabs/GAME CONTENTS OBJECT"));
+        OnEnterGameScene();
+        DontDestroyOnLoad(contentsObject);
+    }
+    #endregion
+
 }

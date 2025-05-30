@@ -97,4 +97,12 @@ public class Define
         Greenpath,
         Dirtmouth,
     }
+
+    public enum SceneName
+    {
+        Scene_Start,
+        Scene_Greenpath,
+        Scene_Dirtmouth,
+        Scene_Town_Store1,
+    }
 }

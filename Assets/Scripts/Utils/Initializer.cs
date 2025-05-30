@@ -8,6 +8,6 @@ public static class Initializer
     public static void Execute()
     {
         Debug.Log("Loaded by the Persist Objects from the Initializer script");
-        Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("Prefabs/PERSIST OBJECTS")));
+        Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("Prefabs/SYSTEM MANAGERS")));
     }
 }
