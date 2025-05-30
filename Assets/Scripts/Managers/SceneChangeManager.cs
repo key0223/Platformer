@@ -9,6 +9,8 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
 {
     static bool _loadFromDoor;
 
+    public event Action OnEnterGame;
+
     PlayerMovement _player;
     Collider2D _playerColl;
     Collider2D _doorColl;
@@ -28,6 +30,8 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
     {
         _player = GameObject.FindGameObjectWithTag(TAG_PLAYER).GetComponent<PlayerMovement>();
         _playerColl = _player.gameObject.GetComponent<Collider2D>();
+
+        OnEnterGame?.Invoke();
     }
 
     void OnEnable()
@@ -113,7 +117,6 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
 
     IEnumerator FadeOutThenChangeScene(string sceneName)
     {
-        //_player.SetMovementEnabled(true);
         SceneFadeManager.Instance.StartFadeOut();
 
         while (SceneFadeManager.Instance.IsFadingOut)
@@ -131,6 +134,8 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
 
         GameObject contentsObject = Instantiate(Resources.Load<GameObject>("Prefabs/GAME CONTENTS OBJECT"));
         OnEnterGameScene();
+        //_player.SetMovementEnabled(true);
+
         DontDestroyOnLoad(contentsObject);
     }
     #endregion

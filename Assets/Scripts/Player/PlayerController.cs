@@ -39,11 +39,18 @@ public class PlayerController : MonoBehaviour, ISavable
         Anim.Init(this);
         PlayerAction.Init(this, Data, PlayerStat, Anim);
         PlayerHealth.Init(PlayerStat, Anim);
+
+        SceneChangeManager.Instance.OnEnterGame += OnFirstLoaded;
     }
 
     #region Save
 
+    void OnFirstLoaded()
+    {
+        PlayerSaveData saveData = SaveLoadManager.Instance.SaveData.playerSaveData;
+        RestoreData(saveData);
 
+    }
     public void RegisterSave()
     {
         SaveLoadManager.Instance.Register(this);
