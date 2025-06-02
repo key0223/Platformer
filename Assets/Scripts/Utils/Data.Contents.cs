@@ -47,13 +47,6 @@ namespace Data
         public Sprite decscrtiptionSprite;
     }
 
-    [Serializable]
-    public class MiniMapData:ItemData
-    {
-        public MapName mapName;
-        public string areaName;
-        public string prefabPath;
-    }
     #endregion
 
     [Serializable]

@@ -91,13 +91,6 @@ public class Define
         Rest,
     }
 
-    public enum MapName
-    {
-        Shop,
-        Greenpath,
-        Dirtmouth,
-    }
-
     public enum SceneName
     {
         Scene_Start,

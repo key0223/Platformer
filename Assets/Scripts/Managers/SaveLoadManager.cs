@@ -65,7 +65,8 @@ public class SaveLoadManager : SingletonMonobehaviour<SaveLoadManager>
     }
     public void RestoreAll()
     {
-        Debug.Log("Restore Called");
+        if (_saveData == null) return;
+
         foreach (var savable in _savableList)
         {
             if (savable is PlayerController)
