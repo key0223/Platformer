@@ -17,9 +17,9 @@ public class BenchInteraction : InteractionBase
     {
         UIManager.Instance.InvokeToggleCharmPanel();
 
-        if(MapManager.Instance.CurrentMiniMap !=null)
-        {
-            MapManager.Instance.CurrentMiniMap.MiniMapUI.UpdateMiniMap();
-        }
+        //if(MapManager.Instance.CurrentMiniMap !=null)
+        //{
+        //    MapManager.Instance.CurrentMiniMap.MiniMapUI.UpdateMiniMap();
+        //}
     }
 }

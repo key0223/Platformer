@@ -17,7 +17,6 @@ public class PopupPanel : MonoBehaviour
     [SerializeField] InventoryPanel _inventoryPanel;
     [SerializeField] CharmPanel _charmPanel;
     [SerializeField] InformationPanel _informationPanel;
-    [SerializeField] MiniMapPanel _miniMapPanel;
 
     [Space(10f)]
     [SerializeField] Highlighter _highlighter;
@@ -38,8 +37,6 @@ public class PopupPanel : MonoBehaviour
     public InventoryPanel InvenPanel { get { return _inventoryPanel; } }
     public CharmPanel CharmPanel { get { return _charmPanel; } }
     public InformationPanel InfoPanel { get { return _informationPanel; } }
-    public MiniMapPanel MiniMapPanel { get { return _miniMapPanel; } }
-
     public List<PopupPanelBase> Panels{ get { return _panels; } }
     public Highlighter Highlighter { get { return _highlighter; } }
     
@@ -63,7 +60,6 @@ public class PopupPanel : MonoBehaviour
         UIManager.Instance.OnToggleInventory += ToggleInventory;
         UIManager.Instance.OnTogglePopupInfo += PopupInfoPanel;
         UIManager.Instance.OnToggleCharmPanel += ToggleCharmPanel;
-        UIManager.Instance.OnToggleMiniMap += ToggleMiniMap;
     }
 
     void Init()
@@ -71,7 +67,6 @@ public class PopupPanel : MonoBehaviour
         InitPanelList();
 
         _informationPanel.gameObject.SetActive(false);
-        _miniMapPanel.gameObject.SetActive(false);
 
         _hud = UIManager.Instance.HUDPanel;
 
@@ -152,28 +147,6 @@ public class PopupPanel : MonoBehaviour
         _backgroundPanel.gameObject.SetActive(false);
         _inventoryPanel.gameObject.SetActive(false);
     }
-
-    public void ToggleMiniMap(bool isUIOn)
-    {
-        if(isUIOn)
-        {
-            _hud.gameObject.SetActive(false);
-            _backgroundPanel.gameObject.SetActive(false);
-
-            gameObject.SetActive(true);
-            _miniMapPanel.gameObject.SetActive(true);
-
-            _miniMapPanel.RefreshMiniMap();
-            _miniMapPanel.RefreshMarkerBar();
-        }
-        else
-        {
-            _hud.gameObject.SetActive(true);
-            gameObject.SetActive(false);
-            _miniMapPanel.gameObject.SetActive(false);
-        }
-    }
-   
 
     public int GetPopupPrevIndex()
     {

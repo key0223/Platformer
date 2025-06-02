@@ -78,11 +78,6 @@ public class ShopUIController : MonoBehaviour
                 _itemList[_currentSlot].IsPurchased = true;
                 Item purchasedItem = Item.MakeItem(_itemList[_currentSlot].ItemId);
                 InventoryManager.Instance.AddItem(purchasedItem);
-
-                if(purchasedItem.ItemType == ItemType.Map)
-                {
-                    MapManager.Instance.OnMiniMapPurchased(purchasedItem);
-                }
             }
         }
 
