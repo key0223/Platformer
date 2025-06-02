@@ -4,12 +4,14 @@ using UnityEngine.Tilemaps;
 
 public class BlockController : MonoBehaviour
 {
-    [SerializeField] Tilemap _tileMap;
+    [SerializeField] Tilemap _tileMap; //  should be minimap tilemap for minimap UI
 
     int _blockSize = 32;
     Camera _mainCamera;
 
     Vector3 _cameraPos;
+
+    Vector2Int _prevBlock;
     Vector2Int _currentBlock;
 
     Dictionary<Vector2Int,Block> _blockDict = new Dictionary<Vector2Int,Block>();
@@ -18,7 +20,7 @@ public class BlockController : MonoBehaviour
         _mainCamera = Camera.main;
 
         _cameraPos = _mainCamera.transform.position;
-        _currentBlock = new Vector2Int(Mathf.FloorToInt(_cameraPos.x / _blockSize), Mathf.FloorToInt(_cameraPos.y / _blockSize));
+        UpdateBlock();
     }
 
     void Start()
@@ -64,15 +66,26 @@ public class BlockController : MonoBehaviour
         }
     }
 
+    void UpdateBlock()
+    {
+        _cameraPos = _mainCamera.transform.position;
+
+        _currentBlock = new Vector2Int(Mathf.FloorToInt(_cameraPos.x / _blockSize), Mathf.FloorToInt(_cameraPos.y / _blockSize));
+    }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        UpdateBlock();
+
+        if(_currentBlock != _prevBlock)
         {
-            SetBlockAlpha(new Vector2Int(0, 0), 0);
+            _prevBlock = _currentBlock;
         }
-        if (Input.GetKeyDown(KeyCode.F))
+
+        if(_blockDict.TryGetValue(_currentBlock, out Block currentBlock))
         {
-            SetBlockAlpha(new Vector2Int(0, 0), 1f);
+            currentBlock.visited = true;
+            SetBlockAlpha(_currentBlock, 1f);
         }
+       
     }
 }
