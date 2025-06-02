@@ -11590,6 +11590,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1169583809071687849}
   - component: {fileID: 1169583809071687848}
+  - component: {fileID: 1169583809071687852}
   m_Layer: 0
   m_Name: Base Tilemap
   m_TagString: Untagged
@@ -11597,6 +11598,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1169583809071687852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169583809071687851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2263002cac95eb14baae2f45d2e8d218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tileMap: {fileID: 1169583809666572428}
+  fillTile: {fileID: 11400000, guid: 9a7c7a8c53cfb3f48af40bfadcb67e48, type: 2}
 --- !u!483693784 &1169583809228052540
 TilemapRenderer:
   m_ObjectHideFlags: 0
