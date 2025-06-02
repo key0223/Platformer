@@ -1,11 +1,9 @@
 using Data;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 using static Define;
 
-public class Npc_ElderbugController : NpcControllerBase
+public class Npc_ElderbugController : NpcControllerBase,ISavable
 {
     Npc_ElderbugAnimation _anim;
 
@@ -36,13 +34,20 @@ public class Npc_ElderbugController : NpcControllerBase
     public string CurrentEvent { get { return _currentEvent; } set { _currentEvent = value; } }
     #endregion
 
-
     void Awake()
     {
         _anim = GetComponent<Npc_ElderbugAnimation>();
         _interactionType = Define.InteractionType.Listen;
         _isIdle = true;
+    }
 
+    void OnEnable()
+    {
+        RegisterSave();
+    }
+    void OnDisable()
+    {
+        DeregisterSave();
     }
 
     public override void Update()
@@ -63,7 +68,6 @@ public class Npc_ElderbugController : NpcControllerBase
         {
             PlayerDir = Dir.Left;
         }
-
 
         if (IsPlayerOnTheRight && _isFirstMeet && dir.magnitude > 5)
         {
@@ -131,4 +135,36 @@ public class Npc_ElderbugController : NpcControllerBase
 
         }
     }
+
+    #region Save
+    public void RegisterSave()
+    {
+        Debug.Log("Elderbug Registered");
+        SaveLoadManager.Instance.Register(this);
+    }
+
+    public void DeregisterSave()
+    {
+        SaveLoadManager.Instance.Deregister(this);
+    }
+
+    public object CaptureData()
+    {
+        NpcProgressData data = new NpcProgressData();
+        data.npcId = _npcId;
+        data.hasMet = !_isFirstMeet;
+
+        return data;
+    }
+
+    public void RestoreData(object loadedata)
+    {
+        Dictionary<int, NpcProgressData> npcDict = loadedata as Dictionary<int, NpcProgressData>;
+        if(npcDict.TryGetValue(_npcId,out NpcProgressData data))
+        {
+            _isFirstMeet = !data.hasMet;
+        }
+     
+    }
+    #endregion
 }

@@ -26,4 +26,10 @@ namespace Data
         public Dictionary<int, Charm> charms = new Dictionary<int, Charm>();
     }
 
+    [Serializable]
+    public class NpcProgressData
+    {
+        public int npcId;
+        public bool hasMet;
+    }
 }

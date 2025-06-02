@@ -30,7 +30,6 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
         _player = GameObject.FindGameObjectWithTag(TAG_PLAYER).GetComponent<PlayerMovement>();
         _playerColl = _player.gameObject.GetComponent<Collider2D>();
 
-        OnEnterGame?.Invoke();
     }
 
     void OnEnable()
@@ -126,6 +125,10 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
         SceneManager.LoadScene(sceneName);
 
         OnSceneLoaded();
+
+        yield return new WaitForFixedUpdate();
+        OnEnterGame?.Invoke();
+
     }
 
     void OnSceneLoaded()
@@ -134,7 +137,6 @@ public class SceneChangeManager : SingletonMonobehaviour<SceneChangeManager>
 
         GameObject contentsObject = Instantiate(Resources.Load<GameObject>("Prefabs/GAME CONTENTS OBJECT"));
         OnEnterGameScene();
-        //_player.SetMovementEnabled(true);
 
         DontDestroyOnLoad(contentsObject);
     }

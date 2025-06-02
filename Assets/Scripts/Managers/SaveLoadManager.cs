@@ -39,8 +39,13 @@ public class SaveLoadManager : SingletonMonobehaviour<SaveLoadManager>
         {
             if (savable is PlayerController)
                 saveData.playerSaveData = (PlayerSaveData)savable.CaptureData();
-            else if(savable is InventoryManager)
+            else if (savable is InventoryManager)
                 saveData.inventorySaveData = (InventorySaveData)savable.CaptureData();
+            else if (savable is NpcControllerBase)
+            {
+                NpcProgressData npcData = (NpcProgressData)savable.CaptureData();
+                saveData.npcProgressDict.Add(npcData.npcId, npcData);
+            }
         }
 
         return saveData;
@@ -54,16 +59,21 @@ public class SaveLoadManager : SingletonMonobehaviour<SaveLoadManager>
                 savable.RestoreData(saveData.playerSaveData);
             else if (savable is InventoryManager)
                 savable.RestoreData(saveData.inventorySaveData);
+            else if( savable is NpcControllerBase)
+                savable.RestoreData(saveData.npcProgressDict);
         }
     }
     public void RestoreAll()
     {
+        Debug.Log("Restore Called");
         foreach (var savable in _savableList)
         {
             if (savable is PlayerController)
                 savable.RestoreData(_saveData.playerSaveData);
             else if (savable is InventoryManager)
                 savable.RestoreData(_saveData.inventorySaveData);
+            else if (savable is NpcControllerBase)
+                savable.RestoreData(_saveData.npcProgressDict);
         }
     }
 

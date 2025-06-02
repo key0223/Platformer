@@ -1,6 +1,5 @@
 using Data;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static Define;
 
@@ -102,4 +101,5 @@ public class Npc_IseldaController : NpcControllerBase
 
         _coIdle = null;
     }
+ 
 }

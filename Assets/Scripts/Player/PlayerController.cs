@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour, ISavable
         return data;
     }
 
-    public void RestoreData(object loadedData)
+    public  void RestoreData(object loadedData)
     {
         PlayerSaveData data = loadedData as PlayerSaveData;
 
