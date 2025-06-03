@@ -4,9 +4,9 @@ using UnityEngine.Tilemaps;
 
 public class BlockController : MonoBehaviour
 {
-    [SerializeField] Tilemap _tileMap; //  should be minimap tilemap for minimap UI
+    [SerializeField] Tilemap[] _minimaps; //  should be minimap tilemap for minimap UI _minimaps[0] is minimapLine;
 
-    int _blockSize = 32;
+    int _blockSize = 6;
     Camera _mainCamera;
 
     Vector3 _cameraPos;
@@ -30,7 +30,7 @@ public class BlockController : MonoBehaviour
 
     void InitBlocks()
     {
-        BoundsInt mapbounds = _tileMap.cellBounds;
+        BoundsInt mapbounds = _minimaps[0].cellBounds;
         int width = mapbounds.size.x;
         int height = mapbounds.size.y;
 
@@ -47,30 +47,45 @@ public class BlockController : MonoBehaviour
                 _blockDict.Add(blockId, new Block(blockId, bounds));
             }
         }
+        SetAllBlocksAlpha(0);
     }
 
     void SetBlockAlpha(Vector2Int blockId, float alpha)
     {
         if (_blockDict.TryGetValue(blockId, out Block chunk))
         {
-            foreach (Vector3Int pos in chunk.bounds.allPositionsWithin)
+            foreach (Tilemap tilemap in _minimaps)
             {
-                if (_tileMap.HasTile(pos))
+                foreach (Vector3Int pos in chunk.bounds.allPositionsWithin)
                 {
-                    _tileMap.SetTileFlags(pos, TileFlags.None);
-                    Color color = _tileMap.GetColor(pos);
-                    color.a = alpha;
-                    _tileMap.SetColor(pos, color);
+                    if (tilemap.HasTile(pos))
+                    {
+                        tilemap.SetTileFlags(pos, TileFlags.None);
+                        Color color = tilemap.GetColor(pos);
+                        color.a = alpha;
+                        tilemap.SetColor(pos, color);
+                    }
                 }
             }
+        }
+    }
+    void SetAllBlocksAlpha(float alpha)
+    {
+        foreach (Vector2Int blockId in _blockDict.Keys)
+        {
+            SetBlockAlpha(blockId, alpha);
         }
     }
 
     void UpdateBlock()
     {
         _cameraPos = _mainCamera.transform.position;
+        BoundsInt mapbounds = _minimaps[0].cellBounds;
 
-        _currentBlock = new Vector2Int(Mathf.FloorToInt(_cameraPos.x / _blockSize), Mathf.FloorToInt(_cameraPos.y / _blockSize));
+        int blockX = Mathf.FloorToInt((_cameraPos.x - mapbounds.xMin) / _blockSize);
+        int blockY = Mathf.FloorToInt((_cameraPos.y - mapbounds.yMin) / _blockSize);
+
+        _currentBlock = new Vector2Int(blockX, blockY);
     }
     void Update()
     {
@@ -81,11 +96,26 @@ public class BlockController : MonoBehaviour
             _prevBlock = _currentBlock;
         }
 
-        if(_blockDict.TryGetValue(_currentBlock, out Block currentBlock))
+        if(_blockDict.TryGetValue(_currentBlock, out Block currentBlock) && !currentBlock.visited)
         {
             currentBlock.visited = true;
             SetBlockAlpha(_currentBlock, 1f);
         }
-       
+    }
+
+    void OnDrawGizmos()
+    {
+        if (_blockDict == null || _blockDict.Count == 0)
+            return;
+
+        Gizmos.color = Color.yellow;
+        foreach (var block in _blockDict.Values)
+        {
+            Vector3 min = _minimaps[0].CellToWorld(new Vector3Int(block.bounds.xMin, block.bounds.yMin, 0));
+            Vector3 max = _minimaps[0].CellToWorld(new Vector3Int(block.bounds.xMax, block.bounds.yMax, 0));
+            Vector3 size = max - min;
+
+            Gizmos.DrawWireCube(min + size * 0.5f, size);
+        }
     }
 }
