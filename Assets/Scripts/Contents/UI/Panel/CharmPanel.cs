@@ -50,198 +50,198 @@ public class CharmPanel : PopupPanelBase
 
     protected override void Init()
     {
-        _sections = new Section[3];
+        //_sections = new Section[3];
 
-        for (int i = 0; i < _sections.Length; i++)
-        {
-            _sections[i] = new Section();
+        //for (int i = 0; i < _sections.Length; i++)
+        //{
+        //    _sections[i] = new Section();
 
-            SlotRow row = new SlotRow();
-            _sections[i]._rows.Add(row);
-        }
+        //    SlotRow row = new SlotRow();
+        //    _sections[i]._rows.Add(row);
+        //}
 
-        _highlighter.MoveToSlot(_initPos);
-        InitItemDescUI();
+        //_highlighter.MoveToSlot(_initPos);
+        //InitItemDescUI();
 
-        Charms.Clear();
+        //Charms.Clear();
 
-        #region Equipped Slot Initialize
-        foreach (Transform child in _equippedSlotParent.transform)
-            Destroy(child.gameObject);
+        //#region Equipped Slot Initialize
+        //foreach (Transform child in _equippedSlotParent.transform)
+        //    Destroy(child.gameObject);
 
-        {
-            List<Slot> firstRowColumns = _sections[0]._rows[0]._columns;
+        //{
+        //    List<Slot> firstRowColumns = _sections[0]._rows[0]._columns;
 
-            GameObject equippedSlotObject = ResourceManager.Instance.Instantiate(_charmEquippedSlotPrefabPath, _equippedSlotParent.transform);
-            CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();
-            charmSlot.SlotIndex = 0;
-            firstRowColumns.Add(charmSlot);
+        //    GameObject equippedSlotObject = ResourceManager.Instance.Instantiate(_charmEquippedSlotPrefabPath, _equippedSlotParent.transform);
+        //    CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();
+        //    charmSlot.SlotIndex = 0;
+        //    firstRowColumns.Add(charmSlot);
 
-            EquippedCharms.Add(charmSlot);
+        //    EquippedCharms.Add(charmSlot);
 
-            charmSlot.CharmIconImage.gameObject.SetActive(false);
-            charmSlot.gameObject.SetActive(true);
+        //    charmSlot.CharmIconImage.gameObject.SetActive(false);
+        //    charmSlot.gameObject.SetActive(true);
 
-            _initPos = charmSlot.transform;
-            _highlighter.MoveToSlot(_initPos);
-        }
+        //    _initPos = charmSlot.transform;
+        //    _highlighter.MoveToSlot(_initPos);
+        //}
 
-        #endregion
+        //#endregion
 
-        #region Charm Cost Slot Initialize
+        //#region Charm Cost Slot Initialize
 
-        foreach (Transform child in _costSlotParent.transform)
-            Destroy(child.gameObject);
+        //foreach (Transform child in _costSlotParent.transform)
+        //    Destroy(child.gameObject);
 
-        for (int i = 0; i < _playerMovement.Stat.CharmMaxCost; i++)
-        {
-            GameObject costSlotObject = ResourceManager.Instance.Instantiate(_charmCostSlotPrefabPath, _costSlotParent.transform);
-            CharmCostSlot costSlot = costSlotObject.GetComponent<CharmCostSlot>();
-            costSlot.SetSlotState(false);
+        //for (int i = 0; i < _playerMovement.Stat.CharmMaxCost; i++)
+        //{
+        //    GameObject costSlotObject = ResourceManager.Instance.Instantiate(_charmCostSlotPrefabPath, _costSlotParent.transform);
+        //    CharmCostSlot costSlot = costSlotObject.GetComponent<CharmCostSlot>();
+        //    costSlot.SetSlotState(false);
 
-            CharmCostSlots.Add(costSlot);
-        }
+        //    CharmCostSlots.Add(costSlot);
+        //}
 
-        #endregion
+        //#endregion
 
-        #region Selection Slot Initialize
-        foreach (Transform child in _charmSlotParent.transform)
-            Destroy(child.gameObject);
+        //#region Selection Slot Initialize
+        //foreach (Transform child in _charmSlotParent.transform)
+        //    Destroy(child.gameObject);
 
-        for (int i = 0; i < _charmSlotCount; i++)
-        {
-            GameObject charmSlotObject = ResourceManager.Instance.Instantiate(_charmSlotPrefabPath, _charmSlotParent.transform);
-            CharmSlot charmSlot = charmSlotObject.GetComponent<CharmSlot>();
-            charmSlot.SlotIndex = i;
-            _sections[1]._rows[0]._columns.Add(charmSlot);
+        //for (int i = 0; i < _charmSlotCount; i++)
+        //{
+        //    GameObject charmSlotObject = ResourceManager.Instance.Instantiate(_charmSlotPrefabPath, _charmSlotParent.transform);
+        //    CharmSlot charmSlot = charmSlotObject.GetComponent<CharmSlot>();
+        //    charmSlot.SlotIndex = i;
+        //    _sections[1]._rows[0]._columns.Add(charmSlot);
 
-            Charms.Add(charmSlot);
+        //    Charms.Add(charmSlot);
 
-            charmSlot.CharmIconImage.gameObject.SetActive(false);
-            charmSlot.CharmEquippedImage.gameObject.SetActive(false);
-        }
-        #endregion
+        //    charmSlot.CharmIconImage.gameObject.SetActive(false);
+        //    charmSlot.CharmEquippedImage.gameObject.SetActive(false);
+        //}
+        //#endregion
 
-        #region Arrow Slot Initialize
-        for (int i = 0; i < _arrowSlot.Count; i++)
-        {
-            Slot slot = _arrowSlot[i];
-            _sections[2]._rows[0]._columns.Add(slot);
-        }
-        #endregion
+        //#region Arrow Slot Initialize
+        //for (int i = 0; i < _arrowSlot.Count; i++)
+        //{
+        //    Slot slot = _arrowSlot[i];
+        //    _sections[2]._rows[0]._columns.Add(slot);
+        //}
+        //#endregion
 
        
-        RefreshUI();
+        //RefreshUI();
 
     }
 
-    protected override void MoveSelection(int horizontal, int vertical, bool sectionMove)
-    {
-        base.MoveSelection(horizontal, vertical, sectionMove);
-        UpdateItemDescUI();
-    }
+    //protected override void MoveSelection(int horizontal, int vertical, bool sectionMove)
+    //{
+    //    //base.MoveSelection(horizontal, vertical, sectionMove);
+    //    UpdateItemDescUI();
+    //}
 
     protected override void SelectItem()
     {
-        base.SelectItem();
+        //base.SelectItem();
 
-        if (!_openByBench) return;
+        //if (!_openByBench) return;
 
-        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._columns[_currentColumn];
+        //Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._columns[_currentColumn];
 
-        Item item = InventoryManager.Instance.GetItem(currentSlot.ItemId, ItemType.Charm);
+        //Item item = InventoryManager.Instance.GetItem(currentSlot.ItemId, ItemType.Charm);
 
-        Charm charmItem = item as Charm;
+        //Charm charmItem = item as Charm;
 
-        if (item == null) return;
+        //if (item == null) return;
 
 
-        if (item.Equipped)
-            item.Equipped = false;
-        else
-        {
-            charmItem.Equipped = _playerMovement.Stat.CurrentAvailableCost >= charmItem.SlotCost;
-        }
+        //if (item.Equipped)
+        //    item.Equipped = false;
+        //else
+        //{
+        //    charmItem.Equipped = _playerMovement.Stat.CurrentAvailableCost >= charmItem.SlotCost;
+        //}
 
-        RefreshUI();
-        RefreshEquippedUI(item);
-        RefreshCharmCostUI();
-        InventoryManager.Instance.OnEquipItem();
+        //RefreshUI();
+        //RefreshEquippedUI(item);
+        //RefreshCharmCostUI();
+        //InventoryManager.Instance.OnEquipItem();
     }
     #region Item Description UI
     void UpdateItemDescUI()
     {
-        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._columns[_currentColumn];
+        //Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._columns[_currentColumn];
 
-        CharmSlot equippedSlot = currentSlot as CharmSlot;
-        if (equippedSlot != null)
-        {
-            if(equippedSlot.SlotType == CharmSlotType.EquippedSlot)
-            {
-                if (!equippedSlot.IsEquipped)
-                {
-                    _itemNameText.text = "";
-                    _charmCostText.text = "";
+        //CharmSlot equippedSlot = currentSlot as CharmSlot;
+        //if (equippedSlot != null)
+        //{
+        //    if(equippedSlot.SlotType == CharmSlotType.EquippedSlot)
+        //    {
+        //        if (!equippedSlot.IsEquipped)
+        //        {
+        //            _itemNameText.text = "";
+        //            _charmCostText.text = "";
 
-                    _itemNameText.gameObject.SetActive(false);
-                    _charmCostText.gameObject.SetActive(false);
-                    _itemIconImage.gameObject.SetActive(false);
+        //            _itemNameText.gameObject.SetActive(false);
+        //            _charmCostText.gameObject.SetActive(false);
+        //            _itemIconImage.gameObject.SetActive(false);
 
-                    _itemDescText.text = "장착된 부적이 없습니다. \n아래에서 부적을 선택하여 장착하고 그 효과를 활성화하십시오.";
-                }
-                else
-                {
-                    ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
-                    CharmData charmData = data as CharmData;
+        //            _itemDescText.text = "장착된 부적이 없습니다. \n아래에서 부적을 선택하여 장착하고 그 효과를 활성화하십시오.";
+        //        }
+        //        else
+        //        {
+        //            ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
+        //            CharmData charmData = data as CharmData;
 
 
-                    if (charmData != null)
-                    {
-                        _itemNameText.text = data.itemName;
-                        _itemDescText.text = data.itemDescription;
-                        _itemIconImage.sprite = data.itemIcon;
+        //            if (charmData != null)
+        //            {
+        //                _itemNameText.text = data.itemName;
+        //                _itemDescText.text = data.itemDescription;
+        //                _itemIconImage.sprite = data.itemIcon;
 
-                        _itemNameText.gameObject.SetActive(true);
-                        _itemDescText.gameObject.SetActive(true);
-                        _charmCostText.gameObject.SetActive(true);
-                        _itemIconImage.gameObject.SetActive(true);
+        //                _itemNameText.gameObject.SetActive(true);
+        //                _itemDescText.gameObject.SetActive(true);
+        //                _charmCostText.gameObject.SetActive(true);
+        //                _itemIconImage.gameObject.SetActive(true);
 
-                        UpdateCharmCostSlotUI(charmData.slotCost);
-                    }
-                    else
-                    {
-                        InitItemDescUI();
-                    }
-                }
-            }
-            else
-            {
-                if(equippedSlot.ItemId ==0)
-                {
-                    InitItemDescUI();
-                }
-                else
-                {
-                    ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
-                    CharmData charmData = data as CharmData;
+        //                UpdateCharmCostSlotUI(charmData.slotCost);
+        //            }
+        //            else
+        //            {
+        //                InitItemDescUI();
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if(equippedSlot.ItemId ==0)
+        //        {
+        //            InitItemDescUI();
+        //        }
+        //        else
+        //        {
+        //            ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
+        //            CharmData charmData = data as CharmData;
 
-                    if (charmData != null)
-                    {
-                        _itemNameText.text = data.itemName;
-                        _itemDescText.text = data.itemDescription;
-                        _itemIconImage.sprite = data.itemIcon;
+        //            if (charmData != null)
+        //            {
+        //                _itemNameText.text = data.itemName;
+        //                _itemDescText.text = data.itemDescription;
+        //                _itemIconImage.sprite = data.itemIcon;
 
-                        _itemNameText.gameObject.SetActive(true);
-                        _itemDescText.gameObject.SetActive(true);
-                        _charmCostText.gameObject.SetActive(true);
-                        _itemIconImage.gameObject.SetActive(true);
+        //                _itemNameText.gameObject.SetActive(true);
+        //                _itemDescText.gameObject.SetActive(true);
+        //                _charmCostText.gameObject.SetActive(true);
+        //                _itemIconImage.gameObject.SetActive(true);
 
-                        UpdateCharmCostSlotUI(charmData.slotCost);
-                    }
-                }
-            }
+        //                UpdateCharmCostSlotUI(charmData.slotCost);
+        //            }
+        //        }
+        //    }
            
-        }
+        //}
     }
     void InitItemDescUI()
     {
@@ -285,33 +285,33 @@ public class CharmPanel : PopupPanelBase
     // Equipped UI
     public void RefreshEquippedUI(Item item)
     {
-        if(item.Equipped)
-        {
-            EquippedCharms[EquippedCharms.Count - 1].SetSlot(item);
+        //if(item.Equipped)
+        //{
+        //    EquippedCharms[EquippedCharms.Count - 1].SetSlot(item);
 
-            List<Slot> firstRowColumns = _sections[0]._rows[0]._columns;
+        //    List<Slot> firstRowColumns = _sections[0]._rows[0]._columns;
 
-            GameObject equippedSlotObject = ResourceManager.Instance.Instantiate(_charmEquippedSlotPrefabPath, _equippedSlotParent.transform);
-            CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();
-            charmSlot.SlotIndex = Mathf.Max(0, EquippedCharms.Count - 1);
-            firstRowColumns.Add(charmSlot);
+        //    GameObject equippedSlotObject = ResourceManager.Instance.Instantiate(_charmEquippedSlotPrefabPath, _equippedSlotParent.transform);
+        //    CharmSlot charmSlot = equippedSlotObject.GetComponent<CharmSlot>();
+        //    charmSlot.SlotIndex = Mathf.Max(0, EquippedCharms.Count - 1);
+        //    firstRowColumns.Add(charmSlot);
 
-            EquippedCharms.Add(charmSlot);
+        //    EquippedCharms.Add(charmSlot);
 
-            charmSlot.CharmIconImage.gameObject.SetActive(false);
-            charmSlot.gameObject.SetActive(true);
-        }
-        else
-        {
-            for (int i = 0; i < EquippedCharms.Count; i++)
-            {
-                if (EquippedCharms[i].ItemId != item.ItemId)
-                    continue;
+        //    charmSlot.CharmIconImage.gameObject.SetActive(false);
+        //    charmSlot.gameObject.SetActive(true);
+        //}
+        //else
+        //{
+        //    for (int i = 0; i < EquippedCharms.Count; i++)
+        //    {
+        //        if (EquippedCharms[i].ItemId != item.ItemId)
+        //            continue;
 
-                Destroy(EquippedCharms[i].gameObject);
-                EquippedCharms.RemoveAt(i);
-            }
-        }
+        //        Destroy(EquippedCharms[i].gameObject);
+        //        EquippedCharms.RemoveAt(i);
+        //    }
+        //}
        
     }
 

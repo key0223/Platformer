@@ -1,11 +1,18 @@
 using Data;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Slot : MonoBehaviour
 {
+    public Slot Up {  get;  set; }
+    public Slot Down { get; set; }
+    public Slot Left { get; set; }
+    public Slot Right { get; set; }
+
+
     Image _itemIconImage;
 
     [Space(10f)]
@@ -20,7 +27,12 @@ public class Slot : MonoBehaviour
     {
         _itemIconImage = GetComponentInChildren<Image>();
     }
-  
+
+    public void Highlight(bool on)
+    {
+        // TODO : Highlight
+    }
+
     public void SetSlot(Item item)
     {
         if(item == null || item.ItemId == 0)

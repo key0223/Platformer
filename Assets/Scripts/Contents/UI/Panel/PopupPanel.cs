@@ -91,39 +91,39 @@ public class PopupPanel : MonoBehaviour
             panel.gameObject.SetActive(false);
         }
 
-        _panels[panelIndex].gameObject.SetActive(true);
-        _titleText.text = _panels[panelIndex].PanelName;
-        _leftText.text = _panels[GetPopupPrevIndex()].PanelName;
-        _rightText.text = _panels[GetPopupNextIndex()].PanelName;
+        //_panels[panelIndex].gameObject.SetActive(true);
+        //_titleText.text = _panels[panelIndex].PanelName;
+        //_leftText.text = _panels[GetPopupPrevIndex()].PanelName;
+        //_rightText.text = _panels[GetPopupNextIndex()].PanelName;
 
     }
 
     public void ShowPanel(int newIndex, bool isLeft)
     {
-        if (_isAnimating) return;
+        //if (_isAnimating) return;
 
-        _isAnimating = true;
-        RectTransform currentPanel = Panels[CurrentPopupPanel].Frame;
-        RectTransform nextPanel = Panels[newIndex].Frame;
+        //_isAnimating = true;
+        //RectTransform currentPanel = Panels[CurrentPopupPanel].Frame;
+        //RectTransform nextPanel = Panels[newIndex].Frame;
 
-        Vector3 startPos = nextPanel.transform.localPosition;
-        Vector3 targetPos = currentPanel.transform.localPosition;
-        Vector3 offScreenPos = targetPos + new Vector3(isLeft ? -_slideDistance : _slideDistance, 0, 0);
+        //Vector3 startPos = nextPanel.transform.localPosition;
+        //Vector3 targetPos = currentPanel.transform.localPosition;
+        //Vector3 offScreenPos = targetPos + new Vector3(isLeft ? -_slideDistance : _slideDistance, 0, 0);
 
-        nextPanel.transform.localPosition = offScreenPos;
-        nextPanel.gameObject.SetActive(true);
+        //nextPanel.transform.localPosition = offScreenPos;
+        //nextPanel.gameObject.SetActive(true);
 
-        // 이동 애니메이션
-        nextPanel.transform.DOLocalMove(targetPos, _slideDuration).SetEase(Ease.OutQuart);
-        currentPanel.transform.DOLocalMove(isLeft ? targetPos + new Vector3(_slideDistance, 0, 0) : targetPos + new Vector3(-_slideDistance, 0, 0), _slideDuration)
-            .SetEase(Ease.OutQuart)
-            .OnComplete(() =>
-            {
-                currentPanel.gameObject.SetActive(false);
-                _isAnimating = false;
-            });
+        //// 이동 애니메이션
+        //nextPanel.transform.DOLocalMove(targetPos, _slideDuration).SetEase(Ease.OutQuart);
+        //currentPanel.transform.DOLocalMove(isLeft ? targetPos + new Vector3(_slideDistance, 0, 0) : targetPos + new Vector3(-_slideDistance, 0, 0), _slideDuration)
+        //    .SetEase(Ease.OutQuart)
+        //    .OnComplete(() =>
+        //    {
+        //        currentPanel.gameObject.SetActive(false);
+        //        _isAnimating = false;
+        //    });
 
-        CurrentPopupPanel = newIndex;
+        //CurrentPopupPanel = newIndex;
     }
 
     void ToggleInventory()

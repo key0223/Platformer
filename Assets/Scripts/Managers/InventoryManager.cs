@@ -25,7 +25,6 @@ public class InventoryManager : SingletonMonobehaviour<InventoryManager>,ISavabl
             _coin = value;
         }
     }
-
     protected override void Awake()
     {
         base.Awake();

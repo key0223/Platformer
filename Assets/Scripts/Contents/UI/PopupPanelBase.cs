@@ -1,46 +1,24 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class Section
-{
-    public  List<SlotRow> _rows= new List<SlotRow>();
-}
-[Serializable]
-public class SlotRow
-{
-    public List<Slot> _columns = new List<Slot>();
-}
 public class PopupPanelBase : MonoBehaviour
 {
-    protected PlayerMovement _playerMovement;
 
-    [SerializeField] string _panelName;
-    [SerializeField] protected int _panelIndex = 0;
+    [SerializeField] protected List<Slot> _allSlots = new List<Slot>();
 
-    [Space(10f)]
-    [SerializeField] RectTransform _frame;
-    [SerializeField] protected Section[] _sections;
-
-    protected int _currentSection = 0;
-    protected int _currentRow;
-    protected int _currentColumn;
-
-
+    protected Slot _currentSlot;
     protected Highlighter _highlighter;
 
-    // Panel index should be populated before runtime
-    public int PanelIndex { get { return _panelIndex; } }
-    public string PanelName { get { return _panelName; } }
-
-    public RectTransform Frame { get { return _frame; } }
     void Start()
     {
-        _playerMovement = FindObjectOfType<PlayerMovement>();
         _highlighter = UIManager.Instance.PopupPanel.Highlighter;
         Init();
+
+        if(_currentSlot == null && _allSlots.Count > 0)
+            _currentSlot = _allSlots[0];
+
+        MoveHighlighter(_currentSlot);
     }
 
     protected virtual void Init()
@@ -48,112 +26,90 @@ public class PopupPanelBase : MonoBehaviour
 
     }
 
+    protected void AutoConnectSlots(List<Slot> slots, float maxAngle = 30f)
+    {
+        foreach (Slot slot in slots)
+        {
+            slot.Left = FindClosestSlot(slot, slots, Vector2.left, maxAngle);
+            slot.Right = FindClosestSlot(slot, slots, Vector2.right, maxAngle);
+            slot.Up = FindClosestSlot(slot, slots, Vector2.up, maxAngle);
+            slot.Down = FindClosestSlot(slot, slots, Vector2.down, maxAngle);
+        }
+    }
+
+    Slot FindClosestSlot(Slot from, List<Slot> slots, Vector2 dir, float maxAngle)
+    {
+        Slot closest = null;
+        float minDist = float.MaxValue;
+        Vector2 fromPos = ((RectTransform)from.transform).anchoredPosition;
+
+        foreach (var slot in slots)
+        {
+            if (slot == from) continue;
+            Vector2 toPos = ((RectTransform)slot.transform).anchoredPosition;
+            Vector2 diff = toPos - fromPos;
+            float angle = Vector2.Angle(dir, diff);
+            if (angle < maxAngle)
+            {
+                float dist = diff.magnitude;
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    closest = slot;
+                }
+            }
+        }
+        return closest;
+    }
+
     void Update()
     {
-        bool isSectionMove = Input.GetKey(KeyCode.LeftControl);
-
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && _currentSlot.Left != null)
+            MoveHighlighter(_currentSlot.Left);
+        else if (Input.GetKeyDown(KeyCode.RightArrow) && _currentSlot.Right != null)
+            MoveHighlighter(_currentSlot.Right);
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && _currentSlot.Up != null)
+            MoveHighlighter(_currentSlot.Up);
+        else if (Input.GetKeyDown(KeyCode.DownArrow) && _currentSlot.Down != null)
+            MoveHighlighter(_currentSlot.Down);
+        else if (Input.GetKeyDown(KeyCode.Return))
             SelectItem();
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-            MoveSelection(0, -1, isSectionMove);
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-            MoveSelection(0, 1, isSectionMove);
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-            MoveSelection(-1, 0, isSectionMove);
-        else if(Input.GetKeyDown(KeyCode.DownArrow))
-            MoveSelection(1, 0, isSectionMove);
     }
-
-    protected virtual void MoveSelection(int horizontal, int vertical, bool sectionMove)
+   
+    protected void MoveHighlighter(Slot nextSlot)
     {
-        if(sectionMove)
-        {
-            MoveSection(vertical);
-        }
-        else
-        {
-            MoveHighlighter(horizontal, vertical);
-        }
+        if (nextSlot == null) return;
+        _currentSlot?.Highlight(false);
+        _currentSlot = nextSlot;
+        _currentSlot.Highlight(true);
+        _highlighter.MoveToSlot(_currentSlot.transform);
+
+        OnSlotChanged();
     }
-    protected void MoveHighlighter(int horizontal, int vertical)
+
+    protected virtual void OnSlotChanged()
     {
-        Section currecntSection = _sections[_currentSection];
-        int newRow = Mathf.Clamp(_currentRow + horizontal, 0, currecntSection._rows.Count - 1);
-        int newColumn = _currentColumn;
 
-        if(vertical != 0)
-        {
-            newColumn = Mathf.Clamp(_currentColumn + vertical, 0, currecntSection._rows[newRow]._columns.Count - 1);
-        }
-        else if( horizontal != 0)
-        {
-            newColumn = FindClosestColumn(currecntSection._rows[newRow], _currentColumn);
-        }
-        // Move if there are any changes
-        if (newRow !=_currentRow ||  newColumn != _currentColumn)
-        {
-            _currentRow = newRow;
-            _currentColumn = newColumn;
-            _highlighter.MoveToSlot(_sections[_currentSection]._rows[_currentRow]._columns[_currentColumn].transform);
-        }
     }
-
-    protected void MoveSection(int vertical)
-    {
-        int newSection = (_currentSection + vertical + _sections.Length)% _sections.Length;
-
-        if(newSection != _currentSection)
-        {
-            _currentSection = newSection;
-            _currentRow = 0;
-            _currentColumn = 0;
-
-            _highlighter.MoveToSlot(_sections[_currentSection]._rows[_currentRow]._columns[_currentColumn].transform);
-        }
-    }
-
     protected virtual void SelectItem()
     {
-        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._columns[_currentColumn];
+        //Slot currentSlot = GetCurrentSlot();
 
-        if(currentSlot.IsArrow)
-        {
-            PopupPanel popupPanel = UIManager.Instance.PopupPanel;
-            if (currentSlot.ArrowLeft)
-            {
-                int prevIndex = popupPanel.GetPopupPrevIndex();
-                popupPanel.ShowPanel(prevIndex, true);
-                //popupPanel.Panels[prevIndex].gameObject.SetActive(true);
-                //popupPanel.CurrentPopupPanel = prevIndex;
-            }
-            else
-            {
-                int nextIndex = popupPanel.GetPopupNextIndex();
-                popupPanel.ShowPanel(nextIndex, false);
-                //popupPanel.Panels[nextIndex].gameObject.SetActive(true);
-                //popupPanel.CurrentPopupPanel = nextIndex;
-            }
+        //if(currentSlot.IsArrow)
+        //{
+        //    PopupPanel popupPanel = UIManager.Instance.PopupPanel;
+        //    if (currentSlot.ArrowLeft)
+        //    {
+        //        int prevIndex = popupPanel.GetPopupPrevIndex();
+        //        popupPanel.ShowPanel(prevIndex, true);
+        //    }
+        //    else
+        //    {
+        //        int nextIndex = popupPanel.GetPopupNextIndex();
+        //        popupPanel.ShowPanel(nextIndex, false);
+        //    }
 
-            return;
-        }
+        //    return;
+        //}
     }
-
-    protected int FindClosestColumn(SlotRow row, int currentCol)
-    {
-        int closestCol = 0;
-        int minDistance = 100;
-        for (int col = 0; col < row._columns.Count; col++)
-        {
-            int distance = Mathf.Abs(col - currentCol);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                closestCol = col;
-            }
-        }
-
-        return closestCol;
-    }
-
 }

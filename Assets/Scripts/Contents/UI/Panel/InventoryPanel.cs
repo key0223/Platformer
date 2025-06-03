@@ -22,37 +22,51 @@ public class InventoryPanel : PopupPanelBase
     [SerializeField] TextMeshProUGUI _itemDescText;
     #endregion
 
+    [Header("Æ¯¼ö ½½·Ô")]
+    [SerializeField] Slot _maskSlot;
     [SerializeField] Slot _weaponSlot;
+    [SerializeField] Slot _amuletSlot;
+    [SerializeField] Slot _spellSlot;
 
-    List<Slot> _belongings = new List<Slot>();
     protected override void Init()
     {
-        _highlighter.MoveToSlot(_initPos);
+        _allSlots.Add(_maskSlot);
+        _allSlots.Add(_weaponSlot);
+        _allSlots.Add(_amuletSlot);
+        _allSlots.Add(_spellSlot);
+        AutoConnectSlots(_allSlots);
+        ManualConnectSlots();
+
+        _currentSlot = _allSlots.FirstOrDefault();
+        MoveHighlighter(_currentSlot);
 
         InitItemDescUI();
-        InitializeBelongingsList();
     }
 
-    void InitializeBelongingsList()
+    void ManualConnectSlots()
     {
-        Section section = _sections[1];
+        _maskSlot.Left = null;
+        _maskSlot.Right = _amuletSlot;
+        _maskSlot.Up = null;
+        _maskSlot.Down = _weaponSlot;
 
-        for (int i = 0; i< section._rows.Count; i++)
-        {
-            SlotRow row = section._rows[i];
+        _weaponSlot.Left = null;
+        _weaponSlot.Right = _amuletSlot;
+        _weaponSlot.Up = _maskSlot;
+        _weaponSlot.Down = null;
 
-            for (int j = 0; j < row._columns.Count; j++)
-            {
-                Slot slot = row._columns[j];
-                _belongings.Add(slot);
-                slot.gameObject.SetActive(false);
-            }
-        }
-    }
-    protected override void MoveSelection(int horizontal, int vertical, bool sectionMove)
-    {
-        base.MoveSelection(horizontal, vertical, sectionMove);
-        UpdateItemDescUI();
+        _amuletSlot.Left = _maskSlot;
+        _amuletSlot.Right = _allSlots[0];
+        _amuletSlot.Up = _maskSlot;
+        _amuletSlot.Down = _spellSlot;
+
+        _spellSlot.Left = _weaponSlot;
+        _spellSlot.Right = _allSlots[0];
+        _spellSlot.Up = _amuletSlot;
+        _spellSlot.Down = null;
+
+        _allSlots[0].Left = _amuletSlot;
+
     }
     public void SetCoinText(float amount)
     {
@@ -68,26 +82,34 @@ public class InventoryPanel : PopupPanelBase
 
         for (int i = 0; i < items.Count; i++)
         {
-            _belongings[i].gameObject.SetActive(true);
-            _belongings[i].SetSlot(items[i]);
+            _allSlots[i].gameObject.SetActive(true);
+            _allSlots[i].SetSlot(items[i]);
         }
     }
 
+    protected override void OnSlotChanged()
+    {
+        UpdateItemDescUI();
+    }
+
     #region Item Description UI
+
     void UpdateItemDescUI()
     {
-        Slot currentSlot = _sections[_currentSection]._rows[_currentRow]._columns[_currentColumn];
+        if (_currentSlot == null || _currentSlot.ItemId == 0)
+        {
+            InitItemDescUI();
+            return;
+        }
 
-        ItemData data = DataManager.Instance.GetItemData(currentSlot.ItemId);
+        ItemData data = DataManager.Instance.GetItemData(_currentSlot.ItemId);
         if (data != null)
         {
             _itemNameText.text = data.itemName;
             _itemDescText.text = data.itemDescription;
         }
         else
-        {
             InitItemDescUI();
-        }
     }
 
     void InitItemDescUI()
