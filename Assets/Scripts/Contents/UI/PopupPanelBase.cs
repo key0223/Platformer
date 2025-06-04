@@ -109,17 +109,21 @@ public class PopupPanelBase : MonoBehaviour
 
             if(_currentSlot.ArrowLeft)
             {
-                Debug.Log("Left Arrow");
                 int prevIndex = popupPanel.GetPopupPrevIndex();
                 popupPanel.ShowPanel(prevIndex, true);
             }
             else
             {
-                Debug.Log("Right Arrow");
                 int nextIndex = popupPanel.GetPopupNextIndex();
                 popupPanel.ShowPanel(nextIndex, false);
             }
             return;
+
         }
+    }
+
+    public virtual void UpdateArrowSlot()
+    {
+
     }
 }

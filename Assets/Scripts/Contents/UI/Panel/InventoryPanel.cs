@@ -74,18 +74,7 @@ public class InventoryPanel : PopupPanelBase
        UpdateArrowSlot();
     }
 
-    void UpdateArrowSlot()
-    {
-        _leftArrow.Left = null;
-        _leftArrow.Right = _maskSlot;
-        _leftArrow.Up = _rightArrow;
-        _leftArrow.Down = _rightArrow;
-
-        _rightArrow.Left = _allSlots[_allSlots.Count - 1];
-        _rightArrow.Right = null;
-        _rightArrow.Up = _leftArrow;
-        _rightArrow.Down = _leftArrow;
-    }
+    
     public void SetCoinText(float amount)
     {
         int intOutput = Mathf.FloorToInt(amount);
@@ -110,6 +99,18 @@ public class InventoryPanel : PopupPanelBase
         UpdateItemDescUI();
     }
 
+    public override void UpdateArrowSlot()
+    {
+        _leftArrow.Left = null;
+        _leftArrow.Right = _maskSlot;
+        _leftArrow.Up = _rightArrow;
+        _leftArrow.Down = _rightArrow;
+
+        _rightArrow.Left = _allSlots[_allSlots.Count - 1];
+        _rightArrow.Right = null;
+        _rightArrow.Up = _leftArrow;
+        _rightArrow.Down = _leftArrow;
+    }
     #region Item Description UI
 
     void UpdateItemDescUI()

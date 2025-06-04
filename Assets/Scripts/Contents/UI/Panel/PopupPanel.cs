@@ -121,8 +121,9 @@ public class PopupPanel : MonoBehaviour
             {
                 currentPanel.gameObject.SetActive(false);
                 _isAnimating = false;
-            });
 
+                Panels[newIndex].UpdateArrowSlot();
+            });
         CurrentPopupPanel = newIndex;
     }
 

@@ -145,21 +145,13 @@ public class CharmPanel : PopupPanelBase
     {
         _allSlots[0].Left = _leftArrow;
         _allSlots[0].Right = _rightArrow;
+
+        _charms[0].Left = _leftArrow;
+
         UpdateArrowSlot();
     }
 
-    void UpdateArrowSlot()
-    {
-        _leftArrow.Left = null;
-        _leftArrow.Right = _allSlots[0];
-        _leftArrow.Up = _rightArrow;
-        _leftArrow.Down = _rightArrow;
-
-        _rightArrow.Left = _allSlots[0];
-        _rightArrow.Right = null;
-        _rightArrow.Up = _leftArrow;
-        _rightArrow.Down = _leftArrow;
-    }
+   
     protected override void OnSlotChanged()
     {
         UpdateItemDescUI();
@@ -189,6 +181,19 @@ public class CharmPanel : PopupPanelBase
         RefreshEquippedUI(item);
         RefreshCharmCostUI();
         InventoryManager.Instance.OnEquipItem();
+    }
+
+    public override void UpdateArrowSlot()
+    {
+        _leftArrow.Left = null;
+        _leftArrow.Right = _allSlots[0];
+        _leftArrow.Up = _rightArrow;
+        _leftArrow.Down = _rightArrow;
+
+        _rightArrow.Left = _allSlots[0];
+        _rightArrow.Right = null;
+        _rightArrow.Up = _leftArrow;
+        _rightArrow.Down = _leftArrow;
     }
     #region Item Description UI
     void UpdateItemDescUI()
@@ -341,17 +346,28 @@ public class CharmPanel : PopupPanelBase
 
                 _allSlots.Remove(EquippedCharms[i]);
 
+                // 마지막 슬롯일 때
                 if(i+1 == EquippedCharms.Count-1)
+                {
                     _currentSlot = EquippedCharms[EquippedCharms.Count-1];
+
+                    _currentSlot.Left = _leftArrow;
+                    _currentSlot.Right = null;
+                    _currentSlot.Up = null;
+                    _currentSlot.Down = _charms[0];
+                }
                 else
-                    _currentSlot = _charms[i+1];
+                {
+                    _currentSlot = EquippedCharms[i + 1];
+
+                    _currentSlot.Left = _leftArrow;
+                    _currentSlot.Right = EquippedCharms[i + 2];
+                    _currentSlot.Up = null;
+                    _currentSlot.Down = _charms[0];
+                }
 
                 Destroy(EquippedCharms[i].gameObject);
                 EquippedCharms.RemoveAt(i);
-
-                // Update linked slots
-                EquippedCharms[EquippedCharms.Count - 1].Down = _charms[0];
-                _charms[0].Up = EquippedCharms[EquippedCharms.Count - 1];
 
                 MoveHighlighter(_currentSlot);
             }
