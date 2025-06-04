@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor.Rendering.LookDev;
 using UnityEngine;
+using static Define;
 
 public class PopupPanel : MonoBehaviour
 {
@@ -57,9 +58,9 @@ public class PopupPanel : MonoBehaviour
     {
         Init();
 
-        UIManager.Instance.OnToggleInventory += ToggleInventory;
-        UIManager.Instance.OnTogglePopupInfo += PopupInfoPanel;
-        UIManager.Instance.OnToggleCharmPanel += ToggleCharmPanel;
+        UIManager.Instance.OnUIToggled += OnUIToggled;
+        //UIManager.Instance.OnTogglePopupInfo += PopupInfoPanel;
+        //UIManager.Instance.OnToggleCharmPanel += ToggleCharmPanel;
     }
 
     void Init()
@@ -127,27 +128,69 @@ public class PopupPanel : MonoBehaviour
         CurrentPopupPanel = newIndex;
     }
 
-    void ToggleInventory()
+    void OnUIToggled(UIType type, bool isOpen)
     {
-        _inventoryPanel.gameObject.GetComponent<InventoryPanel>().SetCoinText(InventoryManager.Instance.Coin);
-        _hud.gameObject.SetActive(!_hud.gameObject.activeSelf);
-        this.gameObject.SetActive(!this.gameObject.activeSelf);
-        _backgroundPanel.gameObject.SetActive(!_backgroundPanel.gameObject.activeSelf);
-        _inventoryPanel.gameObject.SetActive(!_inventoryPanel.gameObject.activeSelf);
-
+        switch(type)
+        {
+            case UIType.Inventory:
+                SetInventoryPanel(isOpen);
+                break;
+            case UIType.Charm:
+                SetCharmPanel(isOpen);
+                break;
+            case UIType.PopupInfo:
+                SetInfoPanel(isOpen);
+                break;
+        }
     }
 
-    void ToggleCharmPanel()
+    void SetInventoryPanel(bool isOpen)
     {
-        ToggleInventory();
-        _charmPanel.OpenByBench = !_charmPanel.OpenByBench;
+        _hud.gameObject.SetActive(!isOpen);
+        gameObject.SetActive(isOpen);
+        _backgroundPanel.gameObject.SetActive(isOpen);
+        _inventoryPanel.gameObject.SetActive(isOpen);
+
+        if(isOpen)
+        {
+            _inventoryPanel.SetCoinText(InventoryManager.Instance.Coin);
+        }
     }
-    public void PopupInfoPanel()
+
+    void SetCharmPanel(bool isOpen)
     {
-        this.gameObject.SetActive(!this.gameObject.activeSelf);
-        _backgroundPanel.gameObject.SetActive(false);
-        _inventoryPanel.gameObject.SetActive(false);
+        SetInventoryPanel(isOpen);
+        _charmPanel.OpenByBench = isOpen;
+        _charmPanel.gameObject.SetActive(isOpen);
     }
+    void SetInfoPanel(bool isOpen)
+    {
+        gameObject.SetActive(isOpen);
+        _backgroundPanel.gameObject.SetActive(isOpen);
+        _inventoryPanel.gameObject.SetActive(isOpen);
+        _informationPanel.gameObject.SetActive(isOpen);
+    }
+    //void ToggleInventory()
+    //{
+    //    _inventoryPanel.gameObject.GetComponent<InventoryPanel>().SetCoinText(InventoryManager.Instance.Coin);
+    //    _hud.gameObject.SetActive(!_hud.gameObject.activeSelf);
+    //    this.gameObject.SetActive(!this.gameObject.activeSelf);
+    //    _backgroundPanel.gameObject.SetActive(!_backgroundPanel.gameObject.activeSelf);
+    //    _inventoryPanel.gameObject.SetActive(!_inventoryPanel.gameObject.activeSelf);
+
+    //}
+
+    //void ToggleCharmPanel()
+    //{
+    //    ToggleInventory();
+    //    _charmPanel.OpenByBench = !_charmPanel.OpenByBench;
+    //}
+    //public void PopupInfoPanel()
+    //{
+    //    this.gameObject.SetActive(!this.gameObject.activeSelf);
+    //    _backgroundPanel.gameObject.SetActive(false);
+    //    _inventoryPanel.gameObject.SetActive(false);
+    //}
 
     public int GetPopupPrevIndex()
     {

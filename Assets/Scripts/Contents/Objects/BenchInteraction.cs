@@ -11,18 +11,19 @@ public class BenchInteraction : InteractionBase
         base.Start();
         _popup = UIManager.Instance.PopupPanel;
         _interactionType = Define.InteractionType.Rest;
+
     }
 
     public override void Update()
     {
-        if (UIManager.Instance.PopupPanel.gameObject.activeSelf)
+        if (UIManager.Instance.IsAnyUIOpen)
             return;
 
         base.Update();
     }
     public override void Interact()
     {
-        UIManager.Instance.InvokeToggleCharmPanel();
+        UIManager.Instance.ToggleUI(Define.UIType.Charm);
 
         //if(MapManager.Instance.CurrentMiniMap !=null)
         //{

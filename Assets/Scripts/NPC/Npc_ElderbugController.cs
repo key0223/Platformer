@@ -52,7 +52,7 @@ public class Npc_ElderbugController : NpcControllerBase,ISavable
 
     public override void Update()
     {
-        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !UIManager.Instance.IsAnyUIOn())
+        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !UIManager.Instance.IsAnyUIOpen)
         {
             Interact();
             UIManager.Instance.InteractionStartUI.FadeOut();
@@ -91,12 +91,12 @@ public class Npc_ElderbugController : NpcControllerBase,ISavable
      {
          IsTalking = false;
          IsIdle = true;
-         UIManager.Instance.UpdateUIStateChanged("Dialogue", false);
+         UIManager.Instance.ToggleUI(UIType.Dialogue);
 
      });
         IsTalking = true;
         IsIdle = false;
-        UIManager.Instance.UpdateUIStateChanged("Dialogue", true);
+        UIManager.Instance.ToggleUI(UIType.Dialogue);
     }
 
     string GetDialogue()

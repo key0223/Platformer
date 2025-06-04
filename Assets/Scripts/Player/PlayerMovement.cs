@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Start()
     {
-        UIManager.Instance.OnUIStateChanged += SetMovementEnabled;
+        UIManager.Instance.OnUIToggled += OnUIToggled;
 
         SetGravityScale(_data._gravityScale);
         IsFacingRight = true;
@@ -300,6 +300,11 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #region Input
+
+    void OnUIToggled(UIType type, bool isOpen)
+    {
+        SetMovementEnabled(UIManager.Instance.IsAnyUIOpen);
+    }
     public void SetMovementEnabled(bool isUIOn)
     {
         _canMove = !isUIOn;

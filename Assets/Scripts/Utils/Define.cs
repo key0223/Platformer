@@ -98,4 +98,14 @@ public class Define
         Scene_Dirtmouth,
         Scene_Town_Store1,
     }
+
+    public enum UIType
+    {
+        Inventory,
+        Charm,
+        MiniMap,
+        PopupInfo,
+        Dialogue,
+        Shop,
+    }
 }

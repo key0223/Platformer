@@ -34,7 +34,6 @@ public class CharmPanel : PopupPanelBase
     [Header("Selection Slot Settings")]
     [SerializeField] string _charmSlotPrefabPath;
     [SerializeField] GameObject _charmSlotParent;
-    int _charmSlotCount = 30;
 
     PlayerController _playerController;
 

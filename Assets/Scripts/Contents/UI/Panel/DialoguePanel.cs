@@ -19,11 +19,11 @@ public class DialoguePanel : MonoBehaviour
 
     void OnEnable()
     {
-        UIManager.Instance.UpdateUIStateChanged("Dialogue", true);
+        UIManager.Instance.ToggleUI(Define.UIType.Dialogue);
     }
     void OnDisable()
     {
-        UIManager.Instance.UpdateUIStateChanged("Dialogue", false);
+        UIManager.Instance.ToggleUI(Define.UIType.Dialogue);
     }
     void Update()
     {

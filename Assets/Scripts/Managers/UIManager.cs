@@ -1,7 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static Define;
 
 public class UIManager : SingletonMonobehaviour<UIManager>
 {
@@ -12,14 +13,8 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     [SerializeField] InteractionStartUI _interactionStartUI;
     #endregion
 
-    #region Events
-    public event Action<bool> OnUIStateChanged;
-    public event Action OnToggleInventory;
-    public event Action OnToggleCharmPanel;
-    public event Action<bool> OnToggleMiniMap;
-    public event Action OnTogglePopupInfo;
+    public event Action<UIType, bool> OnUIToggled;
 
-    #endregion
     public HUDPanel HUDPanel { get { return _hudUIPanel; } }
     public PopupPanel PopupPanel { get { return _popupUIPanel; } }
 
@@ -28,20 +23,15 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     // World space UI
     public InteractionStartUI InteractionStartUI { get { return _interactionStartUI; } }
 
-    #region UI state
 
-    bool _isUIOn = false;
+    // UI states
+    HashSet<UIType> _activePanels = new HashSet<UIType>();
+    public bool IsAnyUIOpen { get { return _activePanels.Count > 0; } }
 
-
-    HashSet<string> _onPanels = new HashSet<string>();
-    #endregion
-
-    #region KeyCode
-
+    // KeyCode
     KeyCode _inventory = KeyCode.I;
     KeyCode _miniMap = KeyCode.M;
 
-    #endregion
     protected override void Awake()
     {
         base.Awake();
@@ -53,61 +43,31 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     }
     void HandleInput()
     {
-        if (Input.GetKeyDown(_inventory) && !IsAnyUIOn("Inventory"))
+        if (Input.GetKeyDown(_inventory))
         {
-            InvokeToggleInventory();
+            ToggleUI(UIType.Inventory);
         }
-        if (Input.GetKeyDown(_miniMap) && !IsAnyUIOn("MiniMap"))
+        if (Input.GetKeyDown(_miniMap))
         {
-            InvokeToggleMiniMap();
+            ToggleUI(UIType.MiniMap);
         }
     }
 
-    public bool IsAnyUIOn(string exceptPanelName = null)
+    public void ToggleUI(UIType type)
     {
-        if (_onPanels.Count == 0) return false;
-
-        foreach (string panel in _onPanels)
-        {
-            if (panel != exceptPanelName)
-                return true;
-        }
-        return false;
-    }
-
-    #region Callbacks
-
-    public void UpdateUIStateChanged(string panelName, bool isOn)
-    {
-        if (isOn)
-            _onPanels.Add(panelName);
+        //  현재 UI를 닫을 것인가 열 것인가?
+        bool isOpening = !_activePanels.Contains(type);
+        if(isOpening)
+            _activePanels.Add(type);
         else
-            _onPanels.Remove(panelName);
+            _activePanels.Remove(type);
 
-        OnUIStateChanged?.Invoke(isOn);
+        OnUIToggled?.Invoke(type, isOpening);
+
     }
 
-    public void InvokeToggleInventory()
+    public bool IsOtherUIOpen(UIType except)
     {
-        _isUIOn = !_isUIOn;
-        OnToggleInventory?.Invoke();
-        UpdateUIStateChanged("Inventory", _isUIOn);
+        return _activePanels.Any(t=> t != except);
     }
-    public void InvokeToggleCharmPanel()
-    {
-        _isUIOn = !_isUIOn;
-        UpdateUIStateChanged("Inventory", _isUIOn);
-        OnToggleCharmPanel?.Invoke();
-    }
-    public void InvokePopupInfo()
-    {
-        OnTogglePopupInfo?.Invoke();
-    }
-    public void InvokeToggleMiniMap()
-    {
-        _isUIOn = !_isUIOn;
-        OnToggleMiniMap?.Invoke(_isUIOn);
-        UpdateUIStateChanged("MiniMap", _isUIOn);
-    }
-    #endregion
 }

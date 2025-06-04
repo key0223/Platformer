@@ -36,13 +36,12 @@ public class ShopUIController : MonoBehaviour
 
     void OnEnable()
     {
-
-        UIManager.Instance.UpdateUIStateChanged(gameObject.name,true);
+        UIManager.Instance.ToggleUI(UIType.Shop);
     }
 
     void OnDisable()
     {
-        UIManager.Instance.UpdateUIStateChanged(gameObject.name, false);
+        UIManager.Instance.ToggleUI(UIType.Shop);
     }
     void Update()
     {

@@ -37,7 +37,7 @@ public class Npc_IseldaController : NpcControllerBase
     public override void Update()
     {
 
-        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !UIManager.Instance.IsAnyUIOn())
+        if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !UIManager.Instance.IsAnyUIOpen)
         {
             Interact();
             UIManager.Instance.InteractionStartUI.FadeOut();
