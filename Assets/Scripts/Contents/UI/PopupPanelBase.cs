@@ -10,6 +10,13 @@ public class PopupPanelBase : MonoBehaviour
     protected Slot _currentSlot;
     protected Highlighter _highlighter;
 
+    [Header("UI Info")]
+    [SerializeField] protected string _panelName;
+    [SerializeField] protected RectTransform _frame;
+
+    public string PanelName { get { return _panelName; } }
+    public RectTransform Frame { get { return _frame; } }
+
     void Start()
     {
         _highlighter = UIManager.Instance.PopupPanel.Highlighter;
@@ -37,7 +44,7 @@ public class PopupPanelBase : MonoBehaviour
         }
     }
 
-    Slot FindClosestSlot(Slot from, List<Slot> slots, Vector2 dir, float maxAngle)
+    protected virtual Slot FindClosestSlot(Slot from, List<Slot> slots, Vector2 dir, float maxAngle)
     {
         Slot closest = null;
         float minDist = float.MaxValue;
@@ -60,6 +67,7 @@ public class PopupPanelBase : MonoBehaviour
             }
         }
         return closest;
+
     }
 
     void Update()
@@ -93,23 +101,25 @@ public class PopupPanelBase : MonoBehaviour
     }
     protected virtual void SelectItem()
     {
-        //Slot currentSlot = GetCurrentSlot();
+        if(_currentSlot == null) return;
 
-        //if(currentSlot.IsArrow)
-        //{
-        //    PopupPanel popupPanel = UIManager.Instance.PopupPanel;
-        //    if (currentSlot.ArrowLeft)
-        //    {
-        //        int prevIndex = popupPanel.GetPopupPrevIndex();
-        //        popupPanel.ShowPanel(prevIndex, true);
-        //    }
-        //    else
-        //    {
-        //        int nextIndex = popupPanel.GetPopupNextIndex();
-        //        popupPanel.ShowPanel(nextIndex, false);
-        //    }
+        if(_currentSlot.IsArrow)
+        {
+            PopupPanel popupPanel = UIManager.Instance.PopupPanel;
 
-        //    return;
-        //}
+            if(_currentSlot.ArrowLeft)
+            {
+                Debug.Log("Left Arrow");
+                int prevIndex = popupPanel.GetPopupPrevIndex();
+                popupPanel.ShowPanel(prevIndex, true);
+            }
+            else
+            {
+                Debug.Log("Right Arrow");
+                int nextIndex = popupPanel.GetPopupNextIndex();
+                popupPanel.ShowPanel(nextIndex, false);
+            }
+            return;
+        }
     }
 }

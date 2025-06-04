@@ -1,6 +1,4 @@
 using Data;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -27,15 +25,20 @@ public class InventoryPanel : PopupPanelBase
     [SerializeField] Slot _weaponSlot;
     [SerializeField] Slot _amuletSlot;
     [SerializeField] Slot _spellSlot;
+    [Space(10f)]
+    [SerializeField] Slot _leftArrow;
+    [SerializeField] Slot _rightArrow;
 
     protected override void Init()
     {
+        AutoConnectSlots(_allSlots);
+        ManualConnectSlots();
         _allSlots.Add(_maskSlot);
         _allSlots.Add(_weaponSlot);
         _allSlots.Add(_amuletSlot);
         _allSlots.Add(_spellSlot);
-        AutoConnectSlots(_allSlots);
-        ManualConnectSlots();
+        _allSlots.Add(_leftArrow);
+        _allSlots.Add(_rightArrow);
 
         _currentSlot = _allSlots.FirstOrDefault();
         MoveHighlighter(_currentSlot);
@@ -45,12 +48,12 @@ public class InventoryPanel : PopupPanelBase
 
     void ManualConnectSlots()
     {
-        _maskSlot.Left = null;
+        _maskSlot.Left = _leftArrow;
         _maskSlot.Right = _amuletSlot;
         _maskSlot.Up = null;
         _maskSlot.Down = _weaponSlot;
 
-        _weaponSlot.Left = null;
+        _weaponSlot.Left = _leftArrow;
         _weaponSlot.Right = _amuletSlot;
         _weaponSlot.Up = _maskSlot;
         _weaponSlot.Down = null;
@@ -66,7 +69,22 @@ public class InventoryPanel : PopupPanelBase
         _spellSlot.Down = null;
 
         _allSlots[0].Left = _amuletSlot;
+        _allSlots[_allSlots.Count - 1].Right = _rightArrow;
 
+       UpdateArrowSlot();
+    }
+
+    void UpdateArrowSlot()
+    {
+        _leftArrow.Left = null;
+        _leftArrow.Right = _maskSlot;
+        _leftArrow.Up = _rightArrow;
+        _leftArrow.Down = _rightArrow;
+
+        _rightArrow.Left = _allSlots[_allSlots.Count - 1];
+        _rightArrow.Right = null;
+        _rightArrow.Up = _leftArrow;
+        _rightArrow.Down = _leftArrow;
     }
     public void SetCoinText(float amount)
     {

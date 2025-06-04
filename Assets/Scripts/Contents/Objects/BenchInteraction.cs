@@ -13,6 +13,13 @@ public class BenchInteraction : InteractionBase
         _interactionType = Define.InteractionType.Rest;
     }
 
+    public override void Update()
+    {
+        if (UIManager.Instance.PopupPanel.gameObject.activeSelf)
+            return;
+
+        base.Update();
+    }
     public override void Interact()
     {
         UIManager.Instance.InvokeToggleCharmPanel();

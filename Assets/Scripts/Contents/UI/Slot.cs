@@ -12,9 +12,6 @@ public class Slot : MonoBehaviour
     public Slot Left { get; set; }
     public Slot Right { get; set; }
 
-
-    Image _itemIconImage;
-
     [Space(10f)]
     [SerializeField]  int _itemId = 0;
     [SerializeField] bool _isArrow;
@@ -22,6 +19,8 @@ public class Slot : MonoBehaviour
     public int ItemId { get { return _itemId; } set { _itemId = value; } }
     public bool IsArrow { get { return _isArrow; }}
     public bool ArrowLeft { get { return _arrowLeft; }}
+
+    Image _itemIconImage;
 
     void Awake()
     {

@@ -772,7 +772,7 @@ GameObject:
   - component: {fileID: 884850178992394215}
   - component: {fileID: 884850178992394214}
   m_Layer: 0
-  m_Name: Amulet (1)
+  m_Name: Amulet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1642,47 +1642,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d8b72fefdc26da4a9227092c6a28e11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _allSlots:
+  - {fileID: 884850178600971880}
+  - {fileID: 7354401549299354211}
+  - {fileID: 6414117294550693713}
+  - {fileID: 2104090521105062095}
+  - {fileID: 4818495734448845012}
+  - {fileID: 2120647080231366844}
+  - {fileID: 4804647570241092197}
+  - {fileID: 8092668422257868702}
+  - {fileID: 6733521616052442644}
+  - {fileID: 4109446225303067542}
+  - {fileID: 3440967697026158031}
+  - {fileID: 7361013658122012772}
+  - {fileID: 4378390118609441034}
+  - {fileID: 9049014428874937886}
+  - {fileID: 2253360871282796947}
+  - {fileID: 10478492201825896}
   _panelName: "\uC18C\uC9C0\uD488"
-  _panelIndex: 0
   _frame: {fileID: 884850178522947276}
-  _sections:
-  - _rows:
-    - _columns:
-      - {fileID: 884850180222348560}
-      - {fileID: 884850179554471528}
-      - {fileID: 884850178992394214}
-      - {fileID: 884850179236942689}
-  - _rows:
-    - _columns:
-      - {fileID: 884850178600971880}
-      - {fileID: 7354401549299354211}
-      - {fileID: 6414117294550693713}
-      - {fileID: 2104090521105062095}
-    - _columns:
-      - {fileID: 4818495734448845012}
-      - {fileID: 2120647080231366844}
-      - {fileID: 4804647570241092197}
-      - {fileID: 8092668422257868702}
-    - _columns:
-      - {fileID: 6733521616052442644}
-      - {fileID: 4109446225303067542}
-      - {fileID: 3440967697026158031}
-      - {fileID: 7361013658122012772}
-    - _columns:
-      - {fileID: 4378390118609441034}
-      - {fileID: 9049014428874937886}
-      - {fileID: 2253360871282796947}
-      - {fileID: 10478492201825896}
-  - _rows:
-    - _columns:
-      - {fileID: 0}
-      - {fileID: 0}
   _coinText: {fileID: 884850180036092684}
   _initPos: {fileID: 884850179554471529}
   _itemNameText: {fileID: 884850178461274551}
   _keyDescText: {fileID: 884850178956554665}
   _itemDescText: {fileID: 884850178890955496}
+  _maskSlot: {fileID: 884850180222348560}
   _weaponSlot: {fileID: 884850179554471528}
+  _amuletSlot: {fileID: 884850178992394214}
+  _spellSlot: {fileID: 884850179236942689}
+  _leftArrow: {fileID: 0}
+  _rightArrow: {fileID: 0}
 --- !u!1 &884850180036092686
 GameObject:
   m_ObjectHideFlags: 0
