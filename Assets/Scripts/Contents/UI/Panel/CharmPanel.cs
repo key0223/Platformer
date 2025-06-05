@@ -1,5 +1,4 @@
 using Data;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -52,6 +51,7 @@ public class CharmPanel : PopupPanelBase
 
     protected override void Init()
     {
+        _uiType = UIType.Charm;
         _playerController = FindObjectOfType<PlayerController>();
 
         // Equipped Slot Initialize

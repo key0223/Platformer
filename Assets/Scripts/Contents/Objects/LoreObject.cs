@@ -23,6 +23,4 @@ public class LoreObject : InteractionBase
         UIManager.Instance.ToggleUI(Define.UIType.PopupInfo);
         _popup.InfoPanel.PopupUI(_loreStrId,_spellId);
     }
-
-   
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using static Define;
 
 public class InventoryPanel : PopupPanelBase
 {
@@ -31,6 +32,7 @@ public class InventoryPanel : PopupPanelBase
 
     protected override void Init()
     {
+        _uiType = UIType.Inventory;
         AutoConnectSlots(_allSlots);
         ManualConnectSlots();
         _allSlots.Add(_maskSlot);
@@ -111,7 +113,7 @@ public class InventoryPanel : PopupPanelBase
         _rightArrow.Up = _leftArrow;
         _rightArrow.Down = _leftArrow;
     }
-    #region Item Description UI
+    #region  UI
 
     void UpdateItemDescUI()
     {
@@ -139,7 +141,6 @@ public class InventoryPanel : PopupPanelBase
     }
     #endregion
 
-    #region Equip Item
     public int GetEquippedWeaponDamage()
     {
         ItemData itemData = DataManager.Instance.GetItemData(_weaponSlot.ItemId);
@@ -152,5 +153,4 @@ public class InventoryPanel : PopupPanelBase
 
         return 0;
     }
-    #endregion
 }

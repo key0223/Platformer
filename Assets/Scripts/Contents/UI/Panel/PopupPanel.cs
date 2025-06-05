@@ -1,8 +1,6 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using static Define;
 
@@ -59,8 +57,6 @@ public class PopupPanel : MonoBehaviour
         Init();
 
         UIManager.Instance.OnUIToggled += OnUIToggled;
-        //UIManager.Instance.OnTogglePopupInfo += PopupInfoPanel;
-        //UIManager.Instance.OnToggleCharmPanel += ToggleCharmPanel;
     }
 
     void Init()
@@ -142,6 +138,7 @@ public class PopupPanel : MonoBehaviour
                 SetInfoPanel(isOpen);
                 break;
         }
+
     }
 
     void SetInventoryPanel(bool isOpen)
@@ -155,13 +152,21 @@ public class PopupPanel : MonoBehaviour
         {
             _inventoryPanel.SetCoinText(InventoryManager.Instance.Coin);
         }
+
+        CurrentPopupPanel = (int)UIType.Inventory;
     }
 
     void SetCharmPanel(bool isOpen)
     {
-        SetInventoryPanel(isOpen);
+        _hud.gameObject.SetActive(!isOpen);
+        gameObject.SetActive(isOpen);
+        _backgroundPanel.gameObject.SetActive(isOpen);
+        _inventoryPanel.gameObject.SetActive(!isOpen);
+
         _charmPanel.OpenByBench = isOpen;
         _charmPanel.gameObject.SetActive(isOpen);
+
+        CurrentPopupPanel = (int)UIType.Charm;
     }
     void SetInfoPanel(bool isOpen)
     {
@@ -170,27 +175,6 @@ public class PopupPanel : MonoBehaviour
         _inventoryPanel.gameObject.SetActive(isOpen);
         _informationPanel.gameObject.SetActive(isOpen);
     }
-    //void ToggleInventory()
-    //{
-    //    _inventoryPanel.gameObject.GetComponent<InventoryPanel>().SetCoinText(InventoryManager.Instance.Coin);
-    //    _hud.gameObject.SetActive(!_hud.gameObject.activeSelf);
-    //    this.gameObject.SetActive(!this.gameObject.activeSelf);
-    //    _backgroundPanel.gameObject.SetActive(!_backgroundPanel.gameObject.activeSelf);
-    //    _inventoryPanel.gameObject.SetActive(!_inventoryPanel.gameObject.activeSelf);
-
-    //}
-
-    //void ToggleCharmPanel()
-    //{
-    //    ToggleInventory();
-    //    _charmPanel.OpenByBench = !_charmPanel.OpenByBench;
-    //}
-    //public void PopupInfoPanel()
-    //{
-    //    this.gameObject.SetActive(!this.gameObject.activeSelf);
-    //    _backgroundPanel.gameObject.SetActive(false);
-    //    _inventoryPanel.gameObject.SetActive(false);
-    //}
 
     public int GetPopupPrevIndex()
     {

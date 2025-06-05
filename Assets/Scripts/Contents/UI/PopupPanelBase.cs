@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Define;
 
 public class PopupPanelBase : MonoBehaviour
 {
-
     [SerializeField] protected List<Slot> _allSlots = new List<Slot>();
 
     protected Slot _currentSlot;
@@ -16,6 +16,9 @@ public class PopupPanelBase : MonoBehaviour
 
     public string PanelName { get { return _panelName; } }
     public RectTransform Frame { get { return _frame; } }
+
+    protected UIType _uiType;
+    public UIType UIType { get { return _uiType; } }
 
     void Start()
     {
