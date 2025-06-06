@@ -13,7 +13,6 @@ public class DialogueManager : SingletonMonobehaviour<DialogueManager>
 
     public void MakeDialogueQueue(string dialogueText, string npcName = null, Action onComplete = null)
     {
-        UIManager.Instance.DialoguePanel.gameObject.SetActive(true);
         UIManager.Instance.DialoguePanel.SetNpcNameText(npcName);
         UIManager.Instance.DialoguePanel.FadeIn();
 
@@ -23,7 +22,7 @@ public class DialogueManager : SingletonMonobehaviour<DialogueManager>
 
         string[] dialogues = dialogueText.Split("#b"); // #b를 기준으로 string을 나눈다.
 
-        foreach(string dialogue in dialogues)
+        foreach (string dialogue in dialogues)
         {
             newQueue.EnqueueDialogue(dialogue);
         }
@@ -47,10 +46,9 @@ public class DialogueManager : SingletonMonobehaviour<DialogueManager>
             UIManager.Instance.DialoguePanel.StartTyping(newDialogue);
         }
     }
-
     public void EndDialogue()
     {
-        UIManager.Instance.DialoguePanel.gameObject.SetActive(false);
+        UIManager.Instance.ToggleUI(Define.UIType.Dialogue);
         _onDialogueComplete?.Invoke();
         _onDialogueComplete = null;
     }

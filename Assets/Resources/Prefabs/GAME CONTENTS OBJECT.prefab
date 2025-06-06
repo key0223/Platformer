@@ -2280,6 +2280,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1693359028739021667, guid: 99a94947b835cca49ac69f7839e7f189, type: 3}
+      propertyPath: _dialoguePanel
+      value: 
+      objectReference: {fileID: 7108629623346755305}
     - target: {fileID: 1693359029387779705, guid: 99a94947b835cca49ac69f7839e7f189, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3115,6 +3119,10 @@ PrefabInstance:
     - target: {fileID: 8916005213969021105, guid: de0a41e5dce508f45a58d5dff2e0a3f4, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916005214590591713, guid: de0a41e5dce508f45a58d5dff2e0a3f4, type: 3}
+      propertyPath: m_text
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de0a41e5dce508f45a58d5dff2e0a3f4, type: 3}

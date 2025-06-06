@@ -1,4 +1,3 @@
-using Data;
 using System.Collections;
 using UnityEngine;
 using static Define;
@@ -16,7 +15,7 @@ public class Npc_IseldaController : NpcControllerBase
         set 
         { 
             if(_playerDir == value) return;
-            Debug.Log($"PlayerDir changed: {_playerDir} ¡æ {value}");
+            //Debug.Log($"PlayerDir changed: {_playerDir} ¡æ {value}");
             _playerDir = value;
             _anim.UpdateDirection();
         }
@@ -36,7 +35,6 @@ public class Npc_IseldaController : NpcControllerBase
     }
     public override void Update()
     {
-
         if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !UIManager.Instance.IsAnyUIOpen)
         {
             Interact();
@@ -58,14 +56,6 @@ public class Npc_IseldaController : NpcControllerBase
             _coIdle = StartCoroutine(CoIdle());
         }
     }
-    public override void OnTriggerEnter2D(Collider2D collision)
-    {
-        base.OnTriggerEnter2D(collision);
-    }
-    public override void OnTriggerExit2D(Collider2D collision)
-    {
-        base.OnTriggerExit2D(collision);
-    }
     public override void Interact()
     {
         if (_isFirstMeet)
@@ -73,6 +63,8 @@ public class Npc_IseldaController : NpcControllerBase
             _isFirstMeet = false;
 
             string dialogue = DataManager.Instance.DialogueDict["Iselda_first_meet"].dialogueText;
+
+            UIManager.Instance.ToggleUI(UIType.Dialogue);
 
             DialogueManager.Instance.MakeDialogueQueue(dialogue,_npcName,
                 ()=> 
@@ -88,7 +80,6 @@ public class Npc_IseldaController : NpcControllerBase
         {
             _shopUI.SetActive(!_shopUI.activeSelf);
         }
-
     }
 
     IEnumerator CoIdle()

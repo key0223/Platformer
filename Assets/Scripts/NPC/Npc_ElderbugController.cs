@@ -1,9 +1,10 @@
 using Data;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Define;
 
-public class Npc_ElderbugController : NpcControllerBase,ISavable
+public class Npc_ElderbugController : NpcControllerBase, ISavable
 {
     Npc_ElderbugAnimation _anim;
 
@@ -49,7 +50,6 @@ public class Npc_ElderbugController : NpcControllerBase,ISavable
     {
         DeregisterSave();
     }
-
     public override void Update()
     {
         if (CanInteract && Input.GetKeyDown(KeyCode.UpArrow) && !_isTalking && !UIManager.Instance.IsAnyUIOpen)
@@ -85,23 +85,22 @@ public class Npc_ElderbugController : NpcControllerBase,ISavable
     public override void Interact()
     {
         string dialogue = GetDialogue();
+        UIManager.Instance.ToggleUI(UIType.Dialogue);
 
         DialogueManager.Instance.MakeDialogueQueue(dialogue, _npcName,
-     () =>
-     {
-         IsTalking = false;
-         IsIdle = true;
-         UIManager.Instance.ToggleUI(UIType.Dialogue);
+ () =>
+ {
+     IsTalking = false;
+     IsIdle = true;
 
-     });
+ });
         IsTalking = true;
         IsIdle = false;
-        UIManager.Instance.ToggleUI(UIType.Dialogue);
     }
 
     string GetDialogue()
     {
-        if(_isFirstMeet)
+        if (_isFirstMeet)
         {
             _isFirstMeet = false;
             string dialougueId;
@@ -139,7 +138,6 @@ public class Npc_ElderbugController : NpcControllerBase,ISavable
     #region Save
     public void RegisterSave()
     {
-        Debug.Log("Elderbug Registered");
         SaveLoadManager.Instance.Register(this);
     }
 
@@ -160,11 +158,11 @@ public class Npc_ElderbugController : NpcControllerBase,ISavable
     public void RestoreData(object loadedata)
     {
         Dictionary<int, NpcProgressData> npcDict = loadedata as Dictionary<int, NpcProgressData>;
-        if(npcDict.TryGetValue(_npcId,out NpcProgressData data))
+        if (npcDict.TryGetValue(_npcId, out NpcProgressData data))
         {
             _isFirstMeet = !data.hasMet;
         }
-     
+
     }
     #endregion
 }

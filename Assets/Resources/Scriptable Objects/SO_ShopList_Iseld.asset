@@ -13,16 +13,6 @@ MonoBehaviour:
   m_Name: SO_ShopList_Iseld
   m_EditorClassIdentifier: 
   itemList:
-  - itemId: 10401
-    price: 60
-    npcItemDesc: "\uD45C\uBA74\uC5D0 \uAC00\uAE4C\uC6B4 \uC2E0\uC131\uB465\uC9C0\uC758
-      \uC2E0\uB85D\uC758 \uC9C0\uC5ED\uC778 \uB179\uC0C9 \uAC70\uB9AC\uC758 \uC9C0\uB3C4.
-      \uBD84\uBA85 \uAC70\uAE30 \uBB3C\uC740 \uC811\uCD09\uD558\uBA74 \uCE58\uBA85\uC801\uC77C
-      \uAC70\uC608\uC694!"
-  - itemId: 10402
-    price: 100
-    npcItemDesc: "\uD759\uC758 \uB9C8\uC744 \uC9C0\uB3C4.\n\uC544\uB9C8 \uD544\uC694\uD560\uC9C0\uB3C4
-      \uBAB0\uB77C\uC694."
   - itemId: 10501
     price: 100
     npcItemDesc: "\uC774 \uD540\uC740 \uC9C0\uB3C4\uC5D0 \uC758\uC790 \uBC0F \uAE30\uD0C0

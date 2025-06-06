@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -14,28 +13,21 @@ public class DialoguePanel : MonoBehaviour
 
     public bool IsTyping { get; private set; }
 
-
     Coroutine _coTyping;
-
-    void OnEnable()
-    {
-        UIManager.Instance.ToggleUI(Define.UIType.Dialogue);
-    }
-    void OnDisable()
-    {
-        UIManager.Instance.ToggleUI(Define.UIType.Dialogue);
-    }
+   
     void Update()
     {
-        if(!IsTyping && DialogueManager.Instance.CurrentDialogueQueue.HasNextDialogue() && Input.GetKeyDown(KeyCode.Return))
+        if(DialogueManager.Instance != null && DialogueManager.Instance.CurrentDialogueQueue != null)
         {
-            DialogueManager.Instance.StartDialogue();
+            if (!IsTyping && DialogueManager.Instance.CurrentDialogueQueue.HasNextDialogue() && Input.GetKeyDown(KeyCode.Return))
+            {
+                DialogueManager.Instance.StartDialogue();
+            }
+            if (!IsTyping && !DialogueManager.Instance.CurrentDialogueQueue.HasNextDialogue() && Input.GetKeyDown(KeyCode.Return))
+            {
+                DialogueManager.Instance.EndDialogue();
+            }
         }
-        if(!IsTyping&& !DialogueManager.Instance.CurrentDialogueQueue.HasNextDialogue()&& Input.GetKeyDown(KeyCode.Return))
-        {
-            DialogueManager.Instance.EndDialogue();
-        }
-        
     }
 
     public void SetNpcNameText(string npcName)
@@ -47,6 +39,7 @@ public class DialoguePanel : MonoBehaviour
         if(_coTyping != null)
         {
             StopCoroutine(_coTyping);
+            _coTyping = null;
         }
 
         _coTyping = StartCoroutine(CoTypeText(text));

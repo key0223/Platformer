@@ -16,6 +16,7 @@ public class PopupPanel : MonoBehaviour
     [SerializeField] InventoryPanel _inventoryPanel;
     [SerializeField] CharmPanel _charmPanel;
     [SerializeField] InformationPanel _informationPanel;
+    [SerializeField] DialoguePanel _dialoguePanel;
 
     [Space(10f)]
     [SerializeField] Highlighter _highlighter;
@@ -92,7 +93,6 @@ public class PopupPanel : MonoBehaviour
         _titleText.text = _panels[panelIndex].PanelName;
         _leftText.text = _panels[GetPopupPrevIndex()].PanelName;
         _rightText.text = _panels[GetPopupNextIndex()].PanelName;
-
     }
 
     public void ShowPanel(int newIndex, bool isLeft)
@@ -137,8 +137,10 @@ public class PopupPanel : MonoBehaviour
             case UIType.PopupInfo:
                 SetInfoPanel(isOpen);
                 break;
+            case UIType.Dialogue:
+                SetDialoguePanel(isOpen);
+                break;
         }
-
     }
 
     void SetInventoryPanel(bool isOpen)
@@ -174,6 +176,11 @@ public class PopupPanel : MonoBehaviour
         _backgroundPanel.gameObject.SetActive(isOpen);
         _inventoryPanel.gameObject.SetActive(isOpen);
         _informationPanel.gameObject.SetActive(isOpen);
+    }
+
+    void SetDialoguePanel(bool isOpen)
+    {
+        _dialoguePanel.gameObject.SetActive(isOpen);
     }
 
     public int GetPopupPrevIndex()
