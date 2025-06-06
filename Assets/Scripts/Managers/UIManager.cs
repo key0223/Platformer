@@ -43,6 +43,14 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     }
     void HandleInput()
     {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(IsAnyUIOpen)
+                CloseCurrentUI();
+            return;
+        }
+        if (IsAnyUIOpen) return;
+
         if (Input.GetKeyDown(_inventory))
         {
             ToggleUI(UIType.Inventory);
@@ -64,6 +72,12 @@ public class UIManager : SingletonMonobehaviour<UIManager>
 
         OnUIToggled?.Invoke(type, isOpening);
 
+    }
+
+    void CloseCurrentUI()
+    {
+        if(_activePanels.Count>0)
+            ToggleUI(_activePanels.Last());
     }
 
     public bool IsOtherUIOpen(UIType except)
