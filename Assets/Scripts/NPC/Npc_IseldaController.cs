@@ -1,8 +1,10 @@
+using Data;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static Define;
 
-public class Npc_IseldaController : NpcControllerBase
+public class Npc_IseldaController : NpcControllerBase , ISavable
 {
     [SerializeField] GameObject _shopUI;
 
@@ -32,6 +34,15 @@ public class Npc_IseldaController : NpcControllerBase
     {
         _anim = GetComponent<Npc_IseldaAnimation>();
         _interactionType = InteractionType.Shop;
+    }
+
+    void OnEnable()
+    {
+        RegisterSave();
+    }
+    void OnDisable()
+    {
+        DeregisterSave();
     }
     public override void Update()
     {
@@ -92,5 +103,35 @@ public class Npc_IseldaController : NpcControllerBase
 
         _coIdle = null;
     }
- 
+
+    #region
+    public void RegisterSave()
+    {
+        SaveLoadManager.Instance.Register(this);
+    }
+
+    public void DeregisterSave()
+    {
+        SaveLoadManager.Instance.Deregister(this);
+    }
+
+    public object CaptureData()
+    {
+        NpcProgressData data = new NpcProgressData();
+        data.npcId = _npcId;
+        data.hasMet = !_isFirstMeet;
+
+        return data;
+    }
+
+    public void RestoreData(object loadedata)
+    {
+        Dictionary<int, NpcProgressData> npcDict = loadedata as Dictionary<int, NpcProgressData>;
+        if (npcDict.TryGetValue(_npcId, out NpcProgressData data))
+        {
+            _isFirstMeet = !data.hasMet;
+        }
+    }
+    #endregion
+
 }
