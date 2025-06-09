@@ -89,7 +89,7 @@ public class PopupPanelBase : MonoBehaviour
    
     protected void MoveHighlighter(Slot nextSlot)
     {
-        if (nextSlot == null) return;
+        if (nextSlot == null || !nextSlot.gameObject.activeInHierarchy) return;
         _currentSlot?.Highlight(false);
         _currentSlot = nextSlot;
         _currentSlot.Highlight(true);

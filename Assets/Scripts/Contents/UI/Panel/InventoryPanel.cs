@@ -35,6 +35,8 @@ public class InventoryPanel : PopupPanelBase
         _uiType = UIType.Inventory;
         AutoConnectSlots(_allSlots);
         ManualConnectSlots();
+        SetAllSlotsDisable();
+
         _allSlots.Add(_maskSlot);
         _allSlots.Add(_weaponSlot);
         _allSlots.Add(_amuletSlot);
@@ -46,6 +48,14 @@ public class InventoryPanel : PopupPanelBase
         MoveHighlighter(_currentSlot);
 
         InitItemDescUI();
+    }
+
+    void SetAllSlotsDisable()
+    {
+        foreach (Slot slot in _allSlots)
+        {
+            slot.gameObject.SetActive(false);
+        }
     }
 
     void ManualConnectSlots()
