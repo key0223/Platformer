@@ -41,6 +41,9 @@ public class Item
             case ItemType.Charm: 
                 item = new Charm(itemId);
                 break;
+            case ItemType.Map:
+                item = new Map(itemId);
+                break;
             case ItemType.Spell:
                 break;
         }
@@ -130,5 +133,34 @@ public class Charm : Item
             _effectValue = charmData.effectValue;
         }
     }
+
+}
+
+[Serializable]
+public class Map : Item
+{
+    SceneName sceneName;
+
+    public SceneName SceneName { get { return sceneName; } }
+
+    public Map(int itemId) : base(ItemType.Map)
+    {
+        Init(itemId);
+    }
+    public override void Init(int itemId, int count = 1)
+    {
+        ItemData itemData = DataManager.Instance.GetItemData(itemId);
+        MapData mapData = itemData as MapData;
+        if (mapData != null)
+        {
+            _itemId = itemId;
+            _count = count;
+            _equipped = false;
+
+            sceneName = mapData.sceneName;
+        }
+    }
+
+
 }
 

@@ -3131,7 +3131,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4707071587194342984, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: _doorToSpawnTo
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4707071587194342984, guid: 59dc8e497321f7d44bbe54e0a56fe7fc, type: 3}
       propertyPath: _currentDoorPosition

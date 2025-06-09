@@ -7,8 +7,8 @@ using static Define;
 public class TestStartButton : MonoBehaviour
 {
     [SerializeField] Button _startButton;
-    SceneName _startingScene = SceneName.Scene_Greenpath;
-    Vector2 _startingPosition = new Vector2(2.5f, 4);
+    SceneName _startingScene = SceneName.Scene_Dirtmouth;
+    Vector2 _startingPosition = new Vector2(-3.25f, 9.6f);
 
     void Awake()
     {

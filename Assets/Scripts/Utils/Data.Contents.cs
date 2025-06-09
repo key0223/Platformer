@@ -47,6 +47,13 @@ namespace Data
         public Sprite decscrtiptionSprite;
     }
 
+    [Serializable]
+    public class MapData : ItemData
+    {
+        public SceneName sceneName;
+        public GameObject miniMapPrefab;
+    }
+
     #endregion
 
     [Serializable]
