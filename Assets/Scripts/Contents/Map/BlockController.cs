@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 public class BlockController : MonoBehaviour
 {
-    [SerializeField] Tilemap[] _minimaps; //  should be minimap tilemap for minimap UI _minimaps[0] is minimapLine;
+    [SerializeField] Tilemap[] _miniMaps; //  should be minimap tilemap for minimap UI and _miniMaps[0] is minimapLine;
 
     int _blockSize = 6;
     Camera _mainCamera;
@@ -20,7 +20,7 @@ public class BlockController : MonoBehaviour
         _mainCamera = Camera.main;
 
         _cameraPos = _mainCamera.transform.position;
-        UpdateBlock();
+        UpdateCurrentBlock();
     }
 
     void Start()
@@ -28,9 +28,25 @@ public class BlockController : MonoBehaviour
         InitBlocks();
     }
 
+    void Update()
+    {
+        UpdateCurrentBlock();
+
+        if (_currentBlock != _prevBlock)
+        {
+            _prevBlock = _currentBlock;
+        }
+
+        if (_blockDict.TryGetValue(_currentBlock, out Block currentBlock) && !currentBlock.visited)
+        {
+            currentBlock.visited = true;
+            //SetBlockAlpha(_currentBlock, 1f);
+        }
+    }
+
     void InitBlocks()
     {
-        BoundsInt mapbounds = _minimaps[0].cellBounds;
+        BoundsInt mapbounds = _miniMaps[0].cellBounds;
         int width = mapbounds.size.x;
         int height = mapbounds.size.y;
 
@@ -54,7 +70,7 @@ public class BlockController : MonoBehaviour
     {
         if (_blockDict.TryGetValue(blockId, out Block chunk))
         {
-            foreach (Tilemap tilemap in _minimaps)
+            foreach (Tilemap tilemap in _miniMaps)
             {
                 foreach (Vector3Int pos in chunk.bounds.allPositionsWithin)
                 {
@@ -77,32 +93,28 @@ public class BlockController : MonoBehaviour
         }
     }
 
-    void UpdateBlock()
+    public void SetVisitedBlockAlpha()
+    {
+        foreach (Vector2Int blockId in _blockDict.Keys)
+        {
+            if (!_blockDict[blockId].visited)
+                continue;
+
+            SetBlockAlpha(blockId, 1);
+            
+        }
+    }
+    void UpdateCurrentBlock()
     {
         _cameraPos = _mainCamera.transform.position;
-        BoundsInt mapbounds = _minimaps[0].cellBounds;
+        BoundsInt mapbounds = _miniMaps[0].cellBounds;
 
         int blockX = Mathf.FloorToInt((_cameraPos.x - mapbounds.xMin) / _blockSize);
         int blockY = Mathf.FloorToInt((_cameraPos.y - mapbounds.yMin) / _blockSize);
 
         _currentBlock = new Vector2Int(blockX, blockY);
     }
-    void Update()
-    {
-        UpdateBlock();
-
-        if(_currentBlock != _prevBlock)
-        {
-            _prevBlock = _currentBlock;
-        }
-
-        if(_blockDict.TryGetValue(_currentBlock, out Block currentBlock) && !currentBlock.visited)
-        {
-            currentBlock.visited = true;
-            SetBlockAlpha(_currentBlock, 1f);
-        }
-    }
-
+  
     void OnDrawGizmos()
     {
         if (_blockDict == null || _blockDict.Count == 0)
@@ -111,8 +123,8 @@ public class BlockController : MonoBehaviour
         Gizmos.color = Color.yellow;
         foreach (var block in _blockDict.Values)
         {
-            Vector3 min = _minimaps[0].CellToWorld(new Vector3Int(block.bounds.xMin, block.bounds.yMin, 0));
-            Vector3 max = _minimaps[0].CellToWorld(new Vector3Int(block.bounds.xMax, block.bounds.yMax, 0));
+            Vector3 min = _miniMaps[0].CellToWorld(new Vector3Int(block.bounds.xMin, block.bounds.yMin, 0));
+            Vector3 max = _miniMaps[0].CellToWorld(new Vector3Int(block.bounds.xMax, block.bounds.yMax, 0));
             Vector3 size = max - min;
 
             Gizmos.DrawWireCube(min + size * 0.5f, size);

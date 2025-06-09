@@ -25,6 +25,7 @@ public class BenchInteraction : InteractionBase
     {
         UIManager.Instance.ToggleUI(Define.UIType.Charm);
 
+        UIManager.Instance.PopupPanel.MiniMapPanel.UpdateVisitedBlock();
         //if(MapManager.Instance.CurrentMiniMap !=null)
         //{
         //    MapManager.Instance.CurrentMiniMap.MiniMapUI.UpdateMiniMap();

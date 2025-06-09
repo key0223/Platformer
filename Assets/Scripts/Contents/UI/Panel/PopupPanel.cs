@@ -15,6 +15,7 @@ public class PopupPanel : MonoBehaviour
     [SerializeField] GameObject _backgroundPanel;
     [SerializeField] InventoryPanel _inventoryPanel;
     [SerializeField] CharmPanel _charmPanel;
+    [SerializeField] MiniMapPanel _miniMapPanel;
     [SerializeField] InformationPanel _informationPanel;
     [SerializeField] DialoguePanel _dialoguePanel;
 
@@ -37,6 +38,7 @@ public class PopupPanel : MonoBehaviour
     public InventoryPanel InvenPanel { get { return _inventoryPanel; } }
     public CharmPanel CharmPanel { get { return _charmPanel; } }
     public InformationPanel InfoPanel { get { return _informationPanel; } }
+     public MiniMapPanel MiniMapPanel { get { return _miniMapPanel; } }
     public List<PopupPanelBase> Panels{ get { return _panels; } }
     public Highlighter Highlighter { get { return _highlighter; } }
     
@@ -64,6 +66,7 @@ public class PopupPanel : MonoBehaviour
     {
         InitPanelList();
 
+        //_miniMapPanel.gameObject.SetActive(false);
         _informationPanel.gameObject.SetActive(false);
 
         _hud = UIManager.Instance.HUDPanel;
@@ -134,6 +137,9 @@ public class PopupPanel : MonoBehaviour
             case UIType.Charm:
                 SetCharmPanel(isOpen);
                 break;
+            case UIType.MiniMap:
+                SetMiniMapPanel(isOpen); 
+                break;
             case UIType.PopupInfo:
                 SetInfoPanel(isOpen);
                 break;
@@ -169,6 +175,11 @@ public class PopupPanel : MonoBehaviour
         _charmPanel.gameObject.SetActive(isOpen);
 
         CurrentPopupPanel = (int)UIType.Charm;
+    }
+
+    void SetMiniMapPanel(bool isOpen)
+    {
+        _miniMapPanel.CanvasGO.SetActive(isOpen);
     }
     void SetInfoPanel(bool isOpen)
     {
