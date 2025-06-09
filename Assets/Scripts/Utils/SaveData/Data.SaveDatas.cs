@@ -32,4 +32,11 @@ namespace Data
         public int npcId;
         public bool hasMet;
     }
+
+    [Serializable]
+    public class MiniMapSaveData
+    {
+        public int itemId;
+        public List<Vector2IntSerializable> visitedBlocks = new List<Vector2IntSerializable>();
+    }
 }

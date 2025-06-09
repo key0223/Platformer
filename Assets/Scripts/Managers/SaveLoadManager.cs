@@ -46,6 +46,8 @@ public class SaveLoadManager : SingletonMonobehaviour<SaveLoadManager>
                 NpcProgressData npcData = (NpcProgressData)savable.CaptureData();
                 saveData.npcProgressDict.Add(npcData.npcId, npcData);
             }
+            else if (savable is MiniMapPanel)
+                saveData.miniMapData = (Dictionary<string,MiniMapSaveData>)savable.CaptureData();
         }
 
         return saveData;
@@ -59,8 +61,10 @@ public class SaveLoadManager : SingletonMonobehaviour<SaveLoadManager>
                 savable.RestoreData(saveData.playerSaveData);
             else if (savable is InventoryManager)
                 savable.RestoreData(saveData.inventorySaveData);
-            else if( savable is NpcControllerBase)
+            else if (savable is NpcControllerBase)
                 savable.RestoreData(saveData.npcProgressDict);
+            else if (savable is MiniMapPanel)
+                savable.RestoreData(saveData.miniMapData);
         }
     }
     public void RestoreAll()
@@ -75,6 +79,8 @@ public class SaveLoadManager : SingletonMonobehaviour<SaveLoadManager>
                 savable.RestoreData(_saveData.inventorySaveData);
             else if (savable is NpcControllerBase)
                 savable.RestoreData(_saveData.npcProgressDict);
+            else if (savable is MiniMapPanel)
+                savable.RestoreData(_saveData.miniMapData);
         }
     }
 

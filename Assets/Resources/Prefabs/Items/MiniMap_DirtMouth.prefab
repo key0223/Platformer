@@ -1319,6 +1319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneName: 2
+  _itemId: 10401
   _miniMaps:
   - {fileID: 5452731321439173118}
   - {fileID: 5452731321372847543}

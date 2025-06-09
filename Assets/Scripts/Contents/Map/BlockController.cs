@@ -1,11 +1,14 @@
+using Data;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 using static Define;
 
-public class BlockController : MonoBehaviour
+public class BlockController : MonoBehaviour , ISavable
 {
     [SerializeField] SceneName _sceneName;
+    [SerializeField] int _itemId;
     [SerializeField] Tilemap[] _miniMaps; //  should be minimap tilemap for minimap UI and _miniMaps[0] is minimapLine;
 
     int _blockSize = 6;
@@ -16,9 +19,12 @@ public class BlockController : MonoBehaviour
     Vector2Int _prevBlock;
     Vector2Int _currentBlock;
 
+    bool _initialized = false;
+
     Dictionary<Vector2Int,Block> _blockDict = new Dictionary<Vector2Int,Block>();
 
     public SceneName SceneName { get { return _sceneName; } }
+    public int ItemId { get { return _itemId; } }
     private void Awake()
     {
         _mainCamera = Camera.main;
@@ -50,6 +56,8 @@ public class BlockController : MonoBehaviour
 
     void InitBlocks()
     {
+        if(_initialized) return;
+
         BoundsInt mapbounds = _miniMaps[0].cellBounds;
         int width = mapbounds.size.x;
         int height = mapbounds.size.y;
@@ -68,6 +76,8 @@ public class BlockController : MonoBehaviour
             }
         }
         SetAllBlocksAlpha(0);
+
+        _initialized = true;
     }
 
     void SetBlockAlpha(Vector2Int blockId, float alpha)
@@ -134,4 +144,53 @@ public class BlockController : MonoBehaviour
             Gizmos.DrawWireCube(min + size * 0.5f, size);
         }
     }
+
+    #region Save
+    public void RegisterSave()
+    {
+       
+    }
+    public void DeregisterSave()
+    {
+
+    }
+
+    public object CaptureData()
+    {
+        MiniMapSaveData saveData = new MiniMapSaveData();
+        foreach (var pair in _blockDict)
+        {
+            if (pair.Value.visited)
+                saveData.visitedBlocks.Add(new Vector2IntSerializable(pair.Key));
+        }
+
+        saveData.itemId = _itemId;
+        return saveData;
+    }
+
+    public void RestoreData(object loadedata)
+    {
+        MiniMapSaveData saveData = loadedata as MiniMapSaveData;
+
+        if(saveData == null) return;
+
+        InitBlocks();
+
+        foreach (var block in _blockDict.Values)
+            block.visited = false;
+            
+        foreach (Vector2IntSerializable blockId in saveData.visitedBlocks)
+        {
+            Vector2Int vector2Int = new Vector2Int(blockId.x, blockId.y);
+            if(_blockDict.TryGetValue(vector2Int, out Block block))
+                block.visited = true;
+        }
+
+        _itemId = saveData.itemId;
+
+        SetVisitedBlockAlpha();
+    }
+    #endregion
+
+
 }
