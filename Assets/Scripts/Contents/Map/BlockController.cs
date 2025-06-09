@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static Define;
 
 public class BlockController : MonoBehaviour
 {
+    [SerializeField] SceneName _sceneName;
     [SerializeField] Tilemap[] _miniMaps; //  should be minimap tilemap for minimap UI and _miniMaps[0] is minimapLine;
 
     int _blockSize = 6;
@@ -15,6 +17,8 @@ public class BlockController : MonoBehaviour
     Vector2Int _currentBlock;
 
     Dictionary<Vector2Int,Block> _blockDict = new Dictionary<Vector2Int,Block>();
+
+    public SceneName SceneName { get { return _sceneName; } }
     private void Awake()
     {
         _mainCamera = Camera.main;

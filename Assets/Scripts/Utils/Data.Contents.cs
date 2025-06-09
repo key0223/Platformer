@@ -51,7 +51,7 @@ namespace Data
     public class MapData : ItemData
     {
         public SceneName sceneName;
-        public GameObject miniMapPrefab;
+        public string miniMapPrefabPath;
     }
 
     #endregion

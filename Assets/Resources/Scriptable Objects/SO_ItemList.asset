@@ -201,14 +201,14 @@ MonoBehaviour:
     itemDescription: "\uD759\uC758 \uB9C8\uC744 \uC9C0\uB3C4"
     itemIcon: {fileID: 21300000, guid: 2494c90ec46b3c84f971632956bc6481, type: 3}
     sceneName: 2
-    miniMapPrefab: {fileID: 5452731321789705929, guid: 3c515075745374446b5b7b8ceaa519b1, type: 3}
+    miniMapPrefabPath: Items/MiniMap_Dirtmouth
   - itemId: 10402
     itemName: "\uB179\uC0C9 \uAC70\uB9AC \uC9C0\uB3C4"
     itemType: 5
     itemDescription: "\uB179\uC0C9 \uAC70\uB9AC \uC9C0\uB3C4"
     itemIcon: {fileID: 21300000, guid: 2494c90ec46b3c84f971632956bc6481, type: 3}
     sceneName: 1
-    miniMapPrefab: {fileID: 7020907832967797488, guid: 07927600b2739e84899ea555ff35e9be, type: 3}
+    miniMapPrefabPath: Items/MiniMap_Greenpath
   itemDatas:
   - itemId: 10501
     itemName: "\uC758\uC790 \uD540"

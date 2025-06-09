@@ -36768,6 +36768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2263002cac95eb14baae2f45d2e8d218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sceneName: 1
   _miniMaps:
   - {fileID: 7020907832689303036}
   - {fileID: 7020907831960587837}
