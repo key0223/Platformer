@@ -97,6 +97,8 @@ public class Define
         Scene_Greenpath,
         Scene_Dirtmouth,
         Scene_Town_Store1,
+        Scene_ForgottenCrossroads,
+        Scene_BlackEggTemple,
     }
 
     public enum UIType

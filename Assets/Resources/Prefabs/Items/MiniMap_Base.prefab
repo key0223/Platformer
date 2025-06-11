@@ -391,8 +391,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1156219040835729328}
-  - component: {fileID: 1156219040835729330}
-  - component: {fileID: 1156219040835729331}
   m_Layer: 0
   m_Name: MiniMap_Base
   m_TagString: Untagged
@@ -419,30 +417,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1156219040835729330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1156219040835729329}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eae996bab427fdb4897a4869276fa1b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapName: 0
---- !u!114 &1156219040835729331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1156219040835729329}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27bc3542e5ef9154c9df1cf767cad559, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mapLine: {fileID: 1156219040606373325}
-  _mapBackground: {fileID: 1156219039249872412}

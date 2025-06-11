@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene_Town_Store1.unity
     guid: b77df613ff70b234d9beb1a9a11d5a1f
+  - enabled: 1
+    path: Assets/Scenes/Scene_ForgottenCrossroads.unity
+    guid: 231bf748bd259314a8c4955e207768b0
+  - enabled: 1
+    path: Assets/Scenes/Scene_BlackEggTemple.unity
+    guid: 50f04d94a15fc034dadeb0ab19e8fb94
   m_configObjects: {}
