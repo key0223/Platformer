@@ -21,6 +21,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Scene_ForgottenCrossroads.unity
     guid: 231bf748bd259314a8c4955e207768b0
   - enabled: 1
+    path: Assets/Scenes/Scene_ForgottenCrossroads_1.unity
+    guid: f6c7a6d4d2ed375429f2fabb43256077
+  - enabled: 1
+    path: Assets/Scenes/Scene_ForgottenCrossroads_2.unity
+    guid: e68cb1d4cf261624f832f4d6d206ae3d
+  - enabled: 1
     path: Assets/Scenes/Scene_BlackEggTemple.unity
     guid: 50f04d94a15fc034dadeb0ab19e8fb94
   m_configObjects: {}
